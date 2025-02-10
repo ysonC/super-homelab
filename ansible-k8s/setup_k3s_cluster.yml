@@ -54,7 +54,6 @@
         flat: yes
 
     - name: Update kubeconfig server address with Tailscale IP
-      # This task runs locally on the control machine to modify the fetched kubeconfig.
       delegate_to: localhost
       become: no
       lineinfile:
@@ -75,10 +74,6 @@
   hosts: workers
   become: yes
   vars:
-    # Optionally, you could retrieve the master Tailscale IP dynamically.
-    # For example, if the master group has one node, you could set:
-    # K3S_MASTER_IP: "{{ hostvars[groups['master'][0]].tailscale_ip.stdout }}"
-    # For now, you can keep a static IP if appropriate.
     K3S_MASTER_IP: "10.179.4.47"
 
   tasks:
