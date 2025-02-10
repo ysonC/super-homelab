@@ -1,3 +1,4 @@
+---
 - name: Setup K3s Master Node with Tailscale
   hosts: master
   become: yes
@@ -6,28 +7,39 @@
     INSTALL_K3S_EXEC: "server --disable traefik"
   vars_files:
     - secrets.yml
-  
+
   tasks:
-    - name: Install dependencies
+    - name: Ensure curl is installed
       apt:
         name: curl
         state: present
         update_cache: yes
 
-    - name: Install K3s on master
+    - name: Install K3s on master (if not already installed)
       shell: |
-        curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION={{ K3S_VERSION }} INSTALL_K3S_EXEC="{{ INSTALL_K3S_EXEC }}" sh -
-
-    - name: Install and Start Tailscale
-      shell: |
-        curl -fsSL https://tailscale.com/install.sh | sh
+        if [ ! -f /usr/local/bin/k3s ]; then
+          curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION={{ K3S_VERSION }} INSTALL_K3S_EXEC="{{ INSTALL_K3S_EXEC }}" sh -
+        else
+          echo "K3s already installed"
+        fi
       args:
         executable: /bin/bash
-    
+
+    - name: Install Tailscale (if not already installed)
+      shell: |
+        if ! command -v tailscale >/dev/null; then
+          curl -fsSL https://tailscale.com/install.sh | sh
+        else
+          echo "Tailscale already installed"
+        fi
+      args:
+        executable: /bin/bash
+
     - name: Start Tailscale and authenticate
       command: tailscale up --authkey={{ tailscale_auth_key }} --reset
+      register: tailscale_up_result
 
-    - name: Retrieve Tailscale IP
+    - name: Retrieve Tailscale IP (IPv4)
       shell: tailscale ip -4
       register: tailscale_ip
 
@@ -35,25 +47,50 @@
       shell: cat /var/lib/rancher/k3s/server/node-token
       register: k3s_token
 
-    - name: Copy Kubeconfig to Local Machine
+    - name: Fetch kubeconfig from master
       fetch:
         src: /etc/rancher/k3s/k3s.yaml
-        dest: ~/.kube/config
+        dest: "/tmp/k3s_{{ inventory_hostname }}.yaml"
         flat: yes
+
+    - name: Update kubeconfig server address with Tailscale IP
+      # This task runs locally on the control machine to modify the fetched kubeconfig.
+      delegate_to: localhost
+      become: no
+      lineinfile:
+        path: "/tmp/k3s_{{ inventory_hostname }}.yaml"
+        regexp: '(^\s*server:\s*https://).*(:6443)'
+        line: "    server: https://1pi5:6443"
+      when: tailscale_ip.stdout is defined
+
+    - name: Copy updated kubeconfig to user's home
+      delegate_to: localhost
+      become: no
+      copy:
+        src: "/tmp/k3s_{{ inventory_hostname }}.yaml"
+        dest: "{{ lookup('env','HOME') }}/.kube/config"
+        mode: '0600'
 
 - name: Setup K3s Worker Nodes
   hosts: workers
   become: yes
   vars:
+    # Optionally, you could retrieve the master Tailscale IP dynamically.
+    # For example, if the master group has one node, you could set:
+    # K3S_MASTER_IP: "{{ hostvars[groups['master'][0]].tailscale_ip.stdout }}"
+    # For now, you can keep a static IP if appropriate.
     K3S_MASTER_IP: "10.179.4.47"
-  
+
   tasks:
-    - name: Install dependencies
+    - name: Ensure curl is installed
       apt:
         name: curl
         state: present
         update_cache: yes
 
-    - name: Join Workers to K3s Cluster
+    - name: Join worker to K3s Cluster
       shell: |
-        curl -sfL https://get.k3s.io | K3S_URL=https://{{ K3S_MASTER_IP }}:6443 K3S_TOKEN={{ hostvars['captain']['k3s_token'].stdout }} sh -
+        curl -sfL https://get.k3s.io | K3S_URL=https://{{ K3S_MASTER_IP }}:6443 K3S_TOKEN={{ hostvars[groups['master'][0]].k3s_token.stdout }} sh -
+      args:
+        executable: /bin/bash
+
