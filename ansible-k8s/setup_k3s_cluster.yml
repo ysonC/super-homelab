@@ -4,8 +4,9 @@
   vars:
     K3S_VERSION: "v1.28.4+k3s1"
     INSTALL_K3S_EXEC: "server --disable traefik"
-    TAILSCALE_AUTH_KEY: "<YOUR_TAILSCALE_AUTH_KEY>"
-
+  vars_files:
+    - secrets.yml
+  
   tasks:
     - name: Install dependencies
       apt:
@@ -20,8 +21,13 @@
     - name: Install and Start Tailscale
       shell: |
         curl -fsSL https://tailscale.com/install.sh | sh
-        tailscale up --authkey={{ TAILSCALE_AUTH_KEY }}
+      args:
+        executable: /bin/bash
+    
+    - name: Start Tailscale and authenticate
+      command: tailscale up --authkey={{ tailscale_auth_key }} --reset
 
+      
     - name: Retrieve Tailscale IP
       shell: tailscale ip -4
       register: tailscale_ip
@@ -47,7 +53,7 @@
   become: yes
   vars:
     K3S_MASTER_IP: "10.179.4.47"
-
+  
   tasks:
     - name: Install dependencies
       apt:
