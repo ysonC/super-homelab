@@ -1,0 +1,60 @@
+- name: Setup K3s Master Node with Tailscale
+  hosts: master
+  become: yes
+  vars:
+    K3S_VERSION: "v1.28.4+k3s1"
+    INSTALL_K3S_EXEC: "server --disable traefik"
+    TAILSCALE_AUTH_KEY: "<YOUR_TAILSCALE_AUTH_KEY>"
+
+  tasks:
+    - name: Install dependencies
+      apt:
+        name: curl
+        state: present
+        update_cache: yes
+
+    - name: Install K3s on master
+      shell: |
+        curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION={{ K3S_VERSION }} INSTALL_K3S_EXEC="{{ INSTALL_K3S_EXEC }}" sh -
+
+    - name: Install and Start Tailscale
+      shell: |
+        curl -fsSL https://tailscale.com/install.sh | sh
+        tailscale up --authkey={{ TAILSCALE_AUTH_KEY }}
+
+    - name: Retrieve Tailscale IP
+      shell: tailscale ip -4
+      register: tailscale_ip
+
+    - name: Retrieve K3s Token
+      shell: cat /var/lib/rancher/k3s/server/node-token
+      register: k3s_token
+
+    - name: Update Kubeconfig for Remote Access
+      replace:
+        path: /etc/rancher/k3s/k3s.yaml
+        regexp: '127.0.0.1'
+        replace: '{{ tailscale_ip.stdout }}'
+
+    - name: Copy Kubeconfig to Local Machine
+      fetch:
+        src: /etc/rancher/k3s/k3s.yaml
+        dest: ~/.kube/config
+        flat: yes
+
+- name: Setup K3s Worker Nodes
+  hosts: workers
+  become: yes
+  vars:
+    K3S_MASTER_IP: "10.179.4.47"
+
+  tasks:
+    - name: Install dependencies
+      apt:
+        name: curl
+        state: present
+        update_cache: yes
+
+    - name: Join Workers to K3s Cluster
+      shell: |
+        curl -sfL https://get.k3s.io | K3S_URL=https://{{ K3S_MASTER_IP }}:6443 K3S_TOKEN={{ hostvars['captain']['k3s_token'].stdout }} sh -
