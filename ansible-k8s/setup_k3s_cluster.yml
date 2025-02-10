@@ -27,7 +27,6 @@
     - name: Start Tailscale and authenticate
       command: tailscale up --authkey={{ tailscale_auth_key }} --reset
 
-      
     - name: Retrieve Tailscale IP
       shell: tailscale ip -4
       register: tailscale_ip
@@ -35,12 +34,6 @@
     - name: Retrieve K3s Token
       shell: cat /var/lib/rancher/k3s/server/node-token
       register: k3s_token
-
-    - name: Update Kubeconfig for Remote Access
-      replace:
-        path: /etc/rancher/k3s/k3s.yaml
-        regexp: '127.0.0.1'
-        replace: '{{ tailscale_ip.stdout }}'
 
     - name: Copy Kubeconfig to Local Machine
       fetch:
