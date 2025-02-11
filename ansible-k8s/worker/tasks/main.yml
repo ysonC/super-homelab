@@ -1,0 +1,12 @@
+---
+- name: Ensure curl is installed
+  apt:
+    name: curl
+    state: present
+    update_cache: yes
+
+- name: Join worker to K3s Cluster
+  shell: |
+    curl -sfL https://get.k3s.io | K3S_URL=https://{{ k3s_master_ip }}:6443 K3S_TOKEN={{ hostvars[groups['master'][0]].k3s_token.stdout }} sh -
+  args:
+    executable: /bin/bash

@@ -2,90 +2,17 @@
 - name: Setup K3s Master Node with Tailscale
   hosts: master
   become: yes
-  vars:
-    K3S_VERSION: "v1.28.4+k3s1"
-    INSTALL_K3S_EXEC: "server --disable traefik"
   vars_files:
     - secrets.yml
-
-  tasks:
-    - name: Ensure curl is installed
-      apt:
-        name: curl
-        state: present
-        update_cache: yes
-
-    - name: Install K3s on master (if not already installed)
-      shell: |
-        if [ ! -f /usr/local/bin/k3s ]; then
-          curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION={{ K3S_VERSION }} INSTALL_K3S_EXEC="{{ INSTALL_K3S_EXEC }}" sh -
-        else
-          echo "K3s already installed"
-        fi
-      args:
-        executable: /bin/bash
-
-    - name: Install Tailscale (if not already installed)
-      shell: |
-        if ! command -v tailscale >/dev/null; then
-          curl -fsSL https://tailscale.com/install.sh | sh
-        else
-          echo "Tailscale already installed"
-        fi
-      args:
-        executable: /bin/bash
-
-    - name: Start Tailscale and authenticate
-      command: tailscale up --authkey={{ tailscale_auth_key }} --reset
-      register: tailscale_up_result
-
-    - name: Retrieve Tailscale IP (IPv4)
-      shell: tailscale ip -4
-      register: tailscale_ip
-
-    - name: Retrieve K3s Token
-      shell: cat /var/lib/rancher/k3s/server/node-token
-      register: k3s_token
-
-    - name: Fetch kubeconfig from master
-      fetch:
-        src: /etc/rancher/k3s/k3s.yaml
-        dest: "/tmp/k3s_{{ inventory_hostname }}.yaml"
-        flat: yes
-
-    - name: Update kubeconfig server address with Tailscale IP
-      delegate_to: localhost
-      become: no
-      lineinfile:
-        path: "/tmp/k3s_{{ inventory_hostname }}.yaml"
-        regexp: '(^\s*server:\s*https://).*(:6443)'
-        line: "    server: https://1pi5:6443"
-      when: tailscale_ip.stdout is defined
-
-    - name: Copy updated kubeconfig to user's home
-      delegate_to: localhost
-      become: no
-      copy:
-        src: "/tmp/k3s_{{ inventory_hostname }}.yaml"
-        dest: "{{ lookup('env','HOME') }}/.kube/config"
-        mode: '0600'
+  roles:
+    - common
+    - master
 
 - name: Setup K3s Worker Nodes
   hosts: workers
   become: yes
-  vars:
-    K3S_MASTER_IP: "10.179.4.47"
-
-  tasks:
-    - name: Ensure curl is installed
-      apt:
-        name: curl
-        state: present
-        update_cache: yes
-
-    - name: Join worker to K3s Cluster
-      shell: |
-        curl -sfL https://get.k3s.io | K3S_URL=https://{{ K3S_MASTER_IP }}:6443 K3S_TOKEN={{ hostvars[groups['master'][0]].k3s_token.stdout }} sh -
-      args:
-        executable: /bin/bash
-
+  vars_files:
+    - secrets.yml
+  roles:
+    - common
+    - worker
