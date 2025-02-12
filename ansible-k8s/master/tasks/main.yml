@@ -1,11 +1,7 @@
 ---
 - name: Install K3s on master (if not already installed)
   shell: |
-    if [ ! -f /usr/local/bin/k3s ]; then
-      curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION={{ K3S_VERSION }} INSTALL_K3S_EXEC="{{ INSTALL_K3S_EXEC }}" sh -
-    else
-      echo "K3s already installed"
-    fi
+    curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION={{ K3S_VERSION }} INSTALL_K3S_EXEC="{{ INSTALL_K3S_EXEC }}" sh -
   args:
     executable: /bin/bash
 

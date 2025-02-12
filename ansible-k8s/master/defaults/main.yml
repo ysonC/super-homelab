@@ -1,4 +1,4 @@
 ---
-K3S_VERSION: "v1.28.4+k3s1"
+K3S_VERSION: "v1.32.1+k3s1"
 INSTALL_K3S_EXEC: "server --disable traefik"
 
