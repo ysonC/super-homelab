@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hugo-site
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: hugo-site
+  template:
+    metadata:
+      labels:
+        app: hugo-site
+    spec:
+      containers:
+      - name: hugo-site
+        image: wyson002/my-hugo-blog
+        ports:
+        - containerPort: 80
