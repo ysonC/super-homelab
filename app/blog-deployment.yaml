@@ -4,6 +4,7 @@ metadata:
   name: hugo-site
 spec:
   replicas: 4
+  revisionHistoryLimit: 2  # Only keep 2 old ReplicaSets
   selector:
     matchLabels:
       app: hugo-site
