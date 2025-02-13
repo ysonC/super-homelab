@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hugo
+  namespace: default
+  labels:
+    app: hugo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hugo
+  template:
+    metadata:
+      labels:
+        app: hugo
+    spec:
+      containers:
+        - name: hugo
+          image: wyson002/my-hugo-blog:latest  # Image will be updated dynamically
+          ports:
+            - containerPort: 80
+
