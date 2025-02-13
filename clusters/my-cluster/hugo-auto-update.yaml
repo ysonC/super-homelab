@@ -10,8 +10,3 @@ spec:
     name: homelab
   update:
     strategy: Setters
-  commit:
-    author:
-      name: FluxCD
-      email: flux@yourdomain.com
-
