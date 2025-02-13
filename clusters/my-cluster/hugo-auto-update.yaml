@@ -10,3 +10,12 @@ spec:
     name: homelab
   update:
     strategy: Setters
+  git:
+    commit:
+      author:
+        name: fluxcd
+        email: fluxcd@dumplingfactory.com
+    push:
+      branch: main
+  update:
+    path: ./
