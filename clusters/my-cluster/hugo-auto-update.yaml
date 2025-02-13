@@ -7,7 +7,7 @@ spec:
   interval: 10m
   sourceRef:
     kind: GitRepository
-    name: homelab
+    name: flux-system
   git:
     commit:
       author:
