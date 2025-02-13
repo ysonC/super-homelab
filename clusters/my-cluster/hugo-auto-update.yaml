@@ -1,0 +1,17 @@
+apiVersion: image.toolkit.fluxcd.io/v1
+kind: ImageUpdateAutomation
+metadata:
+  name: hugo-auto-update
+  namespace: flux-system
+spec:
+  interval: 10m
+  sourceRef:
+    kind: GitRepository
+    name: homelab
+  update:
+    strategy: Setters
+  commit:
+    author:
+      name: FluxCD
+      email: flux@yourdomain.com
+
