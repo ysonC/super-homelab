@@ -9,6 +9,9 @@ spec:
     kind: GitRepository
     name: flux-system
   git:
+    checkout:
+      ref:
+        branch: main
     commit:
       author:
         name: fluxcd
@@ -17,3 +20,4 @@ spec:
       branch: main
   update:
     path: ./clusters/my-cluster
+    strategy: Setters
