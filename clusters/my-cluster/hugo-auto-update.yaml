@@ -16,4 +16,4 @@ spec:
     push:
       branch: main
   update:
-    path: ./
+    path: ./clusters/my-cluster
