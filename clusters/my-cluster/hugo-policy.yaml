@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   imageRepositoryRef:
-    name: hugo-policy
+    name: hugo-image
   policy:
     semver:
       range: 0.0.x

@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: blog
-          image: wyson002/my-hugo-blog:v0.0.1 # {"$imagepolicy": "flux-system:podinfo"}
+          image: wyson002/my-hugo-blog:v0.0.1 # {"$imagepolicy": "flux-system:hugo-policy"}
           ports:
             - containerPort: 80
 
