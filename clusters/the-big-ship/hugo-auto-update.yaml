@@ -19,5 +19,5 @@ spec:
     push:
       branch: main
   update:
-    path: ./clusters/my-cluster
+    path: ./clusters/the-big-ship
     strategy: Setters
