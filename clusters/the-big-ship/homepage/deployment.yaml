@@ -20,3 +20,10 @@ spec:
           image: ghcr.io/gethomepage/homepage:latest
           ports:
             - containerPort: 3000
+          volumeMounts:
+            - name: homepage-pv
+              mountPath: /app/config
+      Volumes:
+        - name: homepage-pv
+          persistentVolumeClaim:
+            claimName: homepage-pvc
