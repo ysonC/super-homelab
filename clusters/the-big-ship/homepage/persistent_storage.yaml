@@ -4,10 +4,11 @@ metadata:
   name: homepage-pv
 spec:
   capacity:
-    storage: 1Gi
+    storage: 500Mi
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
+  storageClassName: nfs
   nfs:
     server: 10.179.5.96
     path: "/srv/dev-disk-by-uuid-5d9f109b-e277-4117-973e-c7e67e8422ab/picluster/homepage"
@@ -20,8 +21,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
+  storeageClassName: nfs
   resources:
     requests:
-      storage: 1Gi
-  volumeName: homepage-pv
-
+      storage: 500Mi
