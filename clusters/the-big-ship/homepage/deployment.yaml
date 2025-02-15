@@ -23,7 +23,7 @@ spec:
           volumeMounts:
             - name: homepage-pv
               mountPath: /app/config
-      Volumes:
+      volumes:
         - name: homepage-pv
           persistentVolumeClaim:
             claimName: homepage-pvc
