@@ -21,9 +21,10 @@ spec:
           ports:
             - containerPort: 3000
           volumeMounts:
-            - name: homepage-pv
-              mountPath: /app/config
+            - mountPath: /app/config/services.yaml
+              name: homepage-config
+              subPath: services.yaml
       volumes:
         - name: homepage-pv
-          persistentVolumeClaim:
-            claimName: homepage-pvc
+          configMap:
+            name: homepage-config

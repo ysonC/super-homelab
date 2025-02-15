@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homepage-config
+  namespace: default
+  labels:
+    app.kubernetes.io/name: homepage
+data:
+  services.yaml: |
+    ---
+    # For configuration options and examples, please see:
+    # https://gethomepage.dev/configs/services/
+    # https://simpleicons.org/
+
+    - Home:
+        - Portainer:
+            href: http://piserver:9000
+            description: The BIG Ship!!
+            icon: si-portainer-#13BEF9
+            widget:
+                type: portainer
+                url: http://10.179.5.96:9000
+                env: 2
+                key: ptr_d3ctKb1WaZOUQ3U8nxwGF4gRthjEWOEF/bS1Tm053I4=
+
+        - Pihole:
+            href: http://piserver:8070/admin
+            description: Super AD blocker!!
+            icon: si-pihole-#96060C
+            widget:
+                type: pihole
+                url: http://10.179.5.96:8070
+                key: 947fde13ecf4840e99a309390715f8f4d0252e8d88f7baca4a0ade1790f1c682
+
+        - Open Media Vault:
+            href: http://piserver
+            description: Manage your server with Open Media Vault
+            icon: si-openmediavault-#5DACDF
+
+        - Vaultwarden:
+            href: https://piserver.tail30687d.ts.net
+            description: Password manager for all your needs
+            icon: si-vaultwarden-#000000
+
+        - Plex:
+            href: http://piserver:32400
+            description: Amazing FREE MOIVES!!!
+            icon: si-plex-#EBAF00
+
+        - Immich:
+            href: http://piserver:2283
+            description: FREE photo backup
+            icon: si-immich-#4250AF
+
+    - Website:
+        - EdinUni:
+            href: https://www.learn.ed.ac.uk/ultra/course
+            description: Super hogwarts shit!!
+            icon: si-gitbook-#0E39A9
+        - Github:
+            href: https://www.github.com/ysonC
+            description: The dumpling factory!!!
+            icon: si-github-#181717
+        - Blog:
+            href: http://piserver:33000
+            description: My super fun blog!!
+            icon: si-nginx-#009639
