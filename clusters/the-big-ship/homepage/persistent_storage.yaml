@@ -10,7 +10,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: 10.179.5.96
-    path: "/export/picluster/homepage"
+    path: "/srv/dev-disk-by-uuid-5d9f109b-e277-4117-973e-c7e67e8422ab/picluster/homepage"
 
 ---
 apiVersion: v1
