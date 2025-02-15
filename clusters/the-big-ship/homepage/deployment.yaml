@@ -25,6 +25,6 @@ spec:
               name: homepage-config
               subPath: services.yaml
       volumes:
-        - name: homepage-pv
+        - name: homepage-config
           configMap:
             name: homepage-config
