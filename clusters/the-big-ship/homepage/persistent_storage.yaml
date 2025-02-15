@@ -21,7 +21,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
-  storeageClassName: nfs
+  storageClassName: nfs
   resources:
     requests:
       storage: 500Mi
