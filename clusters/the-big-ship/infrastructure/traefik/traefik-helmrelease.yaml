@@ -16,13 +16,18 @@ spec:
         name: traefik
         namespace: flux-system
   values:
-    ports:
-      web:
-        port: 80
-      websecure:
-        port: 443
+    deployment:
+      enabled: true
+      replicas: 1
+    service:
+      type: LoadBalancer
+      ports:
+        web:
+          port: 80
+        websecure:
+          port: 443
     additionalArguments:
-      - "--certificatesresolvers.cloudflare.acme.email=your-wyson002@gmail.com.com"
+      - "--certificatesresolvers.cloudflare.acme.email=your-wyson002@gmail.com"
       - "--certificatesresolvers.cloudflare.acme.storage=/data/acme.json"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
     env:
@@ -31,6 +36,4 @@ spec:
           secretKeyRef:
             name: cloudflare-api-token-secret
             key: CF_DNS_API_TOKEN
-    deployment:
-      replicas: 1
 
