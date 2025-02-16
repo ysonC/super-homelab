@@ -10,7 +10,17 @@ stringData:
       # Enable ACME with Cloudflare DNS challenge:
       - "--certificatesresolvers.cloudflare.acme.dnschallenge=true"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
-      - "--certificatesresolvers.cloudflare.acme.dnschallenge.resolvers=1.1.1.1"
-      - "--certificatesresolvers.cloudflare.acme.email=wyson002@gmail.com.com"
+      - "--certificatesresolvers.cloudflare.acme.email=your-email@example.com"
       - "--certificatesresolvers.cloudflare.acme.storage=/data/acme.json"
-    tlsStore: {}
+    deployment:
+      extraEnv:
+        - name: CF_API_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: cloudflare-secret
+              key: CF_API_TOKEN
+    # Override the default TLS store so no default certificate is expected:
+    tlsStore:
+      default:
+        defaultCertificate: {}
+
