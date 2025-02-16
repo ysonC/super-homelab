@@ -8,11 +8,18 @@ spec:
   chart:
     spec:
       chart: traefik
-      version: "26.0.0"
+      version: "3.0.0"
       sourceRef:
         kind: HelmRepository
         name: traefik
         namespace: flux-system
-  valuesFrom:
-    - kind: Secret
-      name: traefik-values
+  values:
+    deployment:
+      replicas: 1
+    service:
+      annotations:
+        tailscale.com/expose: "true"
+    ingressRoute:
+      dashboard:
+        enabled: true
+
