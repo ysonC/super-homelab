@@ -4,11 +4,9 @@ metadata:
   name: traefik
   namespace: flux-system
 spec:
+  targetNamespace: traefik
   releaseName: traefik
   interval: 5m
-  install:
-    createNamespace: true
-    namespace: traefik
   chart:
     spec:
       chart: traefik
@@ -31,7 +29,7 @@ spec:
       - name: CF_DNS_API_TOKEN
         valueFrom:
           secretKeyRef:
-            name: cloudflare-secret
+            name: cloudflare-api-token-secret
             key: CF_DNS_API_TOKEN
     deployment:
       replicas: 1
