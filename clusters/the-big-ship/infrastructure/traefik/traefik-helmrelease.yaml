@@ -1,0 +1,38 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: traefik
+  namespace: flux-system
+spec:
+  releaseName: traefik
+  interval: 5m
+  install:
+    createNamespace: true
+    namespace: traefik
+  chart:
+    spec:
+      chart: traefik
+      version: "34.3.0"
+      sourceRef:
+        kind: HelmRepository
+        name: traefik
+        namespace: flux-system
+  values:
+    ports:
+      web:
+        port: 80
+      websecure:
+        port: 443
+    additionalArguments:
+      - "--certificatesresolvers.cloudflare.acme.email=your-wyson002@gmail.com.com"
+      - "--certificatesresolvers.cloudflare.acme.storage=/data/acme.json"
+      - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
+    env:
+      - name: CF_DNS_API_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: cloudflare-secret
+            key: CF_DNS_API_TOKEN
+    deployment:
+      replicas: 1
+
