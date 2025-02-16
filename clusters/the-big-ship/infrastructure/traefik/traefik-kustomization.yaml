@@ -12,4 +12,5 @@ spec:
     name: flux-system
   dependsOn:
     - name: flux-system
-
+  patches:
+    - path: env-patch.yaml

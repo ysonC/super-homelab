@@ -13,22 +13,6 @@ spec:
         kind: HelmRepository
         name: traefik
         namespace: flux-system
-  values:
-    deployment:
-      replicas: 1
-    service:
-      annotations:
-        tailscale.com/expose: "true"
-    ingressRoute:
-      dashboard:
-        enabled: true
-    additionalArguments:
-      - "--entryPoints.web.address=:80"
-      - "--entryPoints.websecure.address=:443"
-      - "--providers.kubernetescrd"
-      - "--providers.kubernetesingress"
-    tlsStore:
-      default:
-        defaultCertificate:
-          secretName: traefik-default-cert
-
+  valuesFrom:
+    - kind: Secret
+      name: traefik-values
