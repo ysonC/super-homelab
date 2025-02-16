@@ -19,4 +19,5 @@ spec:
                 name: blog-service
                 port:
                   number: 80
-
+  tls:
+    certResolver: cloudflare
