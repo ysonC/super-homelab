@@ -10,7 +10,7 @@ stringData:
       # Enable ACME with Cloudflare DNS challenge:
       - "--certificatesresolvers.cloudflare.acme.dnschallenge=true"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
-      - "--certificatersolvers.cloudflare.acme.dnschallenge.resolvers=1.1.1.1"
+      - "--certificatesresolvers.cloudflare.acme.dnschallenge.resolvers=1.1.1.1"
       - "--certificatesresolvers.cloudflare.acme.email=wyson002@gmail.com.com"
       - "--certificatesresolvers.cloudflare.acme.storage=/data/acme.json"
     tlsStore: {}

@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: traefik-env-patch
+  name: traefik-hemlrelease
   namespace: traefik
 spec:
   template:
