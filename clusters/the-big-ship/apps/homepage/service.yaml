@@ -9,5 +9,4 @@ spec:
   ports:
   - port: 3000         # The port the container is listening on
     targetPort: 3000   # Maps to container port
-    nodePort: 30900    # Accessible on <NodeIP>:30900
-  type: NodePort       # Exposes the service on a static port on each Node
+  type: ClusterIP      # Exposes the service on a cluster-internal IP
