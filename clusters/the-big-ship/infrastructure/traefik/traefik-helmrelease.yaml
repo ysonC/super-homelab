@@ -25,7 +25,17 @@ spec:
         web:
           port: 80
         websecure:
-          port: 443
+        port: 443
+    dashboard:
+      enabled: true
+      ingressRoute:
+        enabled: true
+        route:
+          rule: "Host(`traefik.ysonsuperhomelab.com`)"
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          traefik.ingress.kubernetes.io/router.tls.certresolver: cloudflare
+
     additionalArguments:
       - "--certificatesresolvers.cloudflare.acme.email=your-wyson002@gmail.com"
       - "--certificatesresolvers.cloudflare.acme.storage=/data/acme.json"
