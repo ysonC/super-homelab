@@ -4,5 +4,5 @@ metadata:
   name: traefil-kustomization
 resources:
   - service.yaml
-  - ingress.yaml
+  - dashboard.yaml
 
