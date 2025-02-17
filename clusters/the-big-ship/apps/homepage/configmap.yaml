@@ -13,6 +13,11 @@ data:
     # https://simpleicons.org/
 
     - Home:
+        - Traefik:
+            href: http://traefik.ysonsuperhomelab.com
+            description: Super network controller!!
+            icon: si-traefik-#FFD800
+
         - Portainer:
             href: http://piserver:9000
             description: The BIG Ship!!
@@ -37,8 +42,13 @@ data:
             description: Manage your server with Open Media Vault
             icon: si-openmediavault-#5DACDF
 
+        - TrueNAS:
+            href: https://truenas.ysonsuperhomelab.com
+            description: Manage your server with TrueNAS
+            icon: si-truenas-#1A5E97
+
         - Vaultwarden:
-            href: https://piserver.tail30687d.ts.net
+            href: https://vaultwarden.ysonsuperhomelab.com
             description: Password manager for all your needs
             icon: si-vaultwarden-#000000
 
@@ -62,6 +72,6 @@ data:
             description: The dumpling factory!!!
             icon: si-github-#181717
         - Blog:
-            href: http://piserver:33000
+            href: https://blog.ysonsuperhomelab.com
             description: My super fun blog!!
             icon: si-nginx-#009639
