@@ -4,7 +4,7 @@ metadata:
   name: apps-kustomization
   namespace: flux-system
 spec:
-  interval: 1m
+  interval: 10m
   path: ./clusters/the-big-ship/apps
   prune: true
   sourceRef:
