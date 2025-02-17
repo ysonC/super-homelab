@@ -10,8 +10,8 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: nfs
   nfs:
-    server: 10.179.5.96
-    path: /export/picluster/vaultwarden
+    server: 10.179.4.213
+    path: /mnt/main/k8s-pv/vaultwarden
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
