@@ -32,9 +32,7 @@ spec:
         enabled: true
         route:
           rule: "Host(`traefik.ysonsuperhomelab.com`)"
-        annotations:
-          traefik.ingress.kubernetes.io/router.entrypoints: websecure
-          traefik.ingress.kubernetes.io/router.tls.certresolver: cloudflare
+          entryPoints: ["webscure", "web"]
 
     additionalArguments:
       - "--certificatesresolvers.cloudflare.acme.email=your-wyson002@gmail.com"
