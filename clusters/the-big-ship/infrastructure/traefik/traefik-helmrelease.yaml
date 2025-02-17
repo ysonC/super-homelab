@@ -28,12 +28,13 @@ spec:
         port: 443
     dashboard:
       enabled: true
-      ingressRoute:
+    ingressRoute:
+      dashboard:
         enabled: true
-        route:
-          rule: "Host(`traefik.ysonsuperhomelab.com`)"
-          entryPoints: ["webscure", "web"]
-
+        matchRule: "Host(`traefik.ysonsuperhomelab.com`)"
+        entryPoints: 
+          - "websecure"
+          - "web"
     additionalArguments:
       - "--certificatesresolvers.cloudflare.acme.email=your-wyson002@gmail.com"
       - "--certificatesresolvers.cloudflare.acme.storage=/data/acme.json"
