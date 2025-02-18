@@ -21,4 +21,5 @@ spec:
     longhornUI:
       enabled: true
       replicas: 1
-    backupTarget: "nfs://10.179.4.213:/mnt/main/k8s-pv/longhorn-backup"
+    defaultSettings:
+      backupTarget: "nfs://10.179.4.213:/mnt/main/k8s-pv/longhorn-backup"
