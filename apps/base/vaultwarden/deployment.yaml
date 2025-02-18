@@ -32,5 +32,5 @@ spec:
       volumes:
         - name: vaultwarden-data
           persistentVolumeClaim:
-            claimName: vaultwarden-pvc
+            claimName: vaultwarden-pvc-longhorn
 
