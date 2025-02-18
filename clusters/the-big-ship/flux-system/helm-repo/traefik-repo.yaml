@@ -1,4 +1,3 @@
-# clusters/the-big-ship/flux-system/helm-repository.yaml
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
