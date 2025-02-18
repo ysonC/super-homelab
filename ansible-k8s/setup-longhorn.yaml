@@ -1,0 +1,8 @@
+---
+- name: Setup Longhorn on All Nodes
+  hosts: all
+  become: yes
+
+  roles:
+    - longhorn
+

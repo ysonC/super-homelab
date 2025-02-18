@@ -1,0 +1,78 @@
+---
+- name: Load required kernel modules for Longhorn
+  modprobe:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - nbd
+    - iscsi_tcp
+  ignore_errors: yes
+
+- name: Ensure required packages for Longhorn are installed
+  apt:
+    name:
+      - open-iscsi
+      - cryptsetup
+      - nfs-common
+    state: present
+    update_cache: yes
+
+- name: Enable and start required services
+  systemd:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  loop:
+    - iscsid
+
+- name: Stop multipathd service
+  command: systemctl stop multipathd multipathd.socket
+  become: yes
+  ignore_errors: yes
+
+- name: Disable multipathd service on startup
+  command: systemctl disable multipathd multipathd.socket
+  become: yes
+  ignore_errors: yes
+
+
+- name: Ensure Longhorn mount propagation is enabled
+  shell: |
+    mount --make-shared /
+  args:
+    executable: /bin/bash
+  when: ansible_virtualization_type != "docker"
+
+- name: Download Longhorn Environment Check Script Locally
+  delegate_to: localhost
+  become: false
+  run_once: true
+  get_url:
+    url: "https://raw.githubusercontent.com/longhorn/longhorn/refs/tags/v1.8.0/scripts/environment_check.sh"
+    dest: "/tmp/longhorn-environment-check.sh"
+    mode: '0755'
+
+- name: Run Longhorn Environment Check Script Locally
+  delegate_to: localhost
+  become: false
+  run_once: true
+  command: bash /tmp/longhorn-environment-check.sh
+  register: longhorn_env_check
+  changed_when: false
+  ignore_errors: yes
+
+- name: Debug Longhorn Environment Check Output
+  delegate_to: localhost
+  become: false
+  run_once: true
+  debug:
+    msg: "{{ longhorn_env_check.stdout_lines }}"
+
+- name: Reboot nodes if kernel modules were missing
+  reboot:
+    msg: "Rebooting due to missing kernel modules required by Longhorn."
+  when:
+    - longhorn_check_logs is defined
+    - "'ERROR' in longhorn_check_logs.stdout"
+  ignore_errors: yes
+
