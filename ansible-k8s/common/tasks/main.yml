@@ -4,3 +4,9 @@
     name: curl
     state: present
     update_cache: yes
+
+- name: Ensure iSCSI initiator utils are installed
+  apt:
+    name: open-iscsi
+    state: present
+    update_cache: yes
