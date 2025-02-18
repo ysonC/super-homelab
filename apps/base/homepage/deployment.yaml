@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: homepage
-  namespace: default
+  namespace: apps
   labels:
     app: homepage
 spec:
