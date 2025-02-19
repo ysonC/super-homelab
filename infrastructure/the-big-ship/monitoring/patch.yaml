@@ -11,15 +11,3 @@ spec:
         scrape_interval: 5m
         scrape_timeout: 30s
         evaluation_interval: 5m
-
-      persistentVolume:
-        enabled: true
-        size: 10Gi
-        accessModes: 
-         - ReadWriteOnce
-        storageClass: "longhorn"
-    alertmanager:
-      enabled: true
-      persistentVolume:
-        enabled: true
-        size: 1Gi

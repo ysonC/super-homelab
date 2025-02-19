@@ -8,34 +8,85 @@ spec:
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: "55.0.0"
+      version: "57.10.0" 
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
         namespace: flux-system
   values:
-    server:
-      image:
-        repository: quay.io/prometheus/prometheus
-        tag: latest
-        pullPolicy: IfNotPresent
-
-    kube-state-metrics:
+    ## ----------------------------------------------------
+    ## Prometheus Operator + CRDs
+    ## ----------------------------------------------------
+    crds:
       enabled: true
 
-    prometheus-node-exporter:
+    prometheusOperator:
       enabled: true
-      rbac:
-        pspEnabled: false
-      containerSecurityContext:
-        allowPrivilegeEscalation: false
+      admissionWebhooks:
+        enabled: true
 
-    prometheus-pushgateway:
+    ## ----------------------------------------------------
+    ## Prometheus server config
+    ## (prometheusSpec override the Operator-based settings)
+    ## ----------------------------------------------------
+    prometheus:
       enabled: true
-      serviceAnnotations:
-        prometheus.io/probe: pushgateway
+      prometheusSpec:
+        image:
+          registry: quay.io
+          repository: prometheus/prometheus
+          tag: v2.43.0
+        replicas: 1
+        retention: "7d"
+        resources:
+          requests:
+            cpu: 200m
+            memory: 1Gi
+          limits:
+            cpu: 500m
+            memory: 2Gi
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              accessModes: ["ReadWriteOnce"]
+              storageClassName: longhorn
+              resources:
+                requests:
+                  storage: 10Gi
 
+    ## ----------------------------------------------------
+    ## Alertmanager
+    ## (Uses alertmanagerSpec for Operator-based config)
+    ## ----------------------------------------------------
+    alertmanager:
+      enabled: true
+      alertmanagerSpec:
+        image:
+          registry: quay.io
+          repository: prometheus/alertmanager
+          tag: v0.26.0
+        replicas: 1
+        retention: 120h
+        storage:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: longhorn
+              accessModes: [ "ReadWriteOnce" ]
+              resources:
+                requests:
+                  storage: 1Gi
+
+    ## ----------------------------------------------------
+    ## Grafana config
+    ## (Corresponds to the embedded grafana subchart values)
+    ## ----------------------------------------------------
     grafana:
-      adminPassword: admin
-      service:
-        type: ClusterIP
+      enabled: true
+      image:
+        repository: grafana/grafana
+        tag: 9.5.2
+      adminPassword: "admin"
+      persistence:
+        enabled: true
+        storageClassName: longhorn
+        size: 500Mi
