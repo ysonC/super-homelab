@@ -16,7 +16,7 @@ spec:
           requests:
             cpu: 200m
             memory: 1Gi
-        persistentVolumeClaimRetentionPolicy: Retain
+        persistentVolumeClaimRetentionPolicy: "Retain"
         storageSpec:
           volumeClaimTemplate:
             spec:
@@ -30,7 +30,7 @@ spec:
     alertmanger:
       alertmanagerSpec:
         retention: 120h
-        persistentVolumeClaimRetentionPolicy: Retain
+        persistentVolumeClaimRetentionPolicy: "Retain"
         storage:
           volumeClaimTemplate:
             spec:
@@ -43,7 +43,7 @@ spec:
 
     grafana:
       adminPassword: "admin"
-      persistentVolumeClaimRetentionPolicy: Retain
+      persistentVolumeClaimRetentionPolicy: "Retain"
       persistence:
         enabled: true
         storageClassName: longhorn
