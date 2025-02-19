@@ -5,9 +5,46 @@ metadata:
   namespace: monitoring
 spec:
   values:
-    server:
-      retention: "7d"
-      global:
-        scrape_interval: 5m
-        scrape_timeout: 30s
-        evaluation_interval: 5m
+    prometheus:
+      enabled: true 
+      prometheusSpec:
+        retention: 7d
+        resources:
+          limits:
+            cpu: 500m
+            memory: 2Gi
+          requests:
+            cpu: 200m
+            memory: 1Gi
+        persistentVolumeClaimRetentionPolicy: Retain
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: longhorn
+              accessModes:
+                - ReadWriteOnce
+              resources:
+                requests:
+                  storage: 10Gi
+
+  alertmanger:
+    alertmanagerSpec:
+      retention: 120h
+      persistentVolumeClaimRetentionPolicy: Retain
+      storage:
+        volumeClaimTemplate:
+          spec:
+            storageClassName: longhorn
+            accessModes: 
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 1Gi
+
+  grafana:
+    adminPassword: "admin"
+    persistentVolumeClaimRetentionPolicy: Retain
+    persistence:
+      enabled: true
+      storageClassName: longhorn
+      size: 500Mi

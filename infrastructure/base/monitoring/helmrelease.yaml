@@ -38,21 +38,6 @@ spec:
           tag: v2.43.0
         replicas: 1
         retention: "7d"
-        resources:
-          requests:
-            cpu: 200m
-            memory: 1Gi
-          limits:
-            cpu: 500m
-            memory: 2Gi
-        storageSpec:
-          volumeClaimTemplate:
-            spec:
-              accessModes: ["ReadWriteOnce"]
-              storageClassName: longhorn
-              resources:
-                requests:
-                  storage: 10Gi
 
     ## ----------------------------------------------------
     ## Alertmanager
@@ -66,15 +51,6 @@ spec:
           repository: prometheus/alertmanager
           tag: v0.26.0
         replicas: 1
-        retention: 120h
-        storage:
-          volumeClaimTemplate:
-            spec:
-              storageClassName: longhorn
-              accessModes: [ "ReadWriteOnce" ]
-              resources:
-                requests:
-                  storage: 1Gi
 
     ## ----------------------------------------------------
     ## Grafana config
@@ -86,7 +62,3 @@ spec:
         repository: grafana/grafana
         tag: 9.5.2
       adminPassword: "admin"
-      persistence:
-        enabled: true
-        storageClassName: longhorn
-        size: 500Mi
