@@ -27,24 +27,24 @@ spec:
                 requests:
                   storage: 10Gi
 
-  alertmanger:
-    alertmanagerSpec:
-      retention: 120h
-      persistentVolumeClaimRetentionPolicy: Retain
-      storage:
-        volumeClaimTemplate:
-          spec:
-            storageClassName: longhorn
-            accessModes: 
-              - ReadWriteOnce
-            resources:
-              requests:
-                storage: 1Gi
+    alertmanger:
+      alertmanagerSpec:
+        retention: 120h
+        persistentVolumeClaimRetentionPolicy: Retain
+        storage:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: longhorn
+              accessModes: 
+                - ReadWriteOnce
+              resources:
+                requests:
+                  storage: 1Gi
 
-  grafana:
-    adminPassword: "admin"
-    persistentVolumeClaimRetentionPolicy: Retain
-    persistence:
-      enabled: true
-      storageClassName: longhorn
-      size: 500Mi
+    grafana:
+      adminPassword: "admin"
+      persistentVolumeClaimRetentionPolicy: Retain
+      persistence:
+        enabled: true
+        storageClassName: longhorn
+        size: 500Mi
