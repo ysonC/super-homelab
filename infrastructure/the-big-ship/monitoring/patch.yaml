@@ -32,7 +32,7 @@ spec:
 
     alertmanger:
       alertmanagerSpec:
-        retention: 120h
+        retention: 7d
         persistentVolumeClaimRetentionPolicy:   
           whenDeleted: Retain
         storage:
