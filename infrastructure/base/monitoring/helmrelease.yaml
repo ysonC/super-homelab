@@ -36,7 +36,6 @@ spec:
         prometheus.io/probe: pushgateway
 
     grafana:
-      adminPassword: "admin"
+      adminPassword: admin
       service:
         type: ClusterIP
-
