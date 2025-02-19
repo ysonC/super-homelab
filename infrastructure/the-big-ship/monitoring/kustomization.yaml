@@ -3,3 +3,9 @@ kind: Kustomization
 resources:
   - ../../base/monitoring/
 
+patches:
+  - path: patch.yaml
+    target:
+      kind: HelmRelease
+      name: prometheus-stack
+      namespace: monitoring
