@@ -13,60 +13,11 @@ spec:
         kind: HelmRepository
         name: prometheus-community
         namespace: flux-system
-  values:
-    rbac:
-      create: true
-
-    podSecurityPolicy:
-      enabled: false
-
-    serviceAccounts:
-      server:
-        create: true
-
     server:
       image:
         repository: quay.io/prometheus/prometheus
         tag: latest
         pullPolicy: IfNotPresent
-
-      retention: "15d"
-      persistentVolume:
-        enabled: true
-        accessModes: ["ReadWriteOnce"]
-        size: 20Gi
-
-      global:
-        scrape_interval: 1m
-        scrape_timeout: 10s
-        evaluation_interval: 1m
-
-      scrapeConfigs:
-        - job_name: "kubernetes-nodes"
-          kubernetes_sd_configs:
-            - role: node
-          scheme: https
-          tls_config:
-            ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-          bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
-
-        - job_name: "kubernetes-service-endpoints"
-          kubernetes_sd_configs:
-            - role: endpoints
-          relabel_configs:
-            - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scrape]
-              action: keep
-              regex: true
-            - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scheme]
-              action: replace
-              target_label: __scheme__
-              regex: (https?)
-
-    alertmanager:
-      enabled: true
-      persistence:
-        enabled: true
-        size: 2Gi
 
     kube-state-metrics:
       enabled: true
@@ -84,7 +35,7 @@ spec:
         prometheus.io/probe: pushgateway
 
     grafana:
-      adminPassword: "admin" # Change in secrets
+      adminPassword: "admin"
       service:
         type: ClusterIP
 
