@@ -5,7 +5,15 @@ metadata:
   name: prometheus-stack
   namespace: monitoring
 spec:
-  interval: 5m
+  targetNamespace: monitoring
+  releaseName: prometheus-stack
+  interval: 20m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
   chart:
     spec:
       chart: kube-prometheus-stack
