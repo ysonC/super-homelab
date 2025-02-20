@@ -7,7 +7,7 @@ spec:
     email: your-email@example.com
     server: https://acme-staging-v02.api.letsencrypt.org/directory  # Use Staging Server
     privateKeySecretRef:
-      name: cloudflare-api-token-secret
+      name: cloudflare-api-secret
     solvers:
       - dns01:
           cloudflare:
