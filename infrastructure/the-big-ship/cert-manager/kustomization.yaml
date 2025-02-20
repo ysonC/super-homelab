@@ -7,5 +7,5 @@ patches:
   - path: cert-issuer-patch.yaml
     target:
       kind: ClusterIssuer
-      name: cert-manager
+      name: cloudflare-cluster-issuer
       namespace: cert-manager
