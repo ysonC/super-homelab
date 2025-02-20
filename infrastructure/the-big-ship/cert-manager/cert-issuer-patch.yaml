@@ -1,6 +1,6 @@
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
-sepc:
+spec:
   acme:
     email: wyson002@gmail.com
 
