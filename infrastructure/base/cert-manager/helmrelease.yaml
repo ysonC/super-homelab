@@ -22,15 +22,8 @@ spec:
     remediation:
       retries: 3
   values:
-    installCRDs: true
-    global:
-      leaderElection:
-        namespace: kube-system
-    replicaCount: 1
-    cainjector:
+    crds:
       enabled: true
-    webhook:
-      enabled: true
-    podSecurityPolicy:
-      enabled: false
-
+    extraArgs:
+      - --dns01-recursive-nameservers-only
+      - --dns01-recursive-nameservers=1.1.1.1:53,1.0.0.1:53
