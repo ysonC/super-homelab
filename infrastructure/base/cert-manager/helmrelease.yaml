@@ -1,0 +1,36 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cert-manager
+  namespace: cert-manager
+spec:
+  targetNamespace: cert-manager
+  releaseName: cert-manager
+  interval: 10m
+  chart:
+    spec:
+      chart: cert-manager
+      version: v1.17.0
+      sourceRef:
+        kind: HelmRepository
+        name: cert-manager
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    installCRDs: true
+    global:
+      leaderElection:
+        namespace: kube-system
+    replicaCount: 1
+    cainjector:
+      enabled: true
+    webhook:
+      enabled: true
+    podSecurityPolicy:
+      enabled: false
+
