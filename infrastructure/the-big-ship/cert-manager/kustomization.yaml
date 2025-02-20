@@ -6,6 +6,6 @@ resources:
 patches:
   - path: cert-issuer-patch.yaml
     target:
-      kind: HelmRelease
+      kind: ClusterIssuer
       name: cert-manager
       namespace: cert-manager
