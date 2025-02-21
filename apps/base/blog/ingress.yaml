@@ -1,24 +1,18 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/traefik.io/ingressroute_v1alpha1.json
+apiVersion: traefik.io.v1alpha1
+kind: IngressRoute
 metadata:
   name: blog-ingress
   namespace: apps
-  annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: websecure
 spec:
-  ingressClassName: traefik
-  tls:
-    - hosts:
-        - blog.ysonsuperhomelab.com
-      secretName: blog-certificate-secret
-  rules:
-    - host: blog.ysonsuperhomelab.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: blog-service
-                port:
-                  number: 80
+  entryPoints:
+  - websecure
+  routes:
+    - match: Host(`blog.ysonsuperhomelab.com`)
+      kind: Rule
+      services:
+        - name: blog-service
+          port: 80
+tls:
+    secretName: blog-certificate-secret
+

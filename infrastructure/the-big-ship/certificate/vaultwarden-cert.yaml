@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: vaultwarden-ingress-certificate
+  namespace: apps
+spec:
+  secretName: vaultwarden-certificate-secret
+  issuerRef:
+    name: cloudflare-cluster-issuer
+    kind: ClusterIssuer
+  dnsNames:
+    - vaultwarden.ysonsuperhomelab.com
+

@@ -1,22 +1,18 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/traefik.io/ingressroute_v1alpha1.json
+apiVersion: traefik.io.v1alpha1
+kind: IngressRoute
 metadata:
   name: vaultwarden-ingress
   namespace: apps
-  annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    traefik.ingress.kubernetes.io/router.tls.certresolver: cloudflare
 spec:
-  ingressClassName: traefik
-  rules:
-    - host: vaultwarden.ysonsuperhomelab.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: vaultwarden-service
-                port:
-                  number: 80
+  entryPoints:
+  - websecure
+  routes:
+    - match: Host(`vaultwarden.ysonsuperhomelab.com`)
+      kind: Rule
+      services:
+        - name: vaultwarden-service
+          port: 80
+tls:
+    secretName: vaultwarden-certificate-secret
 
