@@ -10,7 +10,7 @@ spec:
   tls:
     - hosts:
         - blog.ysonsuperhomelab.com
-      secretName: blog-tls
+      secretName: blog-certificate-secret
   rules:
     - host: blog.ysonsuperhomelab.com
       http:

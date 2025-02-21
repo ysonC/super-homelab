@@ -10,7 +10,7 @@ spec:
   tls:
     - hosts:
         - homepage.ysonsuperhomelab.com
-      secretName: homepage-tls
+      secretName: homepage-certificate-secret
   rules:
     - host: homepage.ysonsuperhomelab.com
       http:
