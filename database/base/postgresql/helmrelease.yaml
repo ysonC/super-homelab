@@ -26,6 +26,9 @@ spec:
     replication:
       enabled: true
     primary:
+      podSecurityContext:
+        enabled: true
+        fsGroup: 1001
       persistence:
         enabled: true
         size: 5Gi
