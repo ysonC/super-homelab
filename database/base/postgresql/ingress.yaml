@@ -1,0 +1,17 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: db-ingress
+  namespace: database
+spec:
+  entryPoints:
+  - websecure
+  routes:
+    - match: Host(`database.ysonsuperhomelab.com`)
+      kind: Rule
+      services:
+        - name: postgresql
+          port: 5432
+  tls:
+      secretName: database-certificate-secret
+
