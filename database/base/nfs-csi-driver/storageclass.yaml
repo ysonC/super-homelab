@@ -7,7 +7,7 @@ metadata:
 provisioner: nfs.csi.k8s.io
 parameters:
   server: 10.179.4.213
-  share: /mnt/main/bigBoi
+  share: /mnt/main/k8s-pv/nfs-storageclass
 reclaimPolicy: Retain
 allowVolumeExpansion: true
 volumeBindingMode: Immediate
