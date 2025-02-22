@@ -13,6 +13,6 @@ spec:
       services:
         - name: vaultwarden-service
           port: 80
-tls:
-    secretName: vaultwarden-certificate-secret
+  tls:
+      secretName: vaultwarden-certificate-secret
 

@@ -13,6 +13,6 @@ spec:
       services:
         - name: blog-service
           port: 80
-tls:
-    secretName: blog-certificate-secret
+  tls:
+      secretName: blog-certificate-secret
 
