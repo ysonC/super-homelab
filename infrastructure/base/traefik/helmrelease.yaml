@@ -33,11 +33,13 @@ spec:
           port: 80
         websecure:
           port: 443
-        postgres-entrypoint:
-          port: 5432
-          expose: true
-          exposePort: 5432
-          protocol: TCP
+    ports:
+      postgres-entrypoint:
+        port: 5432
+        expose:
+          default: true
+        exposePort: 5432
+        protocol: TCP
     dashboard:
       enabled: true
     ingressRoute:
