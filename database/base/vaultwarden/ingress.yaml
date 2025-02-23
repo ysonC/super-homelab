@@ -10,6 +10,6 @@ spec:
   routes:
     - match: HostSNI(`*`)
       services:
-        - name: vaultwarden-db-service
+        - name: vaultwarden-db-lb
           namespace: apps
           port: 5432

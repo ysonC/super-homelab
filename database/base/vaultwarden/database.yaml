@@ -25,7 +25,7 @@ spec:
         - selectorType: rw
           serviceTemplate:
             metadata:
-              name: vaultwarden-db-lb
+              name: vaultwarden-db-service
               annotations:
                 external-dns.alpha.kubernetes.io/hostname: vaultwarden-db.ysonsuperhomelab.com
             spec:
