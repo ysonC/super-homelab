@@ -1,0 +1,57 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/postgresql.cnpg.io/cluster_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: vaultwarden-db
+  namespace: apps
+spec:
+  description: "Postgres database for Vaultwarden"
+  imageName: quay.io/enterprisedb/postgresql:16.1
+  instances: 2  # HA setup with 2 instances
+
+  storage:
+    size: 5Gi
+    storageClass: local-path  # Rancher Local Path for local storage
+
+  bootstrap:
+    recovery:
+      source: vaultwarden-db
+      database: vaultwarden
+      owner: postgres
+      secret:
+        name: vaultwarden-db-creds
+
+  backup:
+    barmanObjectStore:
+      destinationPath: "nfs://10.179.5.96/backups/vaultwarden"
+      serverName: vaultwarden-db
+      wal:
+        compression: gzip
+      data:
+        compression: gzip
+    retentionPolicy: "14d"
+
+  monitoring:
+    enablePodMonitor: true
+
+  resources:
+    requests:
+      memory: 500Mi
+      cpu: "250m"
+
+  managed:
+    services:
+      disabledDefaultServices:
+        - ro
+        - r
+      additional:
+        - selectorType: rw
+          serviceTemplate:
+            metadata:
+              name: vaultwarden-db-lb
+              labels:
+                cilium-lb-pool: postgres-pool
+              annotations:
+                external-dns.alpha.kubernetes.io/hostname: vaultwarden-pg.ysonsuperhomelab.com
+            spec:
+              type: LoadBalancer
