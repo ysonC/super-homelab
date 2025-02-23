@@ -6,7 +6,7 @@ metadata:
   namespace: apps
 spec:
   entryPoints:
-    - postgres-entrypoint
+    - postgres
   routes:
     - match: HostSNI(`*`)
       services:

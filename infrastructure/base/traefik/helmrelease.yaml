@@ -34,7 +34,7 @@ spec:
         websecure:
           port: 443
     ports:
-      postgres-entrypoint:
+      postgres:
         port: 5432
         expose:
           default: true
@@ -53,7 +53,7 @@ spec:
       - "--certificatesresolvers.cloudflare.acme.email=your-wyson002@gmail.com"
       - "--certificatesresolvers.cloudflare.acme.storage=/data/acme.json"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
-      - "--entrypoints.postgres-entrypoint.address=:5432"
+      - "--entrypoints.postgres.address=:5432"
     env:
       - name: CF_DNS_API_TOKEN
         valueFrom:
