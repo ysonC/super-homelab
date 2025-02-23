@@ -10,7 +10,7 @@ spec:
   routes:
     - match: HostSNI(`*`)
       services:
-        - name: vaultwarden-db-service
+        - name: vaultwarden-db-lb
           port: 5432
   tls:
     passthrough: true
