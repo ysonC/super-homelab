@@ -3,6 +3,5 @@ kind: Kustomization
 resources:
   - blog-cert.yaml
   - homepage-cert.yaml
-  - database-cert.yaml
   - vaultwarden-cert.yaml
 
