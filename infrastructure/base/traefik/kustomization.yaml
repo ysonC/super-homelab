@@ -4,4 +4,3 @@ resources:
   - helmrelease.yaml
   - namespace.yaml
   - repo.yaml
-  - postgres-middleware.yaml
