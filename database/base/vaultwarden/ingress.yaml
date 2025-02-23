@@ -6,12 +6,10 @@ metadata:
   namespace: traefik-system
 spec:
   entryPoints:
-    - postgres
+    - postgres-entrypoint
   routes:
     - match: HostSNI(`*`)
       services:
-        - name: vaultwarden-db-lb
+        - name: vaultwarden-db
+          namespace: apps
           port: 5432
-  tls:
-    passthrough: true
-
