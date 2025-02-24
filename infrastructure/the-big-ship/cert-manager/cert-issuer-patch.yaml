@@ -5,4 +5,4 @@ kind: ClusterIssuer
 spec:
   acme:
     email: wyson002@gmail.com
-    # server: https://acme-v02.api.letsencrypt.org/directory  # Use Production Server
+    server: https://acme-v02.api.letsencrypt.org/directory  # Use Production Server
