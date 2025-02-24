@@ -3,5 +3,4 @@ kind: Kustomization
 resources:
   - database.yaml
   - ingress.yaml
-  - service.yaml
   - tmp-secret.yaml
