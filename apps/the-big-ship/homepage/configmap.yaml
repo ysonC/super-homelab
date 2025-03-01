@@ -34,7 +34,7 @@ data:
             icon: si-pihole-#96060C
             widget:
                 type: pihole
-                url: http://10.179.5.96:8070
+                url: http://piserver:8070
                 key: 3ctKb1WaZOUQ3U8nxwGF4gRthjEWOEF/bS1Tm053I4=
 
         - Open Media Vault:
