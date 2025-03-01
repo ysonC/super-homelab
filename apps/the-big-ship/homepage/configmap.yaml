@@ -35,7 +35,8 @@ data:
             widget:
                 type: pihole
                 url: http://piserver:8070
-                key: 3ctKb1WaZOUQ3U8nxwGF4gRthjEWOEF/bS1Tm053I4=
+                version: 6
+                key: 7ZaxCwE43L+c1HYJArKIk+hTmAGy0S3/Iymz9yoaHyc=
 
         - Open Media Vault:
             href: http://piserver
