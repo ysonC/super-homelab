@@ -26,7 +26,7 @@ data:
                 type: portainer
                 url: http://10.179.5.96:9000
                 env: 2
-                key: ptr_d3ctKb1WaZOUQ3U8nxwGF4gRthjEWOEF/bS1Tm053I4=
+                key: 3ctKb1WaZOUQ3U8nxwGF4gRthjEWOEF/bS1Tm053I4=
 
         - Pihole:
             href: http://piserver:8070/admin
