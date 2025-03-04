@@ -1,0 +1,41 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: learning-db
+  namespace: apps
+spec:
+  description: PostgreSQL cluster for Learing
+  imageName: quay.io/enterprisedb/postgresql:16.1
+  instances: 2
+
+  storage:
+    size: 1Gi
+    storageClass: local-path  # Use Rancher Local Path Storage
+
+  bootstrap:
+    initdb:
+      database: learning
+      owner: learning
+      secret:
+        name: learning-db-creds
+
+  managed:
+    services:
+      additional:
+        - selectorType: rw
+          serviceTemplate:
+            metadata:
+              name: learning-db-lb
+              annotations:
+                external-dns.alpha.kubernetes.io/hostname: learning-db.ysonsuperhomelab.com
+            spec:
+              type: ClusterIP
+
+  resources:
+    requests:
+      memory: 500Mi
+      cpu: 250m
+    limits:
+      memory: 1Gi
+      cpu: 500m
+
