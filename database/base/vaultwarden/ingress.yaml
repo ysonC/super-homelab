@@ -8,7 +8,7 @@ spec:
   entryPoints:
     - postgres
   routes:
-    - match: HostSNI(`*`)
+    - match: HostSNI(`vaultwarden-db.ysonsuperhomelab.com`)
       services:
         - name: vaultwarden-db-lb
           namespace: apps

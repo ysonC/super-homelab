@@ -8,7 +8,7 @@ spec:
   entryPoints:
     - postgres
   routes:
-    - match: HostSNI(`*`)
+    - match: HostSNI(`learning-db.ysonsuperhomelab.com`)
       services:
         - name: learning-db-lb
           namespace: apps
