@@ -15,7 +15,7 @@ spec:
   bootstrap:
     initdb:
       database: learning
-      owner: learning
+      owner: admin
       secret:
         name: learning-db-creds
 
