@@ -29,7 +29,7 @@ spec:
               annotations:
                 external-dns.alpha.kubernetes.io/hostname: learning-db.ysonsuperhomelab.com
             spec:
-              type: ClusterIP
+              type: LoadBalancer
 
   resources:
     requests:
