@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/postgresql.cnpg.io/cluster_v1.json
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
@@ -29,7 +30,12 @@ spec:
               annotations:
                 external-dns.alpha.kubernetes.io/hostname: learning-db.ysonsuperhomelab.com
             spec:
-              type: LoadBalancer
+              type: NodePort
+              ports:
+                - name: postgres
+                  port: 5432
+                  targetPort: 5432
+                  nodePort: 32000
 
   resources:
     requests:
