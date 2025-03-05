@@ -30,7 +30,7 @@ spec:
               annotations:
                 external-dns.alpha.kubernetes.io/hostname: learning-db.ysonsuperhomelab.com
             spec:
-              type: nodePort
+              type: NodePort
               ports:
                 - port: 5432
                   targetPort: 5432
