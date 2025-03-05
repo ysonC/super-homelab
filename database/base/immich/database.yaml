@@ -30,11 +30,8 @@ spec:
               annotations:
                 external-dns.alpha.kubernetes.io/hostname: learning-db.ysonsuperhomelab.com
             spec:
-              type: NodePort
-              ports:
-                - name: postgres
-                  port: 5432
-                  targetPort: 5432
+              type: ClusterIP
+
 
   resources:
     requests:
