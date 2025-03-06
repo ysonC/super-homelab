@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: playground-db-service
-  namespace: apps
+  namespace: database
   annotations:
     # Optional: if using an external-dns controller to create a DNS record.
     external-dns.alpha.kubernetes.io/hostname: playground-db.ysonsuperhomelab.com
