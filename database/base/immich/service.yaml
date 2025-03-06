@@ -4,15 +4,17 @@ metadata:
   name: learning-db-service
   namespace: apps
   annotations:
-    # Optional: if you are using an external-dns controller to create a DNS record.
+    # Optional: if using an external-dns controller to create a DNS record.
     external-dns.alpha.kubernetes.io/hostname: learning-db.yourdomain.com
 spec:
   type: NodePort
-  selector:
-    # This selector must match the label that CNPG adds to your database pods.
-    # For example, if your cluster is named "learning-db", the pods usually carry:
-    # "postgresql.cnpg.io/cluster: learning-db"
-    postgresql.cnpg.io/cluster: learning-db
+  selector: 
+    # IMPORTANT: The selector must match the labels on the primary database pod.
+  # CNPG automatically labels pods with:
+  #   cnpg.io/cluster: my-db
+  #   cnpg.io/instanceRole: primary
+    cnpg.io/cluster: learning-db
+    cnpg.io/instanceRole: primary
   ports:
     - name: postgres
       port: 5432         # The port exposed internally
