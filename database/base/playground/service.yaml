@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: learning-db-service
+  name: playground-db-service
   namespace: apps
   annotations:
     # Optional: if using an external-dns controller to create a DNS record.
-    external-dns.alpha.kubernetes.io/hostname: learning-db.yourdomain.com
+    external-dns.alpha.kubernetes.io/hostname: playground-db.ysonsuperhomelab.com
 spec:
   type: NodePort
   selector: 
@@ -13,7 +13,7 @@ spec:
   # CNPG automatically labels pods with:
   #   cnpg.io/cluster: my-db
   #   cnpg.io/instanceRole: primary
-    cnpg.io/cluster: learning-db
+    cnpg.io/cluster: playground-db
     cnpg.io/instanceRole: primary
   ports:
     - name: postgres

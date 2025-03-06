@@ -4,4 +4,4 @@ resources:
   - database.yaml
   - secret.yaml
   - service.yaml
-
+  - namespace.yaml

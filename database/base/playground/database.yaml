@@ -2,8 +2,8 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: learning-db
-  namespace: apps
+  name: playground-db
+  namespace: database
 spec:
   description: PostgreSQL cluster for Learing
   imageName: quay.io/enterprisedb/postgresql:16.1
@@ -15,10 +15,10 @@ spec:
 
   bootstrap:
     initdb:
-      database: learning
+      database: playground
       owner: admin
       secret:
-        name: learning-db-creds
+        name: playground-db-creds
 
   resources:
     requests:
