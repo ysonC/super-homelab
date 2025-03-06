@@ -20,23 +20,6 @@ spec:
       secret:
         name: learning-db-creds
 
-  managed:
-    services:
-      additional:
-        - selectorType: rw
-          serviceTemplate:
-            metadata:
-              name: learning-db-lb
-              annotations:
-                external-dns.alpha.kubernetes.io/hostname: learning-db.ysonsuperhomelab.com
-            spec:
-              type: NodePort
-              ports:
-                - name: postgres
-                  port: 5432
-                  targetPort: 5432
-                  nodePort: 30100
-
   resources:
     requests:
       memory: 500Mi
