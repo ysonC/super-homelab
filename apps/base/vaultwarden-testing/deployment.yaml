@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vaultwarden-testing
+  namespace: apps
+  labels:
+    app: vaultwarden-testing
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vaultwarden-testing
+  template:
+    metadata:
+      labels:
+        app: vaultwarden-testing
+    spec:
+      containers:
+        - name: vaultwarden
+          image: vaultwarden/server:1.33.2
+          env:
+            - name: ADMIN_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: vaultwarden-secret
+                  key: ADMIN_TOKEN
+            - name: DATABASE_URL
+              value: "postgresql://vaultwarden:supersecretpassword@vaultwarden-db-rw.apps.svc.cluster.local:5432/vaultwarden"
+          ports:
+            - containerPort: 80
+
