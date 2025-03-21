@@ -15,7 +15,7 @@ spec:
   bootstrap:
     initdb:
       database: vaultwarden
-      owner: vaultwarden
+      owner: admin # Must match the username in the secret
       secret:
         name: vaultwarden-db-creds
 

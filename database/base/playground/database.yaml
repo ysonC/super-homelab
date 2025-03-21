@@ -16,7 +16,7 @@ spec:
   bootstrap:
     initdb:
       database: playground
-      owner: admin
+      owner: admin # Must match the username in the secret
       secret:
         name: playground-db-creds
 
