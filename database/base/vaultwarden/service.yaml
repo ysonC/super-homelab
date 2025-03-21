@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: vaultwarden-db-service
+  namespace: database
+  annotations:
+    # Optional: if using an external-dns controller to create a DNS record.
+    external-dns.alpha.kubernetes.io/hostname: vaultwarden-db.ysonsuperhomelab.com
+spec:
+  type: NodePort
+  selector: 
+    # IMPORTANT: The selector must match the labels on the primary database pod.
+  # CNPG automatically labels pods with:
+  #   cnpg.io/cluster: my-db
+  #   cnpg.io/instanceRole: primary
+    cnpg.io/cluster: vaultwarden-db
+    cnpg.io/instanceRole: primary
+  ports:
+    - name: postgres
+      port: 5432         # The port exposed internally
+      targetPort: 5432   # The port your container listens on
+      nodePort: 32001    # A fixed port on the node; choose one that is available
+
+

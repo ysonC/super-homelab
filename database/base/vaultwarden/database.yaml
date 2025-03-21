@@ -2,7 +2,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: vaultwarden-db
-  namespace: apps
+  namespace: database
 spec:
   description: PostgreSQL cluster for Vaultwarden
   imageName: quay.io/enterprisedb/postgresql:16.1
@@ -18,23 +18,6 @@ spec:
       owner: vaultwarden
       secret:
         name: vaultwarden-db-creds
-
-  managed:
-    services:
-      additional:
-        - selectorType: rw
-          serviceTemplate:
-            metadata:
-              name: vaultwarden-db-lb
-              annotations:
-                external-dns.alpha.kubernetes.io/hostname: vaultwarden-db.ysonsuperhomelab.com
-            spec:
-              type: NodePort
-              ports:
-                - name: postgres
-                  port: 5432
-                  targetPort: 5432
-                  nodePort: 30101
 
   resources:
     requests:
