@@ -24,13 +24,10 @@ spec:
                 secretKeyRef:
                   name: vaultwarden-secret
                   key: ADMIN_TOKEN
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: vaultwarden-db-url
+                  key: DATABASE_URL
           ports:
             - containerPort: 80
-          volumeMounts:
-            - mountPath: /data
-              name: vaultwarden-data
-      volumes:
-        - name: vaultwarden-data
-          persistentVolumeClaim:
-            claimName: vaultwarden-pvc-longhorn
-
