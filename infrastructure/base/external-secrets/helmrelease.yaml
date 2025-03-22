@@ -15,8 +15,3 @@ spec:
         kind: HelmRepository
         name: external-secrets
         namespace: flux-system
-  values:
-    installCRDs: false
-
-  install:
-    createNamespace: true
