@@ -127,6 +127,7 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
   - **longhorn**  
   - **monitoring** (Prometheus & Grafana)  
   - **traefik**  
+  - **external-secrets**
 - **the-big-ship/**  
   Kustomize overlays that adapt the base HelmRelease definitions to the environment (e.g., production vs. staging).
 
@@ -142,6 +143,7 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
 - **CloudNativePG** (PostgreSQL Operator for Kubernetes)
 - **Traefik** (Ingress Controller)
 - **Prometheus & Grafana** (Monitoring Stack)
+- **External Secrets** (K8s Operator for managing secrets)
 
 ---
 
@@ -221,7 +223,7 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
 
 ## License
 
-[MIT License](LICENSE) © 2025 [Your Name or Organization]
+[MIT License](LICENSE) © 2025 [Wyson Cheng]
 
 ---
 
