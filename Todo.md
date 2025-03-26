@@ -13,8 +13,8 @@
 - [ ] Machine uptime.
 - [ ] CPU usage for each service.
 - [ ] Memory usage for each service.
-- [ ] Memory usage for each service.
 - [ ] Implement alert rules for each service.
+- [ ] Logs integreation with Loki.
 
 ### Backup and Disaster Recovery
 - [ ] Implement backup and disaster recovery for each service.
