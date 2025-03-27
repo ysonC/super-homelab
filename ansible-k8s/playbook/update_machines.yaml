@@ -1,0 +1,25 @@
+---
+- name: Update and upgrade machines
+  hosts: all
+  become: yes
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+      tags: update
+
+    - name: Upgrade all packages to the latest version
+      apt:
+        upgrade: dist
+      tags: update
+
+    - name: Check if a reboot is required
+      stat:
+        path: /var/run/reboot-required
+      register: reboot_required
+
+    - name: Reboot machine if needed
+      reboot:
+      when: reboot_required.stat.exists
+      tags: reboot
+
