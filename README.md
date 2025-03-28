@@ -50,6 +50,9 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
    - **PostgreSQL** clusters with [CloudNativePG](https://cloudnative-pg.io/)  
    - **Monitoring** via Prometheus & Grafana  
    - **Traefik** as the Ingress Controller
+   - **External Secrets** for managing sensitive data
+   - **Renovate** for automated dependency updates
+   - **Cert-Manager** for TLS certificates
 
 ---
 
