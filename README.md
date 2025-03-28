@@ -114,7 +114,11 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
 ### database
 
 - **base/**  
-  Base configs for CloudNativePG clusters (e.g., `playground`, `vaultwarden-db`).  
+  Base configs for CloudNativePG clusters, including: 
+  - **playground/**  
+    Example PostgreSQL cluster for testing purposes.
+  - **vaultwarden-db/**  
+    PostgreSQL cluster for Vaultwarden.
 - **the-big-ship/**  
   Environment overlays for each database cluster (patching or customizing base resources).
 
@@ -128,6 +132,7 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
   - **monitoring** (Prometheus & Grafana)  
   - **traefik**  
   - **external-secrets**
+  - **renovate**
 - **the-big-ship/**  
   Kustomize overlays that adapt the base HelmRelease definitions to the environment (e.g., production vs. staging).
 
