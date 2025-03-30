@@ -21,4 +21,4 @@
 - [ ] Implement backup and disaster recovery for each service.
 
 ### Ansible
-- [ ] Revisit Ansible playbooks and roles.
+- [x] Revisit Ansible playbooks and roles.
