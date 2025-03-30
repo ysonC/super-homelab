@@ -90,12 +90,11 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
   Joins worker nodes to the K3s cluster.  
 - **longhorn/**  
   Ensures kernel modules/services required by Longhorn are in place on each node.  
+- **playbook/**
+  Stores all the playbooks for provisioning and configuring the cluster.
 - **inventory.ini**  
   Specifies Ansible host groups for `master` and `workers`.  
-- **setup_k3s_cluster.yaml**  
-  Main entry point to install K3s on master and workers.  
-- **setup-longhorn.yaml**  
-  Installs and configures Longhorn across the cluster.
+
 
 ### apps
 
