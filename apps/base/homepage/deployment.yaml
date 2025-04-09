@@ -6,7 +6,9 @@ metadata:
   labels:
     app: homepage
 spec:
-  replicas: 1
+  replicas: 2
+  strategy:
+    type: RollingUpdate
   selector:
     matchLabels:
       app: homepage
@@ -17,7 +19,7 @@ spec:
     spec:
       containers:
         - name: homepage
-          image: ghcr.io/gethomepage/homepage:latest
+          image: ghcr.io/gethomepage/homepage:1.1.0
           env:
             - name: HOMEPAGE_ALLOWED_HOSTS
               value: homepage.ysonsuperhomelab.com
