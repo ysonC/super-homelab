@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: homepage
-          image: ghcr.io/gethomepage/homepage:1.1.0
+          image: ghcr.io/gethomepage/homepage:v1.1.0
           env:
             - name: HOMEPAGE_ALLOWED_HOSTS
               value: homepage.ysonsuperhomelab.com
@@ -27,8 +27,8 @@ spec:
             - containerPort: 3000
           volumeMounts:
             - mountPath: /app/config/services.yaml
-              name: homepage-config
               subPath: services.yaml
+              name: homepage-config
       volumes:
         - name: homepage-config
           configMap:
