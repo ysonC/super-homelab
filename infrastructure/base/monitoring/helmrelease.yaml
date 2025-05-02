@@ -73,4 +73,7 @@ spec:
       image:
         repository: grafana/grafana
         tag: 9.5.21
+      statefulSet:
+        updateStrategy:
+          type: Recreate
       adminPassword: "admin"
