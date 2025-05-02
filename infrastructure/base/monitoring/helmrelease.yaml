@@ -47,6 +47,9 @@ spec:
           tag: v2.43.0
         replicas: 1
         retention: "7d"
+        statefulSet:
+          updateStrategy:
+            type: Recreate
 
     ## ----------------------------------------------------
     ## Alertmanager
