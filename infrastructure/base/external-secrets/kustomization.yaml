@@ -3,5 +3,5 @@ resources:
   - namespace.yaml
   - repo.yaml
   - secret-store.yaml
-  - deployement-crds.yaml
-  - deployement-crs.yaml
+  - deployment-crds.yaml
+  - deployment-crs.yaml
