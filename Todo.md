@@ -5,6 +5,10 @@
 - [ ] Implement SQL database for Prometheus and Grafana.
 - [ ] Implement SQL database for Immich.
 
+### n8n
+
+- [ ] Add pipline to check every PR from Renovate to check if update require additional change to yaml
+
 ### CI/CD Automation
 
 - [ ] Implement GitHub Actions to run linting, validation, and testing.
