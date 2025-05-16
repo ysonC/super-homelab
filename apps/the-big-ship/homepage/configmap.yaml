@@ -63,6 +63,11 @@ data:
             description: FREE photo backup
             icon: si-immich-#4250AF
 
+        - Proxmox:
+            href: https://10.179.9.41:8006
+            description: Little router boii
+            icon: si-proxmox-#E57000
+
     - Website:
         - EdinUni:
             href: https://www.learn.ed.ac.uk/ultra/course
