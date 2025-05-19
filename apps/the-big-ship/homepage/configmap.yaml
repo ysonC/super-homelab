@@ -64,7 +64,7 @@ data:
             icon: si-immich-#4250AF
 
         - Proxmox:
-            href: https://10.179.9.41:8006
+            href: https://10.8.8.2:8006
             description: Little router boii
             icon: si-proxmox-#E57000
 
