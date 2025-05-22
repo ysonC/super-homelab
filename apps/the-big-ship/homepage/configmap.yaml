@@ -28,15 +28,25 @@ data:
                 env: 2
                 key: 3ctKb1WaZOUQ3U8nxwGF4gRthjEWOEF/bS1Tm053I4=
 
+        # - Pihole:
+        #     href: http://piserver:8070/admin
+        #     description: Super AD blocker!!
+        #     icon: si-pihole-#96060C
+        #     widget:
+        #         type: pihole
+        #         url: http://100.73.77.81:8070
+        #         version: 6
+        #         key: 7ZaxCwE43L+c1HYJArKIk+hTmAGy0S3/Iymz9yoaHyc=
+
         - Pihole:
-            href: http://piserver:8070/admin
+            href: http://10.8.8.8/admin/
             description: Super AD blocker!!
             icon: si-pihole-#96060C
             widget:
                 type: pihole
-                url: http://100.73.77.81:8070
+                url: http://10.8.8.8/admin/
                 version: 6
-                key: 7ZaxCwE43L+c1HYJArKIk+hTmAGy0S3/Iymz9yoaHyc=
+                key: 000222isa 
 
         - Open Media Vault:
             href: http://piserver
