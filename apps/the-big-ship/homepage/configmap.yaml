@@ -46,7 +46,7 @@ data:
                 type: pihole
                 url: http://10.8.8.8/admin/
                 version: 6
-                key: 000222isa 
+                key: Y6Ajzqez 
 
         - Open Media Vault:
             href: http://piserver
