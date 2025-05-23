@@ -1,0 +1,32 @@
+---
+- name: Shutdown K3s Master Node
+  hosts: master
+  become: yes
+  tasks:
+    - name: Stop K3s server
+      systemd:
+        name: k3s
+        state: stopped
+        enabled: no
+
+    - name: Power off the master node
+      command: shutdown -h now
+      async: 1
+      poll: 0
+      ignore_errors: yes
+
+- name: Shutdown K3s Worker Nodes
+  hosts: workers
+  become: yes
+  tasks:
+    - name: Stop K3s agent
+      systemd:
+        name: k3s-agent
+        state: stopped
+        enabled: no
+
+    - name: Power off the worker node
+      command: shutdown -h now
+      async: 1
+      poll: 0
+      ignore_errors: yes
