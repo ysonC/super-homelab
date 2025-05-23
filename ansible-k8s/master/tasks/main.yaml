@@ -5,24 +5,6 @@
   args:
     executable: /bin/bash
 
-- name: Install Tailscale (if not already installed)
-  shell: |
-    if ! command -v tailscale >/dev/null; then
-      curl -fsSL https://tailscale.com/install.sh | sh
-    else
-      echo "Tailscale already installed"
-    fi
-  args:
-    executable: /bin/bash
-
-- name: Start Tailscale and authenticate
-  command: tailscale up --authkey={{ tailscale_auth_key }} --reset
-  register: tailscale_up_result
-
-- name: Retrieve Tailscale IP (IPv4)
-  shell: tailscale ip -4
-  register: tailscale_ip
-
 - name: Retrieve K3s Token
   shell: cat /var/lib/rancher/k3s/server/node-token
   register: k3s_token
@@ -33,14 +15,13 @@
     dest: "/tmp/k3s_{{ inventory_hostname }}.yaml"
     flat: yes
 
-- name: Update kubeconfig server address with Tailscale IP
+- name: Update kubeconfig server address with master IP
   delegate_to: localhost
   become: no
   lineinfile:
     path: "/tmp/k3s_{{ inventory_hostname }}.yaml"
     regexp: '(^\s*server:\s*https://).*(:6443)'
-    line: "    server: https://1pi5:6443"
-  when: tailscale_ip.stdout is defined
+    line: "    server: https://{{ hostvars[inventory_hostname]['ansible_host'] }}:6443"
 
 - name: Copy updated kubeconfig to user's home
   delegate_to: localhost
@@ -48,5 +29,4 @@
   copy:
     src: "/tmp/k3s_{{ inventory_hostname }}.yaml"
     dest: "{{ lookup('env','HOME') }}/.kube/config"
-    mode: '0600'
-
+    mode: "0600"
