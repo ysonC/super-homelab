@@ -34,7 +34,7 @@ data:
             icon: si-pihole-#96060C
             widget:
                 type: pihole
-                url: https://10.8.8.8/admin/
+                url: https://10.8.8.8/
                 version: 6
                 key: z/g9Ic3f0cYmOKeYVOq21dw//pI1E5QsVtYGav8ZvWs= 
 
