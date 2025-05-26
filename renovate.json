@@ -13,8 +13,7 @@
   "packageRules": [
     {
       "matchUpdateTypes": ["major"],
-      "labels": ["breaking-change"],
-      "ignoreFutureUpdates": true
+      "labels": ["breaking-change"]
     }
   ]
 }
