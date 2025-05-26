@@ -32,4 +32,4 @@ spec:
             - name: N8N_SECURE_COOKIE
               value: "false"
             - name: WEBHOOK_URL
-              value: "https://10.8.8.51:32567"
+              value: "https://n8n.ysonsuperhomelab.com"
