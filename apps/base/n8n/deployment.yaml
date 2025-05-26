@@ -31,6 +31,8 @@ spec:
               value: "Asia/Tokyo"
             - name: N8N_SECURE_COOKIE
               value: "false"
+            - name: WEBHOOK_URL
+              value: "http://10.8.8.51:32567"
 
 ---
 apiVersion: v1
