@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: blog-service
+  name: n8n-deployment
   namespace: apps
 spec:
   type: ClusterIP
   selector:
-    app: blog
+    app: n8n
   ports:
-    - port: 80
-      targetPort: 80
+    - port: 5678
+      targetPort: 5678
