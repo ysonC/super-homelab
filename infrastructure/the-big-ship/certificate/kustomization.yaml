@@ -4,4 +4,4 @@ resources:
   - blog-cert.yaml
   - homepage-cert.yaml
   - vaultwarden-cert.yaml
-
+  - n8n-cert.yaml
