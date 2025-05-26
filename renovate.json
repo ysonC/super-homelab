@@ -15,13 +15,6 @@
       "matchUpdateTypes": ["major"],
       "labels": ["breaking-change"],
       "ignoreFutureUpdates": true
-    },
-    {
-      "matchUpdateTypes": ["minor", "patch", "major"],
-      "extractReleaseNotes": true,
-      "matchChangelogPatterns": ["(?i)breaking change"],
-      "labels": ["breaking-change"],
-      "ignoreFutureUpdates": true
     }
   ]
 }
