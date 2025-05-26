@@ -5,6 +5,8 @@ metadata:
   namespace: apps
 spec:
   replicas: 1
+  strategy:
+    type: RollingUpdate
   selector:
     matchLabels:
       app: n8n
@@ -13,9 +15,18 @@ spec:
       labels:
         app: n8n
     spec:
+      initContainers:
+        - name: volume-permissions
+          image: busybox:1.36
+          command: ["sh", "-c", "chown -R 1000:1000 /data"]
+          volumeMounts:
+            - name: n8n-pvc-longhorn
+              mountPath: /data
       containers:
         - name: n8n
           image: n8nio/n8n
+          command: ["/bin/sh"]
+          args: ["-c", "sleep 5; n8n start"]
           ports:
             - containerPort: 5678
           env:
@@ -27,15 +38,23 @@ spec:
               value: "n8n"
             - name: N8N_BASIC_AUTH_PASSWORD
               value: "n8n"
+            - name: N8N_USER_FOLDER
+              value: /var/n8n/data
             - name: GENERIC_TIMEZONE
               value: "Asia/Tokyo"
             - name: N8N_SECURE_COOKIE
               value: "false"
             - name: WEBHOOK_URL
               value: "https://n8n.ysonsuperhomelab.com"
+          resources:
+            requests:
+              memory: "250Mi"
+            limits:
+              memory: "500Mi"
           volumeMounts:
-            - name: n8n-data
-              mountPath: /var/n8n/data
+            - name: n8n-pvc-longhorn
+              mountPath: /home/node/.n8n
+      restartPolicy: Always
       volumes:
         - name: n8n-data
           persistentVolumeClaim:
