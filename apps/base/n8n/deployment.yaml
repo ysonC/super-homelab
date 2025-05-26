@@ -35,7 +35,7 @@ spec:
               value: "https://n8n.ysonsuperhomelab.com"
           volumeMounts:
             - name: n8n-data
-              mountPath: /home/node/.n8n
+              mountPath: /var/n8n/data
       volumes:
         - name: n8n-data
           persistentVolumeClaim:
