@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: descheduler
+  namespace: kube-system
+spec:
+  schedule: "0 0 * * *" # Run every day
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: descheduler-sa
+          restartPolicy: OnFailure
+          containers:
+            - name: descheduler
+              image: registry.k8s.io/descheduler/descheduler:v0.33.0
+              args:
+                - "--policy-config-file=/policy-dir/policy.yaml"
+              volumeMounts:
+                - name: policy-volume
+                  mountPath: /policy-dir
+          volumes:
+            - name: policy-volume
+              configMap:
+                name: descheduler-policy
