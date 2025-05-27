@@ -7,8 +7,8 @@
 
 ### n8n
 
-- [ ] Add check for breaking change from Renovate
-- [ ] Add pipline to check every PR from Renovate to check if update require additional change to yaml
+- [x] Add check for breaking change from Renovate
+- [x] Add pipline to check every PR from Renovate to check if update require additional change to yaml
 
 ### CI/CD Automation
 
