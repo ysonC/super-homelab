@@ -53,6 +53,10 @@ data:
             description: Password manager for all your needs
             icon: si-vaultwarden-#000000
 
+        - n8n:
+            href: https://n8n.ysonsuperhomelab.com
+            description: Automation cheating
+            icon: si-n8n-#EA4B71
         - Plex:
             href: http://piserver:32400
             description: Amazing FREE MOIVES!!!
