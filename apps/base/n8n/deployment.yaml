@@ -4,7 +4,7 @@ metadata:
   name: n8n-deployment
   namespace: apps
 spec:
-  replicas: 1
+  replicas: 3
   strategy:
     rollingUpdate: null
     type: Recreate
