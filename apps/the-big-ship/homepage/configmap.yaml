@@ -13,20 +13,10 @@ data:
     # https://simpleicons.org/
 
     - Home:
-        - Traefik:
-            href: http://traefik.ysonsuperhomelab.com
-            description: Super network controller!!
-            icon: si-traefik-#FFD800
-
-        - Portainer:
-            href: http://piserver:9000
-            description: The BIG Ship!!
-            icon: si-portainer-#13BEF9
-            widget:
-                type: portainer
-                url: http://100.73.77.81:9000
-                env: 2
-                key: 3ctKb1WaZOUQ3U8nxwGF4gRthjEWOEF/bS1Tm053I4=
+        - Proxmox:
+            href: https://10.8.8.2:8006
+            description: Little router boii
+            icon: si-proxmox-#E57000
 
         - Pihole:
             href: https://10.8.8.8/admin/
@@ -37,11 +27,6 @@ data:
                 url: https://10.8.8.8/
                 version: 6
                 key: z/g9Ic3f0cYmOKeYVOq21dw//pI1E5QsVtYGav8ZvWs= 
-
-        - Open Media Vault:
-            href: http://piserver
-            description: Manage your server with Open Media Vault
-            icon: si-openmediavault-#5DACDF
 
         - TrueNAS:
             href: https://truenas.ysonsuperhomelab.com
@@ -58,20 +43,30 @@ data:
             description: Automation cheating
             icon: si-n8n-#EA4B71
 
-        - Plex:
-            href: http://piserver:32400
-            description: Amazing FREE MOIVES!!!
-            icon: si-plex-#EBAF00
+        - Grafana:
+            href: https://grafana.ysonsuperhomelab.com
+            description: Amazing dashboard
+            icon: si-grafana-#F46800
 
         - Immich:
             href: http://piserver:2283
             description: FREE photo backup
             icon: si-immich-#4250AF
 
-        - Proxmox:
-            href: https://10.8.8.2:8006
-            description: Little router boii
-            icon: si-proxmox-#E57000
+        - Plex:
+            href: http://piserver:32400
+            description: Amazing FREE MOIVES!!!
+            icon: si-plex-#EBAF00
+
+        - Traefik:
+            href: http://traefik.ysonsuperhomelab.com
+            description: Super network controller!!
+            icon: si-traefik-#FFD800
+
+        - Open Media Vault:
+            href: http://piserver
+            description: Manage your server with Open Media Vault
+            icon: si-openmediavault-#5DACDF
 
     - Website:
         - EdinUni:
