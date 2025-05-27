@@ -4,9 +4,8 @@ metadata:
   name: n8n-deployment
   namespace: apps
 spec:
-  replicas: 3
+  replicas: 1
   strategy:
-    rollingUpdate: null
     type: Recreate
   selector:
     matchLabels:
