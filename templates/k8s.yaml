@@ -1,0 +1,122 @@
+# Kustomization Template
+# This file references all the components needed to deploy an app
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: apps
+resources:
+  - deployment.yaml # Core deployment definition
+  - service.yaml # Internal ClusterIP service
+  - ingress.yaml # IngressRoute for Traefik routing (TLS + domain)
+  - storage.yaml # Optional: storage, if persistent data is needed
+  - configmap.yaml # Optional: config settings
+  - secret.yaml # Optional: secret references (for passwords/env)
+
+---
+# Deployment Template
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app_name # e.g., blog, homepage
+  namespace: apps
+  labels:
+    app: app_name
+spec:
+  replicas: replica_count # adjust as needed (1, 2, 3...)
+  strategy:
+    type: RollingUpdate # Can be Recreate or RollingUpdate
+  selector:
+    matchLabels:
+      app: app_name
+  template:
+    metadata:
+      labels:
+        app: app_name
+    spec:
+      containers:
+        - name: app_name
+          image: image_repo # insert full image path here
+          ports:
+            - containerPort: container_port
+          env: [] # insert environment variables if needed
+          volumeMounts: [] # optional for config or persistence
+      volumes: [] # match volumeMounts
+
+---
+# Service Template
+apiVersion: v1
+kind: Service
+metadata:
+  name: app_name-service
+  namespace: apps
+spec:
+  type: ClusterIP
+  selector:
+    app: app_name
+  ports:
+    - port: service_port # exposed port
+      targetPort: container_port # maps to container's port
+
+---
+# IngressRoute Template (Traefik)
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: app_name-ingress
+  namespace: apps
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`domain_name`) # e.g., app.ysonsuperhomelab.com
+      kind: Rule
+      services:
+        - name: app_name-service
+          port: service_port
+  tls:
+    secretName: cert_secret # Certificate secret
+
+---
+# PVC Template (Longhorn or NFS)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: app_name-pvc
+  namespace: apps
+spec:
+  accessModes:
+    - ReadWritemode # One or Many
+  storageClassName: storage_class # e.g., longhorn or nfs
+  resources:
+    requests:
+      storage: storage_size # e.g., 500Mi, 1Gi
+
+---
+# ConfigMap Template
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app_name-config
+  namespace: apps
+data:
+  config_key: |
+    # Add your config YAML here
+
+---
+# ExternalSecret Template (for external secrets manager)
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: app_name-secret
+  namespace: apps
+spec:
+  refreshInterval: "1h"
+  secretStoreRef:
+    name: store_name # e.g., azure-kv-store
+    kind: ClusterSecretStore
+  target:
+    name: k8s_secret_name
+    creationPolicy: Owner
+  data:
+    - secretKey: env_var_name # used in container
+      remoteRef:
+        key: vault_key_name # in the external secret manager
