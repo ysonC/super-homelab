@@ -15,38 +15,29 @@ spec:
 apiVersion: v1
 kind: Endpoints
 metadata:
-  name: nas
+  name: nas-endpoints
   namespace: traefik-system
 subsets:
   - addresses:
       - ip: 10.8.8.3
     ports:
-      - port: 443
+      - port: 80
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: nas
+  name: nas-service
   namespace: traefik-system
 spec:
   type: ClusterIP
   ports:
-    - name: https
-      port: 443
-      targetPort: 443
-  clusterIP: None # headless
-
----
-apiVersion: traefik.io/v1alpha1
-kind: Middleware
-metadata:
-  name: nas-strip
-  namespace: traefik-system
-spec:
-  stripPrefix:
-    prefixes:
-      - "/"
+    - name: http
+      port: 80
+      targetPort: 80
+  selector:
+    app.kubernetes.io/instance: traefik
+    app.kubernetes.io/name: traefik
 
 ---
 apiVersion: traefik.io/v1alpha1
@@ -61,9 +52,7 @@ spec:
     - match: Host(`nas.ysonsuperhomelab.com`)
       kind: Rule
       services:
-        - name: nas
+        - name: nas-service
           port: 80
-      middlewares:
-        - name: nas-strip
   tls:
     secretName: nas-certificate-secret
