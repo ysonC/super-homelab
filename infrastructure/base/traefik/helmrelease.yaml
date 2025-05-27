@@ -39,7 +39,7 @@ spec:
       dashboard:
         enabled: true
         matchRule: "Host(`traefik.ysonsuperhomelab.com`)"
-        entryPoints: 
+        entryPoints:
           - "websecure"
           - "web"
     additionalArguments:
@@ -47,10 +47,11 @@ spec:
       - "--certificatesresolvers.cloudflare.acme.storage=/data/acme.json"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
       - "--entrypoints.postgres.address=:5432"
+      - "--providers.kubernetesingress.allowexternalnameservices"
+      - "--providers.kubernetescrd.allowexternalnameservices"
     env:
       - name: CF_DNS_API_TOKEN
         valueFrom:
           secretKeyRef:
             name: cloudflare-api-token-secret
             key: CF_DNS_API_TOKEN
-
