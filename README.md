@@ -56,6 +56,7 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
    - **Traefik** as the Ingress Controller
    - **External Secrets** for managing sensitive data
    - **Cert-Manager** for TLS certificates
+   - **Descheduler** for rescheduler pods for balance
 
 ---
 
@@ -136,6 +137,7 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
   - **monitoring** (Prometheus & Grafana)
   - **traefik**
   - **external-secrets**
+  - **descheduler**
 - **the-big-ship/**  
   Kustomize overlays that adapt the base HelmRelease definitions to the environment (e.g., production vs. staging).
 
