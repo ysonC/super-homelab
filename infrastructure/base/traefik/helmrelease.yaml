@@ -50,7 +50,6 @@ spec:
       - "--entrypoints.proxmox.address=:8006"
       - "--providers.kubernetesingress.allowexternalnameservices"
       - "--providers.kubernetescrd.allowexternalnameservices"
-      - "--serversTransport.insecureSkipVerify=true"
     env:
       - name: CF_DNS_API_TOKEN
         valueFrom:
