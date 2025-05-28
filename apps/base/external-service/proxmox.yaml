@@ -21,7 +21,7 @@ spec:
   type: ExternalName
   ports:
     - name: http
-      port: 80
+      port: 8006
       targetPort: 8006
   externalName: 10.8.8.2
   selector:
@@ -42,6 +42,6 @@ spec:
       kind: Rule
       services:
         - name: proxmox-service
-          port: 80
+          port: 8006
   tls:
     secretName: proxmox-certificate-secret
