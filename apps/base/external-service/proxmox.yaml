@@ -60,3 +60,4 @@ spec:
       services:
         - name: proxmox-service
           port: 8006
+  tls: {}
