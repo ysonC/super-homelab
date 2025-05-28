@@ -20,7 +20,7 @@ metadata:
 spec:
   type: ExternalName
   ports:
-    - name: https
+    - name: proxmox-service
       port: 80
       targetPort: 8006
   externalName: 10.8.8.2
