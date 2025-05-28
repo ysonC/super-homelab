@@ -39,7 +39,6 @@ spec:
     - proxmox
   routes:
     - match: HostSNI(`proxmox.ysonsuperhomelab.com`)
-      kind: Rule
       services:
         - name: proxmox-service
           port: 8006
