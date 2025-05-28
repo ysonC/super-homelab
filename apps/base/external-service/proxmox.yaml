@@ -1,53 +1,47 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: proxmox-cert-verification
+  name: proxmox-ingress-certificate
   namespace: traefik-system
 spec:
-  secretName: proxmox-cert-verification-secret
+  secretName: proxmox-certificate-secret
   issuerRef:
     name: cloudflare-cluster-issuer
     kind: ClusterIssuer
   dnsNames:
     - proxmox.ysonsuperhomelab.com
+
 ---
-# Step 1: Endpoints for Proxmox (raw IP target)
-apiVersion: v1
-kind: Endpoints
-metadata:
-  name: proxmox-service
-  namespace: traefik-system
-subsets:
-  - addresses:
-      - ip: 10.8.8.2
-    ports:
-      - port: 8006
----
-# Step 2: Headless Service to bind to the Endpoints
 apiVersion: v1
 kind: Service
 metadata:
   name: proxmox-service
   namespace: traefik-system
 spec:
-  type: ClusterIP
-  clusterIP: None
+  type: ExternalName
   ports:
-    - name: proxmox
+    - name: http
       port: 8006
       targetPort: 8006
+  externalName: 10.8.8.2
+  selector:
+    app.kubernetes.io/instance: traefik
+    app.kubernetes.io/name: traefik
+
 ---
-# Step 3: IngressRouteTCP to forward raw TLS to Proxmox
 apiVersion: traefik.io/v1alpha1
-kind: IngressRouteTCP
+kind: IngressRoute
 metadata:
   name: proxmox-ingress
   namespace: traefik-system
 spec:
   entryPoints:
-    - proxmox
+    - websecure
   routes:
-    - match: HostSNI(`proxmox.ysonsuperhomelab.com`)
+    - match: Host(`proxmox.ysonsuperhomelab.com`)
+      kind: Rule
       services:
         - name: proxmox-service
           port: 8006
+  tls:
+    secretName: proxmox-certificate-secret
