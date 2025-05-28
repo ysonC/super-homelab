@@ -20,7 +20,7 @@ metadata:
 spec:
   type: ExternalName
   ports:
-    - name: http
+    - name: https
       port: 8006
       targetPort: 8006
   externalName: 10.8.8.2
