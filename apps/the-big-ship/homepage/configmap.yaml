@@ -14,12 +14,12 @@ data:
 
     - Home:
         - Proxmox:
-            href: https://10.8.8.2:8006
+            href: https://proxmox.ysonsuperhomelab.com
             description: Little router boii
             icon: si-proxmox-#E57000
 
         - Pihole:
-            href: https://10.8.8.8/admin/
+            href: https://pihole.ysonsuperhomelab.com/admin/
             description: Super AD blocker!!
             icon: si-pihole-#96060C
             widget:

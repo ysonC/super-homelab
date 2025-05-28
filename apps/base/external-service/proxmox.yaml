@@ -21,7 +21,7 @@ spec:
   type: ExternalName
   ports:
     - name: https
-      port: 8006 # Doesnt matter, use by traefik
+      port: 8006 # Need to be the same as proxmox port
       targetPort: 8006
   externalName: 10.8.8.2
   selector:
