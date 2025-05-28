@@ -21,7 +21,7 @@ spec:
   type: ExternalName
   ports:
     - name: https
-      port: 80 # Doesnt matter, use by traefik
+      port: 8006 # Doesnt matter, use by traefik
       targetPort: 8006
   externalName: 10.8.8.2
   selector:
@@ -42,7 +42,7 @@ spec:
       kind: Rule
       services:
         - name: proxmox-service
-          port: 80 # need to match the service one
+          port: 8006 # need to match the service one
           serversTransport: proxmox-transport
   tls:
     secretName: proxmox-certificate-secret
