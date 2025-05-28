@@ -36,7 +36,7 @@ metadata:
   namespace: traefik-system
 spec:
   entryPoints:
-    - proxmox
+    - websecure
   routes:
     - match: Host(`proxmox.ysonsuperhomelab.com`)
       kind: Rule
