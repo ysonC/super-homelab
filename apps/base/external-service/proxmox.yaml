@@ -43,7 +43,7 @@ spec:
       services:
         - name: proxmox-service
           port: 80 # need to match the service one
-          serverTransport: proxmox-transport
+          serversTransport: proxmox-transport
   tls:
     secretName: proxmox-certificate-secret
 
