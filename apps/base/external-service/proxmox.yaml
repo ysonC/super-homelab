@@ -29,19 +29,34 @@ spec:
     app.kubernetes.io/name: traefik
 
 ---
+# apiVersion: traefik.io/v1alpha1
+# kind: IngressRoute
+# metadata:
+#   name: proxmox-ingress
+#   namespace: traefik-system
+# spec:
+#   entryPoints:
+#     - websecure
+#   routes:
+#     - match: Host(`proxmox.ysonsuperhomelab.com`)
+#       kind: Rule
+#       services:
+#         - name: proxmox-service
+#           port: 8006
+#   tls:
+#     secretName: proxmox-certificate-secret
+#
+
 apiVersion: traefik.io/v1alpha1
-kind: IngressRoute
+kind: IngressRouteTCP
 metadata:
-  name: proxmox-ingress
+  name: proxmox-tcp
   namespace: traefik-system
 spec:
   entryPoints:
-    - websecure
+    - proxmox
   routes:
-    - match: Host(`proxmox.ysonsuperhomelab.com`)
-      kind: Rule
+    - match: HostSNI(`proxmox.ysonsuperhomelab.com`)
       services:
         - name: proxmox-service
           port: 8006
-  tls:
-    secretName: proxmox-certificate-secret
