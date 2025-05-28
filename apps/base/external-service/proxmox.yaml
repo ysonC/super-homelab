@@ -53,7 +53,7 @@ metadata:
   namespace: traefik-system
 spec:
   entryPoints:
-    - websecure
+    - https
   routes:
     - match: HostSNI(`proxmox.ysonsuperhomelab.com`)
       services:
