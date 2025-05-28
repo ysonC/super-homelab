@@ -47,6 +47,7 @@ spec:
       - "--certificatesresolvers.cloudflare.acme.storage=/data/acme.json"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
       - "--entrypoints.postgres.address=:5432"
+      - "--entrypoints.proxmox.address=:8006"
       - "--providers.kubernetesingress.allowexternalnameservices"
       - "--providers.kubernetescrd.allowexternalnameservices"
     env:
