@@ -11,19 +11,6 @@ server:
   image:
     repository: ghcr.io/immich-app/immich-server
     pullPolicy: IfNotPresent
-  ingress:
-    provider: traefik
-    main:
-      enabled: true
-      annotations:
-        # proxy-body-size is set to 0 to remove the body limit on file uploads
-        nginx.ingress.kubernetes.io/proxy-body-size: "0"
-      hosts:
-        - host: immich.ysonsuperhomelab.com
-          paths:
-            - path: "/"
-      tls:
-        secretName: immich-certificate-secret
 
 envFrom:
   - secretRef:
