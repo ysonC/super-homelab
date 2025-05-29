@@ -3,4 +3,5 @@ kind: Kustomization
 resources:
   # - repo.yaml
   # - helmrelease.yaml
-  - db-secret.yaml
+  - db-url-secret.yaml
+  - db-creds-secret.yaml
