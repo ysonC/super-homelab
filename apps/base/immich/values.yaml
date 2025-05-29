@@ -22,9 +22,9 @@ immich:
               - photos.example.com
             secretName: immich-tls
 
-  envFrom:
-    - secretRef:
-        name: immich-db-url
+envFrom:
+  - secretRef:
+      name: immich-db-url
 
 redis:
   enabled: true
