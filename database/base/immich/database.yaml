@@ -6,7 +6,7 @@ metadata:
 spec:
   description: PostgreSQL cluster for Immich
   imageName: quay.io/enterprisedb/postgresql:16.1
-  instances: 2
+  instances: 0
 
   storage:
     size: 1Gi
@@ -17,7 +17,10 @@ spec:
       database: immich
       owner: admin # Must match the username in the secret
       secret:
-        name: immich-db-creds
+      valueFrom:
+        secretKeyRef:
+          name: immich-db-creds
+          key: DATABASE_CREDS
 
   resources:
     requests:
