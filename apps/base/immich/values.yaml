@@ -1,10 +1,10 @@
+image:
+  tag: v1.119.0
+
 immich:
   persistence:
     library:
-      enabled: true
-      size: 100Gi
-      storageClass: nfs-client
-      accessMode: ReadWriteOnce
+      existingClaim: immich-pvc-nfs
 
   server:
     ingress:
@@ -31,8 +31,3 @@ redis:
   architecture: standalone
   auth:
     enabled: false
-  master:
-    persistence:
-      enabled: true
-      storageClass: nfs-client
-      size: 1Gi
