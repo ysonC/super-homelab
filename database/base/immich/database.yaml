@@ -5,7 +5,7 @@ metadata:
   namespace: database
 spec:
   description: PostgreSQL cluster for Immich
-  imageName: quay.io/enterprisedb/postgresql:16.1
+  imageName: quay.io/tensorchord/pgvecto-rs:pg16-v0.2.0
   instances: 2
 
   storage:
