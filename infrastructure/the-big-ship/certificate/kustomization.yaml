@@ -5,3 +5,4 @@ resources:
   - homepage-cert.yaml
   - vaultwarden-cert.yaml
   - n8n-cert.yaml
+  - immich-cert.yaml
