@@ -4,4 +4,3 @@ resources:
   # - repo.yaml
   # - helmrelease.yaml
   - db-url-secret.yaml
-  - db-creds-secret.yaml
