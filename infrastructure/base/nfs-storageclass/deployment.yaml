@@ -6,7 +6,7 @@ metadata:
     app: nfs-client-provisioner
   namespace: nfs-provisioner
 spec:
-  replicas: 1
+  replicas: 3
   strategy:
     type: Recreate
   selector:
