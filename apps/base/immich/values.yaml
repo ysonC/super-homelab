@@ -27,12 +27,6 @@ envFrom:
   - secretRef:
       name: immich-db-url
 
-env:
-  DB_HOSTNAME: ""
-  DB_USERNAME: ""
-  DB_DATABASE_NAME: ""
-  DB_PASSWORD: ""
-
 redis:
   enabled: true
   architecture: standalone
