@@ -7,13 +7,12 @@ spec:
   description: PostgreSQL cluster for Immich
   imageName: quay.io/enterprisedb/postgresql:16.1
   instances: 2
-  postgresql:
-    podTemplate:
-      spec:
-        securityContext:
-          runAsUser: 1001
-          runAsGroup: 1001
-          fsGroup: 1001
+  podTemplate:
+    spec:
+      securityContext:
+        runAsUser: 1001
+        runAsGroup: 1001
+        fsGroup: 1001
 
   storage:
     size: 1Gi
