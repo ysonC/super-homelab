@@ -5,7 +5,7 @@ metadata:
   namespace: database
 spec:
   description: PostgreSQL cluster for Immich
-  imageName: tensorchord/pgvecto-rs:pg16-v0.2.0
+  imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:16.9
   instances: 2
 
   storage:
@@ -18,6 +18,9 @@ spec:
       owner: admin # Must match the username in the secret
       secret:
         name: immich-db-creds
+      postInitSQL:
+        - ALTER SYSTEM SET search_path TO "$user", public, vectors;
+        - CREATE EXTENSION IF NOT EXISTS "vectors";
 
   resources:
     requests:
