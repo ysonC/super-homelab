@@ -27,5 +27,3 @@ spec:
     longhornUI:
       enabled: true
       replicas: 1
-    defaultBackupStore:
-      backupTarget: "nfs://10.8.8.3:/mnt/main/k8s-pv/longhorn-backup"
