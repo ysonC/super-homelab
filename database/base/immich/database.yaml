@@ -11,6 +11,15 @@ spec:
     shared_preload_libraries:
       - "vectors.so"
 
+  # this podTemplate will apply to both the initdb job and the running postgres pods
+  podTemplate:
+    spec:
+      containers:
+        - name: postgres
+          env:
+            - name: LD_PRELOAD
+              value: "" # unset jemalloc
+
   managed:
     roles:
       - name: admin
