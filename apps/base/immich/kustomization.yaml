@@ -5,6 +5,7 @@ resources:
   - helmrelease.yaml
   - repo.yaml
   - pvc.yaml
+  - ingress.yaml
 
 configMapGenerator:
   - name: immich-values
