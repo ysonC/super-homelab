@@ -6,25 +6,32 @@ immich:
     library:
       existingClaim: immich-pvc-nfs
 
-  server:
-    ingress:
-      main:
-        enabled: true
-        annotations:
-          kubernetes.io/ingress.class: traefik
-        hosts:
-          - host: photos.example.com
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts:
-              - photos.example.com
-            secretName: immich-tls
+server:
+  enabled: true
+  image:
+    repository: ghcr.io/immich-app/immich-server
+    pullPolicy: IfNotPresent
+  ingress:
+    main:
+      enabled: false
+      annotations:
+        # proxy-body-size is set to 0 to remove the body limit on file uploads
+        nginx.ingress.kubernetes.io/proxy-body-size: "0"
+      hosts:
+        - host: immich.local
+          paths:
+            - path: "/"
+      tls: []
 
 envFrom:
   - secretRef:
       name: immich-db-url
+
+env:
+  DB_HOSTNAME: ""
+  DB_USERNAME: ""
+  DB_DATABASE_NAME: ""
+  DB_PASSWORD: ""
 
 redis:
   enabled: true
