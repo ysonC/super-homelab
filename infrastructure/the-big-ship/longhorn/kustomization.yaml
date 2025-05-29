@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - ../../base/longhorn/
 patches:
-  - path: helmrelease.yaml
+  - path: helmrelease-patch.yaml
     target:
       kind: HelmRelease
       name: longhorn
