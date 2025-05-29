@@ -5,11 +5,19 @@ metadata:
   namespace: database
 spec:
   description: PostgreSQL cluster for Immich
-  imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:16.9
+  imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:16.5-v0.3.0@sha256:be3f025d79aa1b747817f478e07e71be43236e14d00d8a9eb3914146245035ba
   instances: 2
+  postgresql:
+    shared_preload_libraries:
+      - "vectors.so"
+  managed:
+    roles:
+      - name: admin
+        superuser: true
+        login: true
 
   storage:
-    size: 1Gi
+    size: 4Gi
     storageClass: nfs-client
 
   bootstrap:
@@ -19,8 +27,9 @@ spec:
       secret:
         name: immich-db-creds
       postInitSQL:
-        - ALTER SYSTEM SET search_path TO "$user", public, vectors;
         - CREATE EXTENSION IF NOT EXISTS "vectors";
+        - CREATE EXTENSION IF NOT EXISTS "cube" CASCADE;
+        - CREATE EXTENSION IF NOT EXISTS "earthdistance" CASCADE;
 
   resources:
     requests:
