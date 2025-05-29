@@ -23,7 +23,7 @@ spec:
         namespace: flux-system
   values:
     persistence:
-      defaultClass: true
+      defaultClass: false
     longhornUI:
       enabled: true
       replicas: 1
