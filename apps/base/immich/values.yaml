@@ -13,7 +13,7 @@ server:
     - name: IMMICH_WORKERS_INCLUDE
       value: "api"
     - name: REDIS_HOSTNAME
-      value: immich-redis
+      value: immich-redis-master
   image:
     repository: ghcr.io/immich-app/immich-server
     pullPolicy: IfNotPresent
@@ -32,7 +32,7 @@ microservices:
     - name: IMMICH_WORKERS_EXCLUDE
       value: "api" # only run background jobs here
     - name: REDIS_HOSTNAME
-      value: immich-redis
+      value: immich-redis-master
   resources:
     requests:
       cpu: 100m
