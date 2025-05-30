@@ -6,12 +6,6 @@ resources:
   - repo.yaml
   - pvc.yaml
   - ingress.yaml
-  - hpa.yaml
-  - microservices-deployment.yaml
-# configMapGenerator:
-#   - name: immich-values
-#     namespace: apps
-#     files:
-#       - values.yaml
-# generatorOptions:
-#   disableNameSuffixHash: true
+  - server-hpa.yaml
+  - workers-deployment.yaml
+  - workers-hpa.yaml
