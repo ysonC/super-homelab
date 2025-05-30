@@ -41,7 +41,7 @@ envFrom:
   - secretRef:
       name: immich-db-url
 env:
-  REDIS_HOSTNAME: immich-redis-master
+  REDIS_HOSTNAME: immich-redis
 
 redis:
   enabled: true
