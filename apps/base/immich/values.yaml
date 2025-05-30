@@ -40,8 +40,8 @@ microservices:
 envFrom:
   - secretRef:
       name: immich-db-url
-# redis:
-#   enabled: true
-#   architecture: standalone
-#   auth:
-#     enabled: false
+redis:
+  enabled: true
+  architecture: standalone
+  auth:
+    enabled: false
