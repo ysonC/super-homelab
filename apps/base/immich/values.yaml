@@ -12,6 +12,8 @@ server:
   env:
     - name: IMMICH_WORKERS_INCLUDE
       value: "api"
+    - name: REDIS_HOSTNAME
+      value: immich-redis
   image:
     repository: ghcr.io/immich-app/immich-server
     pullPolicy: IfNotPresent
@@ -29,6 +31,8 @@ microservices:
   env:
     - name: IMMICH_WORKERS_EXCLUDE
       value: "api" # only run background jobs here
+    - name: REDIS_HOSTNAME
+      value: immich-redis
   resources:
     requests:
       cpu: 100m
@@ -40,8 +44,6 @@ microservices:
 envFrom:
   - secretRef:
       name: immich-db-url
-env:
-  REDIS_HOSTNAME: immich-redis
 
 redis:
   enabled: true
