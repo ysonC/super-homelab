@@ -9,6 +9,9 @@ immich:
 server:
   enabled: true
   replicaCount: 2
+  env:
+    - name: IMMICH_WORKERS_INCLUDE
+      value: "api"
   image:
     repository: ghcr.io/immich-app/immich-server
     pullPolicy: IfNotPresent
@@ -19,6 +22,20 @@ server:
     limits:
       cpu: 1
       memory: 1Gi
+
+microservices:
+  enabled: true
+  replicaCount: 1 # keep metadata workers small/slower
+  env:
+    - name: IMMICH_WORKERS_EXCLUDE
+      value: "api" # only run background jobs here
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
 
 envFrom:
   - secretRef:
