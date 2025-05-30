@@ -32,7 +32,7 @@ spec:
 
     server:
       enabled: true
-      replicaCount: 10
+      replicaCount: 2
       env:
         - name: IMMICH_WORKERS_INCLUDE
           value: "api"
