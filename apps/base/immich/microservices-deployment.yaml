@@ -31,6 +31,14 @@ spec:
                 secretKeyRef:
                   name: immich-db-url
                   key: DB_URL
+            - name: DB_HOSTNAME
+              value: "{{ .Release.Name }}-postgresql"
+            - name: DB_USERNAME
+              value: "{{ .Values.postgresql.global.postgresql.auth.username }}"
+            - name: DB_DATABASE_NAME
+              value: "{{ .Values.postgresql.global.postgresql.auth.database }}"
+            - name: DB_PASSWORD
+              value: "{{ .Values.postgresql.global.postgresql.auth.password }}"
           resources:
             requests:
               cpu: 100m
