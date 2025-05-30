@@ -8,7 +8,7 @@ immich:
 
 server:
   enabled: true
-  replicaCount: 1
+  replicaCount: 2
   image:
     repository: ghcr.io/immich-app/immich-server
     pullPolicy: IfNotPresent
