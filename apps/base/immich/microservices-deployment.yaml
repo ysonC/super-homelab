@@ -39,6 +39,8 @@ spec:
               value: "{{ .Values.postgresql.global.postgresql.auth.database }}"
             - name: DB_PASSWORD
               value: "{{ .Values.postgresql.global.postgresql.auth.password }}"
+            - name: IMMICH_IGNORE_MOUNT_CHECK_ERRORS
+              value: true
           resources:
             requests:
               cpu: 100m
