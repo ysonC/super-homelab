@@ -6,6 +6,7 @@ resources:
   - repo.yaml
   - pvc.yaml
   - ingress.yaml
+  - hpa.yaml
 
 configMapGenerator:
   - name: immich-values
