@@ -6,7 +6,13 @@ metadata:
 spec:
   targetNamespace: apps
   releaseName: immich
-  interval: 10m
+  interval: 20m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
   chart:
     spec:
       chart: immich
@@ -15,13 +21,56 @@ spec:
         kind: HelmRepository
         name: immich
         namespace: flux-system
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    remediation:
-      retries: 3
-  valuesFrom:
-    - kind: ConfigMap
-      name: immich-values
-      valuesKey: values.yaml
+  values:
+    image:
+      tag: v1.119.0
+
+    immich:
+      persistence:
+        library:
+          existingClaim: immich-pvc-nfs
+
+    server:
+      enabled: true
+      replicaCount: 2
+      env:
+        - name: IMMICH_WORKERS_INCLUDE
+          value: "api"
+        - name: REDIS_HOSTNAME
+          value: immich-redis-master
+      image:
+        repository: ghcr.io/immich-app/immich-server
+        pullPolicy: IfNotPresent
+      resources:
+        requests:
+          cpu: 200m
+          memory: 512Mi
+        limits:
+          cpu: 1
+          memory: 1Gi
+
+    microservices:
+      enabled: true
+      replicaCount: 1
+      env:
+        - name: IMMICH_WORKERS_EXCLUDE
+          value: "microservices"
+        - name: REDIS_HOSTNAME
+          value: immich-redis-master
+      resources:
+        requests:
+          cpu: 100m
+          memory: 256Mi
+        limits:
+          cpu: 500m
+          memory: 512Mi
+
+    envFrom:
+      - secretRef:
+          name: immich-db-url
+
+    redis:
+      enabled: true
+      architecture: standalone
+      auth:
+        enabled: false

@@ -7,11 +7,10 @@ resources:
   - pvc.yaml
   - ingress.yaml
   - hpa.yaml
-
-configMapGenerator:
-  - name: immich-values
-    namespace: apps
-    files:
-      - values.yaml
-generatorOptions:
-  disableNameSuffixHash: true
+# configMapGenerator:
+#   - name: immich-values
+#     namespace: apps
+#     files:
+#       - values.yaml
+# generatorOptions:
+#   disableNameSuffixHash: true
