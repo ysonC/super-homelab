@@ -44,7 +44,7 @@ spec:
         image:
           registry: quay.io
           repository: prometheus/prometheus
-          tag: v3.4.0
+          tag: v3.4.1
         replicas: 1
         retention: "7d"
 
