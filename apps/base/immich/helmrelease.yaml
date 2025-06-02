@@ -58,3 +58,19 @@ spec:
       architecture: standalone
       auth:
         enabled: false
+
+    machine-learning:
+      enabled: true
+      replicaCount: 2
+      image:
+        repository: ghcr.io/immich-app/immich-machine-learning
+        pullPolicy: IfNotPresent
+      env:
+        TRANSFORMERS_CACHE: /cache
+      resources:
+        requests:
+          cpu: 200m
+          memory: 512Mi
+        limits:
+          cpu: 1Gi
+          memory: 1Gi
