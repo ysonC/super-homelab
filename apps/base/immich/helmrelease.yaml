@@ -60,7 +60,7 @@ spec:
         enabled: false
 
     machine-learning:
-      enabled: true
+      enabled: false
       replicaCount: 2
       image:
         repository: ghcr.io/immich-app/immich-machine-learning

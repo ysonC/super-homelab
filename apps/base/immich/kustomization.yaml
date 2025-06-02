@@ -9,3 +9,4 @@ resources:
   - server-hpa.yaml
   - workers-deployment.yaml
   - workers-hpa.yaml
+  - ml-deployment.yaml
