@@ -86,8 +86,8 @@ spec:
             successThreshold: 1
             failureThreshold: 60
           volumeMounts:
-            - name: cache
-              mountPath: /cache
+            - mountPath: /cache
+              name: cache
       volumes:
-        - name: cache
-          emptyDir: {}
+        - emptyDir: {}
+          name: cache
