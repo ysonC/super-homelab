@@ -69,8 +69,8 @@ spec:
         TRANSFORMERS_CACHE: /cache
       resources:
         requests:
-          cpu: 200m
-          memory: 512Mi
+          cpu: 1.0
+          memory: 1Gi
         limits:
           cpu: 2.0
-          memory: 1Gi
+          memory: 2Gi
