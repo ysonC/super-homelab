@@ -47,7 +47,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`testcert.ysonsuperhomelab.com`)
+    - match: Host(`testcert.ysonsbaolab.dev`)
       kind: Rule
       services:
         - name: test-nginx-service
@@ -67,4 +67,4 @@ spec:
     name: cloudflare-cluster-issuer
     kind: ClusterIssuer
   dnsNames:
-    - testcert.ysonsuperhomelab.com
+    - testcert.ysonsbaolab.dev
