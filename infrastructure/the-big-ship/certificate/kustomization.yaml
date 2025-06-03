@@ -6,3 +6,4 @@ resources:
   - vaultwarden-cert.yaml
   - n8n-cert.yaml
   - immich-cert.yaml
+  - testing-cert.yaml
