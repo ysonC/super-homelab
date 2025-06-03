@@ -4,7 +4,7 @@ resources:
   - db-url-secret.yaml
   - helmrelease.yaml
   - repo.yaml
-  # - pvc.yaml
+  - pvc.yaml
   - ingress.yaml
   - server-hpa.yaml
   - workers-deployment.yaml
