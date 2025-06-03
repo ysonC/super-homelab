@@ -43,7 +43,7 @@ spec:
           - "websecure"
           - "web"
     additionalArguments:
-      - "--certificatesresolvers.cloudflare.acme.email=your-wyson002@gmail.com"
+      - "--certificatesresolvers.cloudflare.acme.email=wyson002@gmail.com"
       - "--certificatesresolvers.cloudflare.acme.storage=/data/acme.json"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
       - "--entrypoints.postgres.address=:5432"
@@ -54,5 +54,5 @@ spec:
       - name: CF_DNS_API_TOKEN
         valueFrom:
           secretKeyRef:
-            name: cloudflare-api-token-secret
+            name: cloudflare-api-token-secret-new
             key: CF_DNS_API_TOKEN
