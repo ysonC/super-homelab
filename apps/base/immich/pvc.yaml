@@ -5,6 +5,7 @@ metadata:
   namespace: apps
 spec:
   storageClassName: nfs-client
+  volumeName: pvc-5a3d7aae-614d-4eb5-9529-8dbc2801bc94
   accessModes:
     - ReadWriteMany
   resources:
