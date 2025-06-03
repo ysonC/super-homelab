@@ -1,6 +1,5 @@
 resources:
-  - ../../base
-  - ../../../../config/cluster-settings
+  - ../../config/cluster-settings
 
 vars:
   - name: DOMAIN
