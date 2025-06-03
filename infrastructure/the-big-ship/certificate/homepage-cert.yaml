@@ -9,6 +9,6 @@ spec:
     name: cloudflare-cluster-issuer
     kind: ClusterIssuer
   dnsNames:
-    - homepage.ysonsuperhomelab.com
+    - homepage.ysonsbaolab.dev
 
 

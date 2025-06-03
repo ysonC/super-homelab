@@ -14,12 +14,12 @@ data:
 
     - Home:
         - Proxmox:
-            href: https://proxmox.ysonsuperhomelab.com
+            href: https://proxmox.ysonsbaolab.dev
             description: Little router boii
             icon: si-proxmox-#E57000
 
         - Pihole:
-            href: https://pihole.ysonsuperhomelab.com/admin/
+            href: https://pihole.ysonsbaolab.dev/admin/
             description: Super AD blocker!!
             icon: si-pihole-#96060C
             widget:
@@ -29,22 +29,22 @@ data:
                 key: z/g9Ic3f0cYmOKeYVOq21dw//pI1E5QsVtYGav8ZvWs= 
 
         - TrueNAS:
-            href: https://truenas.ysonsuperhomelab.com
+            href: https://truenas.ysonsbaolab.dev
             description: Manage your server with TrueNAS
             icon: si-truenas-#1A5E97
 
         - Vaultwarden:
-            href: https://vaultwarden.ysonsuperhomelab.com
+            href: https://vaultwarden.ysonsbaolab.dev
             description: Password manager for all your needs
             icon: si-vaultwarden-#000000
 
         - n8n:
-            href: https://n8n.ysonsuperhomelab.com
+            href: https://n8n.ysonsbaolab.dev
             description: Automation cheating
             icon: si-n8n-#EA4B71
 
         - Grafana:
-            href: https://grafana.ysonsuperhomelab.com
+            href: https://grafana.ysonsbaolab.dev
             description: Amazing dashboard
             icon: si-grafana-#F46800
 
@@ -59,7 +59,7 @@ data:
             icon: si-plex-#EBAF00
 
         - Traefik:
-            href: http://traefik.ysonsuperhomelab.com
+            href: http://traefik.ysonsbaolab.dev
             description: Super network controller!!
             icon: si-traefik-#FFD800
 
@@ -78,6 +78,6 @@ data:
             description: The dumpling factory!!!
             icon: si-github-#181717
         - Blog:
-            href: https://blog.ysonsuperhomelab.com
+            href: https://blog.ysonsbaolab.dev
             description: My super fun blog!!
             icon: si-nginx-#009639

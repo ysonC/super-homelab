@@ -5,7 +5,7 @@ metadata:
   namespace: database
   annotations:
     # Optional: if using an external-dns controller to create a DNS record.
-    external-dns.alpha.kubernetes.io/hostname: playground-db.ysonsuperhomelab.com
+    external-dns.alpha.kubernetes.io/hostname: playground-db.ysonsbaolab.dev
 spec:
   type: NodePort
   selector: 

@@ -9,7 +9,7 @@ spec:
     name: cloudflare-cluster-issuer
     kind: ClusterIssuer
   dnsNames:
-    - pfsense.ysonsuperhomelab.com
+    - pfsense.ysonsbaolab.dev
 
 ---
 apiVersion: v1
@@ -38,7 +38,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`pfsense.ysonsuperhomelab.com`)
+    - match: Host(`pfsense.ysonsbaolab.dev`)
       kind: Rule
       services:
         - name: pfsense-service

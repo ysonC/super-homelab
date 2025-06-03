@@ -9,7 +9,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-    - host: longhorn.ysonsuperhomelab.com
+    - host: longhorn.ysonsbaolab.dev
       http:
         paths:
           - path: /

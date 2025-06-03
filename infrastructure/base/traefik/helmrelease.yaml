@@ -38,7 +38,7 @@ spec:
     ingressRoute:
       dashboard:
         enabled: true
-        matchRule: "Host(`traefik.ysonsuperhomelab.com`)"
+        matchRule: "Host(`traefik.ysonsbaolab.dev`)"
         entryPoints:
           - "websecure"
           - "web"

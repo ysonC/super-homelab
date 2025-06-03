@@ -8,7 +8,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-    - match: Host(`blog.ysonsuperhomelab.com`)
+    - match: Host(`blog.ysonsbaolab.dev`)
       kind: Rule
       services:
         - name: blog-service
