@@ -100,12 +100,12 @@ data:
                     url: https://n8n.ysonsbaolab.dev
                     icon: si:n8n
 
-                  - title: proxmox
-                    check-url: http://10.8.8.2:8006
+                  - title: Proxmox
+                    check-url: http://10.8.8.2
                     url: https://proxmox.ysonsbaolab.dev
                     icon: si:proxmox
 
-                  - title: proxmox
+                  - title: TrueNas
                     check-url: http://10.8.8.3
                     url: https://truenas.ysonsbaolab.dev
                     icon: si:truenas
