@@ -91,7 +91,7 @@ data:
                     icon: si:vaultwarden
 
                   - title: Pihole
-                    check-url: http://10.8.8.8/
+                    check-url: http://10.8.8.8/admin
                     url: http://10.8.8.8/admin
                     icon: si:pihole
 
