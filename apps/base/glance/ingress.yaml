@@ -8,7 +8,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`glance.ysonsbaolab.dev`)
+    - match: Host(`home.ysonsbaolab.dev`)
       kind: Rule
       services:
         - name: glance-service
