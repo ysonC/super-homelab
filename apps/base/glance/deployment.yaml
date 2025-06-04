@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: glance
+  namespace: apps
+  labels:
+    app: glance
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: glance
+  template:
+    metadata:
+      labels:
+        app: glance
+    spec:
+      containers:
+        - name: glance
+          image: ghcr:io/glanceapp/glance:v0.8.3
+          ports:
+            - containerPort: 80
