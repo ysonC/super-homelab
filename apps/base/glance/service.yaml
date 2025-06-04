@@ -4,10 +4,9 @@ metadata:
   name: glance-service
   namespace: apps
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: glance
   ports:
     - port: 8080
       targetPort: 8080
-      nodePort: 31888
