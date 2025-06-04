@@ -66,7 +66,7 @@ data:
                     icon: si:vaultwarden
 
                   - title: Pihole
-                    check-url: http://pihole-service.apps
+                  - check-url: http://10.8.8.8/admin/api.php?summaryRaw&auth=z/g9Ic3f0cYmOKeYVOq21dw//pI1E5QsVtYGav8ZvWs=
                     url: https://10.8.8.8/admin
                     icon: si:pihole
 
@@ -94,7 +94,7 @@ data:
                     title: Market Watch
                     style: detail-list
                     feeds:
-                      - url: https://www.marketwatch.com/site/rss
+                      - url: https://feeds.content.dowjones.io/public/rss/mw_topstories
 
                   - type: rss
                     title: Bloomberg
