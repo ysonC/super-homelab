@@ -36,6 +36,7 @@ data:
             widgets:
               - type: dns-stats
                 service: pihole
+                allow-insecure: true
                 url: https://10.8.8.8/admin
                 token:  z/g9Ic3f0cYmOKeYVOq21dw//pI1E5QsVtYGav8ZvWs= 
 
