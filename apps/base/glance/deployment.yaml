@@ -19,7 +19,7 @@ spec:
         - name: glance
           image: glanceapp/glance:v0.8.3
           ports:
-            - containerPort: 80
+            - 8080:8080
           volumeMounts:
             - mountPath: /app/config/glance.yml
               subPath: glance.yml
