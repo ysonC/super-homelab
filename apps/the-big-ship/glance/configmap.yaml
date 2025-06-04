@@ -29,7 +29,7 @@ data:
 
     pages:
       - name: Home
-        hide-desktop-navigation: true
+        hide-desktop-navigation: false
         columns:
           - size: small
             widgets:
@@ -48,17 +48,6 @@ data:
                   - url: https://selfh.st/rss/
                     title: selfh.st
                     limit: 4
-                  - url: https://feeds.bloomberg.com/markets/news.rss
-                    title: Bloomberg
-
-              - type: twitch-channels
-                channels:
-                  - theprimeagen
-                  - j_blow
-                  - piratesoftware
-                  - cohhcarnage
-                  - christitustech
-                  - EJ_SA
 
           - size: full
             widgets:
@@ -77,7 +66,7 @@ data:
                     icon: si:vaultwarden
 
                   - title: Pihole
-                    check-url: https://10.8.8.8/
+                    check-url: http://pihole-service.apps
                     url: https://10.8.8.8/admin
                     icon: si:pihole
 
@@ -87,6 +76,7 @@ data:
                     icon: si:n8n
 
                   - title: Proxmox
+                    allow-insecure: true
                     check-url: http://10.8.8.2:8006
                     url: https://proxmox.ysonsbaolab.dev
                     icon: si:proxmox
@@ -98,13 +88,19 @@ data:
 
               - type: group
                 widgets:
-                  - type: hacker-news
-                  - type: lobsters
+                  # - type: hacker-news
+                  # - type: lobsters
                   - type: rss
+                    title: Market Watch
+                    style: detail-list
+                    feeds:
+                      - url: https://www.marketwatch.com/site/rss
+
+                  - type: rss
+                    title: Bloomberg
                     style: detailed-list
                     feeds:
                       - url: https://feeds.bloomberg.com/markets/news.rss
-                        title: Bloomberg
 
           - size: small
             widgets:
@@ -118,14 +114,18 @@ data:
                 markets:
                   - symbol: SPY
                     name: S&P 500
-                  - symbol: BTC-USD
-                    name: Bitcoin
+                  - symbol: PANW
+                    name: Palo Alto
                   - symbol: NVDA
                     name: NVIDIA
                   - symbol: AAPL
                     name: Apple
                   - symbol: MSFT
                     name: Microsoft
+                  - symbol: COST
+                    name: Costco
+                  - symbol: PLTR
+                    name: Palantir
 
               - type: releases
                 cache: 1d
