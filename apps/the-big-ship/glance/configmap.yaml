@@ -37,8 +37,7 @@ data:
               - type: dns-stats
                 service: pihole
                 url: https://10.8.8.8/admin
-                username: admin
-                key:  z/g9Ic3f0cYmOKeYVOq21dw//pI1E5QsVtYGav8ZvWs= 
+                token:  z/g9Ic3f0cYmOKeYVOq21dw//pI1E5QsVtYGav8ZvWs= 
 
               - type: calendar
                 first-day-of-week: monday
