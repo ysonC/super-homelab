@@ -101,8 +101,10 @@ data:
                   - type: hacker-news
                   - type: lobsters
                   - type: rss
-                    - url: https://feeds.bloomberg.com/markets/news.rss
-                      title: Bloomberg
+                    style: detailed-list
+                    feeds:
+                      - url: https://feeds.bloomberg.com/markets/news.rss
+                        title: Bloomberg
 
           - size: small
             widgets:
