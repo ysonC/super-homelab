@@ -29,8 +29,7 @@ data:
 
     pages:
       - name: Home
-        # Optionally, if you only have a single page you can hide the desktop navigation for a cleaner look
-        # hide-desktop-navigation: true
+        hide-desktop-navigation: true
         columns:
           - size: small
             widgets:
@@ -41,9 +40,6 @@ data:
                 password: Y6Ajzqez
                 token: z/g9Ic3f0cYmOKeYVOq21dw//pI1E5QsVtYGav8ZvWs= 
 
-              - type: calendar
-                first-day-of-week: monday
-
               - type: rss
                 limit: 10
                 collapse-after: 3
@@ -52,12 +48,8 @@ data:
                   - url: https://selfh.st/rss/
                     title: selfh.st
                     limit: 4
-                  - url: https://ciechanow.ski/atom.xml
-                  - url: https://www.joshwcomeau.com/rss.xml
-                    title: Josh Comeau
-                  - url: https://samwho.dev/rss.xml
-                  - url: https://ishadeed.com/feed.xml
-                    title: Ahmad Shadeed
+                  - url: https://feeds.bloomberg.com/markets/news.rss
+                    title: Bloomberg
 
               - type: twitch-channels
                 channels:
@@ -70,13 +62,8 @@ data:
 
           - size: full
             widgets:
-              - type: group
-                widgets:
-                  - type: hacker-news
-                  - type: lobsters
-
               - type: monitor
-                cache: 1m
+                cache: 10m
                 title: Services
                 sites:
                   - title: Immich
@@ -111,12 +98,11 @@ data:
 
               - type: group
                 widgets:
-                  - type: reddit
-                    subreddit: technology
-                    show-thumbnails: true
-                  - type: reddit
-                    subreddit: selfhosted
-                    show-thumbnails: true
+                  - type: hacker-news
+                  - type: lobsters
+                  - type: rss
+                    - url: https://feeds.bloomberg.com/markets/news.rss
+                      title: Bloomberg
 
           - size: small
             widgets:
@@ -124,7 +110,6 @@ data:
                 location: Edinburgh, United Kingdom
                 units: metric # alternatively "imperial"
                 hour-format: 12h # alternatively "24h"
-                # Optionally hide the location from being displayed in the widget
                 # hide-location: true
 
               - type: markets
@@ -147,6 +132,12 @@ data:
                 # token: ...
                 repositories:
                   - glanceapp/glance
-                  - go-gitea/gitea
                   - immich-app/immich
                   - syncthing/syncthing
+                  - dani-garcia/vaultwarden
+                  - n8n-io/n8n
+                  - pi-hole/pi-hole
+                  - longhorn/longhorn
+                  - cert-manager/cert-manager
+                  - traefik/traefik
+                  - fluxcd/flux2
