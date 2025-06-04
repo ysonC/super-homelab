@@ -82,12 +82,12 @@ data:
                 sites:
                   - title: Immich
                     check-url: http://immich-server.apps
-                    url: https://immich.ysonsbaolab.dev
+                    url: https://immich.ysonsbaolab.dev:2283
                     icon: si:immich
 
                   - title: Vaultwarden
                     check-url: http://vaultwarden-service.apps
-                    url: https://vaultwarden.ysonsbaolab.dev
+                    url: https://vaultwarden.ysonsbaolab.dev:80
                     icon: si:vaultwarden
 
                   - title: Pihole
@@ -97,7 +97,7 @@ data:
 
                   - title: n8n
                     check-url: http://n8n-service.apps
-                    url: https://n8n.ysonsbaolab.dev
+                    url: https://n8n.ysonsbaolab.dev:5678
                     icon: si:n8n
 
               - type: group
