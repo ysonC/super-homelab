@@ -101,7 +101,7 @@ data:
                     icon: si:n8n
 
                   - title: Proxmox
-                    check-url: http://10.8.8.2
+                    check-url: http://10.8.8.2:8006
                     url: https://proxmox.ysonsbaolab.dev
                     icon: si:proxmox
 
