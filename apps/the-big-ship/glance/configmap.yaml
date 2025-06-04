@@ -37,8 +37,8 @@ data:
               - type: dns-stats
                 service: pihole
                 allow-insecure: true
-                url: https://10.8.8.8/
-                token:  z/g9Ic3f0cYmOKeYVOq21dw//pI1E5QsVtYGav8ZvWs= 
+                url: http://10.8.8.8/
+                token: z/g9Ic3f0cYmOKeYVOq21dw//pI1E5QsVtYGav8ZvWs= 
 
               - type: calendar
                 first-day-of-week: monday
@@ -89,8 +89,8 @@ data:
                     icon: si:vaultwarden
 
                   - title: Pihole
-                    check-url: http://10.8.8.8/
-                    url: http://10.8.8.8/admin
+                    check-url: https://10.8.8.8/
+                    url: https://10.8.8.8/admin
                     icon: si:pihole
 
                   - title: n8n
