@@ -84,6 +84,18 @@ data:
                     url: https://immich.ysonsbaolab.dev
                     icon: si:immich
 
+                  - title: Vaultwarden
+                    url: https://vaultwarden.ysonsbaolab.dev
+                    icon: si:vaultwarden
+
+                  - title: Pihole
+                    url: http://10.8.8.8/admin
+                    icon: si:pihole
+
+                  - title: n8n
+                    url: https://n8n.ysonsbaolab.dev
+                    icon: si:n8n
+
               - type: group
                 widgets:
                   - type: reddit
@@ -96,7 +108,7 @@ data:
           - size: small
             widgets:
               - type: weather
-                location: London, United Kingdom
+                location: Edinburgh, United Kingdom
                 units: metric # alternatively "imperial"
                 hour-format: 12h # alternatively "24h"
                 # Optionally hide the location from being displayed in the widget
@@ -125,18 +137,3 @@ data:
                   - go-gitea/gitea
                   - immich-app/immich
                   - syncthing/syncthing
-
-      # Add more pages here:
-      # - name: Your page name
-      #   columns:
-      #     - size: small
-      #       widgets:
-      #         # Add widgets here
-
-      #     - size: full
-      #       widgets:
-      #         # Add widgets here
-
-      #     - size: small
-      #       widgets:
-      #         # Add widgets here
