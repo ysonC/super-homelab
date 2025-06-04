@@ -21,8 +21,8 @@ spec:
           ports:
             - containerPort: 80
           volumeMounts:
-            - mountPath: /app/config/glance.yaml
-              subPath: glance.yaml
+            - mountPath: /app/config/glance.yml
+              subPath: glance.yml
               name: glance-config
       volumes:
         - name: glance-config

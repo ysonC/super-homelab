@@ -6,7 +6,7 @@ metadata:
   labels:
     app.kubernetes.io/name: glance
 data:
-  glance.yaml: |
+  glance.yml: |
     pages:
       - name: Home
         # Optionally, if you only have a single page you can hide the desktop navigation for a cleaner look
