@@ -103,6 +103,12 @@ data:
                     feeds:
                       - url: https://feeds.bloomberg.com/markets/news.rss
 
+                  - type: rss
+                    title: Mine
+                    style: detailed-list
+                    feeds:
+                      - url: http://10.8.8.10:8080/rss
+
           - size: small
             widgets:
               - type: weather
