@@ -107,7 +107,7 @@ data:
                     title: Mine
                     style: detailed-list
                     feeds:
-                      - url: http://10.8.8.10:8080/rss
+                      - url: http://10.8.8.10:8080/rss.xml
 
           - size: small
             widgets:
