@@ -105,7 +105,7 @@ data:
 
                   - type: rss
                     title: Mine
-                    style: detailed-list
+                    style: vertical-list
                     feeds:
                       - url: http://10.8.8.10:8080/rss.xml
 
