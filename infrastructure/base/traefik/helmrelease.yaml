@@ -54,5 +54,5 @@ spec:
       - name: CF_DNS_API_TOKEN
         valueFrom:
           secretKeyRef:
-            name: cloudflare-api-token-secret-new
+            name: cloudflare-api-token-secret
             key: CF_DNS_API_TOKEN
