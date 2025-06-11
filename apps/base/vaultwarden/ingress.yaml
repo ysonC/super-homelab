@@ -8,7 +8,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-    - match: Host(`vaultwarden.ysonsuperhomelab.com`)
+    - match: Host(`vaultwarden.ysonsbaolab.dev`)
       kind: Rule
       services:
         - name: vaultwarden-service

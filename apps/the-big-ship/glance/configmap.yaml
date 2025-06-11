@@ -1,0 +1,152 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: glance-config
+  namespace: apps
+  labels:
+    app.kubernetes.io/name: glance
+data:
+  glance.yml: |
+    theme:
+      # This will be the default theme
+      background-color: 100 20 10
+      primary-color: 40 90 40
+      contrast-multiplier: 1.1
+
+      disable-picker: false
+      presets:
+        gruvbox-dark:
+          background-color: 0 0 16
+          primary-color: 43 59 81
+          positive-color: 61 66 44
+          negative-color: 6 96 59
+
+        zebra:
+          light: true
+          background-color: 0 0 95
+          primary-color: 0 0 10
+          negative-color: 0 90 50
+
+    pages:
+      - name: Home
+        hide-desktop-navigation: false
+        columns:
+          - size: small
+            widgets:
+              - type: dns-stats
+                service: pihole-v6
+                allow-insecure: true
+                url: http://10.8.8.8/
+                password: Y6Ajzqez
+                token: z/g9Ic3f0cYmOKeYVOq21dw//pI1E5QsVtYGav8ZvWs= 
+
+              - type: rss
+                limit: 10
+                collapse-after: 3
+                cache: 12h
+                feeds:
+                  - url: https://selfh.st/rss/
+                    title: selfh.st
+                    limit: 4
+
+          - size: full
+            widgets:
+              - type: monitor
+                cache: 10m
+                title: Services
+                sites:
+                  - title: Immich
+                    check-url: http://immich-server.apps:2283
+                    url: https://immich.ysonsbaolab.dev
+                    icon: si:immich
+
+                  - title: Vaultwarden
+                    check-url: http://vaultwarden-service.apps:80
+                    url: https://vaultwarden.ysonsbaolab.dev
+                    icon: si:vaultwarden
+
+                  - title: Pihole
+                    # need sid auth from pihole v6 doc
+                    check-url: http://10.8.8.8/api/dns/blocking?sid=DiGAh9z1C/r3Jm8wYiDtKQ=
+                    url: https://pihole.ysonsbaolab.dev/admin/
+                    icon: si:pihole
+
+                  - title: n8n
+                    check-url: http://n8n-service.apps:5678
+                    url: https://n8n.ysonsbaolab.dev
+                    icon: si:n8n
+
+                  - title: Proxmox
+                    allow-insecure: true
+                    check-url: http://10.8.8.2:8006
+                    url: https://proxmox.ysonsbaolab.dev
+                    icon: si:proxmox
+
+                  - title: TrueNas
+                    check-url: http://10.8.8.3
+                    url: https://truenas.ysonsbaolab.dev
+                    icon: si:truenas
+
+              - type: group
+                widgets:
+                  # - type: hacker-news
+                  # - type: lobsters
+                  - type: rss
+                    title: Market Watch
+                    style: detail-list
+                    feeds:
+                      - url: https://feeds.content.dowjones.io/public/rss/mw_topstories
+
+                  - type: rss
+                    title: Bloomberg
+                    style: detailed-list
+                    feeds:
+                      - url: https://feeds.bloomberg.com/markets/news.rss
+
+                  - type: rss
+                    title: Mine
+                    style: vertical-list
+                    feeds:
+                      - url: http://10.8.8.10:8080/rss.xml
+
+          - size: small
+            widgets:
+              - type: weather
+                location: Edinburgh, United Kingdom
+                units: metric # alternatively "imperial"
+                hour-format: 12h # alternatively "24h"
+                # hide-location: true
+
+              - type: markets
+                markets:
+                  - symbol: SPY
+                    name: S&P 500
+                  - symbol: PANW
+                    name: Palo Alto
+                  - symbol: NVDA
+                    name: NVIDIA
+                  - symbol: AAPL
+                    name: Apple
+                  - symbol: MSFT
+                    name: Microsoft
+                  - symbol: COST
+                    name: Costco
+                  - symbol: PLTR
+                    name: Palantir
+
+              - type: releases
+                cache: 1d
+                # Without authentication the Github API allows for up to 60 requests per hour. You can create a
+                # read-only token from your Github account settings and use it here to increase the limit.
+                # token: ...
+                repositories:
+                  - glanceapp/glance
+                  - immich-app/immich
+                  - syncthing/syncthing
+                  - dani-garcia/vaultwarden
+                  - n8n-io/n8n
+                  - pi-hole/pi-hole
+                  - longhorn/longhorn
+                  - cert-manager/cert-manager
+                  - traefik/traefik
+                  - fluxcd/flux2

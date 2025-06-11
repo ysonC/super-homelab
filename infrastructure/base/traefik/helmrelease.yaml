@@ -17,7 +17,7 @@ spec:
   chart:
     spec:
       chart: traefik
-      version: "35.4.0"
+      version: "36.1.0"
       sourceRef:
         kind: HelmRepository
         name: traefik
@@ -38,12 +38,12 @@ spec:
     ingressRoute:
       dashboard:
         enabled: true
-        matchRule: "Host(`traefik.ysonsuperhomelab.com`)"
+        matchRule: "Host(`traefik.ysonsbaolab.dev`)"
         entryPoints:
           - "websecure"
           - "web"
     additionalArguments:
-      - "--certificatesresolvers.cloudflare.acme.email=your-wyson002@gmail.com"
+      - "--certificatesresolvers.cloudflare.acme.email=wyson002@gmail.com"
       - "--certificatesresolvers.cloudflare.acme.storage=/data/acme.json"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
       - "--entrypoints.postgres.address=:5432"

@@ -9,4 +9,4 @@ spec:
     name: cloudflare-cluster-issuer
     kind: ClusterIssuer
   dnsNames:
-    - immich.ysonsuperhomelab.com
+    - immich.ysonsbaolab.dev

@@ -9,7 +9,7 @@ spec:
     name: cloudflare-cluster-issuer
     kind: ClusterIssuer
   dnsNames:
-    - pihole.ysonsuperhomelab.com
+    - pihole.ysonsbaolab.dev
 
 ---
 apiVersion: v1
@@ -38,7 +38,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`pihole.ysonsuperhomelab.com`)
+    - match: Host(`pihole.ysonsbaolab.dev`)
       kind: Rule
       services:
         - name: pihole-service

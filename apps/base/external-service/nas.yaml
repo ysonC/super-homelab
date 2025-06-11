@@ -9,7 +9,7 @@ spec:
     name: cloudflare-cluster-issuer
     kind: ClusterIssuer
   dnsNames:
-    - nas.ysonsuperhomelab.com
+    - nas.ysonsbaolab.dev
 
 ---
 apiVersion: v1
@@ -38,7 +38,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`nas.ysonsuperhomelab.com`)
+    - match: Host(`nas.ysonsbaolab.dev`)
       kind: Rule
       services:
         - name: nas-service

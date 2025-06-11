@@ -8,7 +8,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`n8n.ysonsuperhomelab.com`)
+    - match: Host(`n8n.ysonsbaolab.dev`)
       kind: Rule
       services:
         - name: n8n-service
