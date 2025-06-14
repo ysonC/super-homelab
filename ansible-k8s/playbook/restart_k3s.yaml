@@ -1,5 +1,5 @@
 ---
-- name: Restart K3s Master Node
+- name: Reboot K3s Master Node
   hosts: master
   become: yes
   tasks:
@@ -8,13 +8,19 @@
         name: k3s
         enabled: yes
 
-    - name: Restart K3s server
+    - name: Stop K3s server before reboot
       systemd:
         name: k3s
-        state: restarted
-        enabled: yes
+        state: stopped
 
-- name: Restart K3s Worker Nodes
+    - name: Reboot master node
+      reboot:
+        reboot_timeout: 300
+        pre_reboot_delay: 5
+        post_reboot_delay: 30
+        test_command: whoami
+
+- name: Reboot K3s Worker Nodes
   hosts: workers
   become: yes
   tasks:
@@ -23,8 +29,14 @@
         name: k3s-agent
         enabled: yes
 
-    - name: Restart K3s agent
+    - name: Stop K3s agent before reboot
       systemd:
         name: k3s-agent
-        state: restarted
-        enabled: yes
+        state: stopped
+
+    - name: Reboot worker node
+      reboot:
+        reboot_timeout: 300
+        pre_reboot_delay: 5
+        post_reboot_delay: 30
+        test_command: whoami
