@@ -1,0 +1,30 @@
+---
+- name: Restart K3s Master Node
+  hosts: master
+  become: yes
+  tasks:
+    - name: Ensure K3s server starts on boot
+      systemd:
+        name: k3s
+        enabled: yes
+
+    - name: Restart K3s server
+      systemd:
+        name: k3s
+        state: restarted
+        enabled: yes
+
+- name: Restart K3s Worker Nodes
+  hosts: workers
+  become: yes
+  tasks:
+    - name: Ensure K3s agent starts on boot
+      systemd:
+        name: k3s-agent
+        enabled: yes
+
+    - name: Restart K3s agent
+      systemd:
+        name: k3s-agent
+        state: restarted
+        enabled: yes
