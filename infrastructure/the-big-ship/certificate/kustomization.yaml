@@ -7,3 +7,4 @@ resources:
   - n8n-cert.yaml
   - immich-cert.yaml
   - glance-cert.yaml
+  - longhorn-cert.yaml
