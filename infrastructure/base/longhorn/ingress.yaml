@@ -10,7 +10,7 @@ spec:
     - match: Host(`longhorn.ysonsbaolab.dev`)
       kind: Rule
       services:
-        - name: longhorn-service
+        - name: longhorn-frontend
           port: 80
   tls:
     secretName: longhorn-certificate-secret
