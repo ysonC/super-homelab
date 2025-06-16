@@ -37,7 +37,7 @@ data:
                 service: pihole-v6
                 allow-insecure: true
                 url: http://10.8.8.8/
-                password: Y6Ajzqez
+                password: 000222nosy
                 token: z/g9Ic3f0cYmOKeYVOq21dw//pI1E5QsVtYGav8ZvWs= 
 
               - type: rss
