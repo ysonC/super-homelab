@@ -67,7 +67,7 @@ data:
 
                   - title: Pihole
                     # need sid auth from pihole v6 doc
-                    check-url: http://10.8.8.8/api/dns/blocking?sid=DiGAh9z1C/r3Jm8wYiDtKQ=
+                    check-url: http://10.8.8.8/api/dns/blocking?sid=IbKcrxVZhkLWwGxN+X5nsw=
                     url: https://pihole.ysonsbaolab.dev/admin/
                     icon: si:pihole
 
