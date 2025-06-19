@@ -8,4 +8,3 @@ resources:
   - immich-cert.yaml
   - glance-cert.yaml
   - longhorn-cert.yaml
-  - nas-cert.yaml
