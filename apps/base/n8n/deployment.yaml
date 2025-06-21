@@ -46,9 +46,9 @@ spec:
               value: "https://n8n.ysonsbaolab.dev"
           resources:
             requests:
-              memory: "250Mi"
+              memory: 250Mi
             limits:
-              memory: "500Mi"
+              memory: 1.0Gi
           volumeMounts:
             - name: n8n-pvc-longhorn
               mountPath: /home/node/.n8n
