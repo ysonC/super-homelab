@@ -8,3 +8,4 @@ resources:
   - immich-cert.yaml
   - glance-cert.yaml
   - longhorn-cert.yaml
+  - grafana-cert.yaml
