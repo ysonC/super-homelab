@@ -84,7 +84,7 @@ data:
 
                   - title: TrueNas
                     check-url: http://10.8.8.3
-                    url: https://truenas.ysonsbaolab.dev
+                    url: https://nas.ysonsbaolab.dev
                     icon: si:truenas
 
               - type: group
