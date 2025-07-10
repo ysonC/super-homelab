@@ -10,6 +10,7 @@
   register: k3s_token
 
 - name: Fetch kubeconfig from master
+  become: yes
   fetch:
     src: /etc/rancher/k3s/k3s.yaml
     dest: "/tmp/k3s_{{ inventory_hostname }}.yaml"
