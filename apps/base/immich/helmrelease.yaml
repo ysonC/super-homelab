@@ -23,7 +23,7 @@ spec:
         namespace: flux-system
   values:
     image:
-      tag: v1.135.3
+      tag: v1.136.0
 
     immich:
       persistence:
