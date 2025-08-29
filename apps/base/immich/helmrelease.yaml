@@ -23,6 +23,7 @@ spec:
         namespace: flux-system
   values:
     image:
+      repository: ghcr.io/immich-app/immich-server
       tag: v1.136.0
 
     immich:
@@ -40,6 +41,7 @@ spec:
           value: immich-redis-master
       image:
         repository: ghcr.io/immich-app/immich-server
+        tag: v1.136.0
         pullPolicy: IfNotPresent
       resources:
         requests:
@@ -63,6 +65,7 @@ spec:
       enabled: true
       image:
         repository: ghcr.io/immich-app/immich-machine-learning
+        tag: v1.136.0
         pullPolicy: IfNotPresent
       env:
         TRANSFORMERS_CACHE: /cache
