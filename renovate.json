@@ -2,26 +2,18 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
   "kubernetes": {
-    "fileMatch": ["\\.yaml$", "\\.yml$"]
-  },
-  "flux": {
-    "fileMatch": ["\\.yaml$", "\\.yml$"]
+    "enabled": true,
+    "fileMatch": ["\\.ya?ml$"]
   },
   "helm-values": {
-    "fileMatch": ["\\.yaml$", "\\.yml$"]
+    "fileMatch": ["\\.ya?ml$"]
   },
-  "regexManagers": [
-    {
-      "fileMatch": ["\\.ya?ml$"],
-      "matchStrings": [
-        "image:\\s*(?<depName>[\\w./-]+)[:@](?<currentValue>[\\w.-]+)"
-      ],
-      "datasourceTemplate": "docker",
-      "depNameTemplate": "{{depName}}"
-    }
-  ],
+  "flux": {
+    "fileMatch": ["\\.ya?ml$"]
+  },
   "packageRules": [
     {
+      "matchManagers": ["kubernetes", "helm-values", "regex"],
       "matchUpdateTypes": ["major"],
       "labels": ["breaking-change"]
     }
