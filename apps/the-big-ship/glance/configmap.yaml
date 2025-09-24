@@ -87,6 +87,11 @@ data:
                     url: https://nas.ysonsbaolab.dev
                     icon: si:truenas
 
+                  - title: Grafana
+                    check-url: http://prometheus-stack-grafana.apps:80
+                    url: https://grafana.ysonsbaolab.dev
+                    icon: si:grafana
+
               - type: group
                 widgets:
                   # - type: hacker-news
