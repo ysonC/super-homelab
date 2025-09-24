@@ -88,7 +88,7 @@ data:
                     icon: si:truenas
 
                   - title: Grafana
-                    check-url: http://prometheus-stack-grafana.apps:80
+                    check-url: http://prometheus-stack-grafana.monitoring:80
                     url: https://grafana.ysonsbaolab.dev
                     icon: si:grafana
 
