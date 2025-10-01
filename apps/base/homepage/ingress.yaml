@@ -8,10 +8,10 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`homepage.ysonsuperhomelab.com`)
+    - match: Host(`homepage.ysonsbaolab.dev`)
       kind: Rule
       services:
         - name: homepage-service
           port: 3000
   tls:
-      secretName: homepage-certificate-secret
+    secretName: homepage-certificate-secret

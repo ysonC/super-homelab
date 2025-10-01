@@ -16,16 +16,14 @@ spec:
   chart:
     spec:
       chart: longhorn
-      version: 1.9.0
+      version: 1.9.1
       sourceRef:
         kind: HelmRepository
         name: longhorn
         namespace: flux-system
   values:
     persistence:
-      defaultClass: true
+      defaultClass: false
     longhornUI:
       enabled: true
       replicas: 1
-    defaultBackupStore:
-      backupTarget: "nfs://10.8.8.3:/mnt/main/k8s-pv/longhorn-backup"

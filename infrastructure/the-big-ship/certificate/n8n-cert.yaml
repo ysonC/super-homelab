@@ -9,4 +9,4 @@ spec:
     name: cloudflare-cluster-issuer
     kind: ClusterIssuer
   dnsNames:
-    - n8n.ysonsuperhomelab.com
+    - n8n.ysonsbaolab.dev

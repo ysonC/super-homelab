@@ -19,10 +19,10 @@ spec:
     spec:
       containers:
         - name: homepage
-          image: ghcr.io/gethomepage/homepage:v1.2.0
+          image: ghcr.io/gethomepage/homepage:v1.5.0
           env:
             - name: HOMEPAGE_ALLOWED_HOSTS
-              value: homepage.ysonsuperhomelab.com
+              value: homepage.ysonsbaolab.dev
           ports:
             - containerPort: 3000
           volumeMounts:

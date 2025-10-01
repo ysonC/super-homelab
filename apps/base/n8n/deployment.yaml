@@ -43,12 +43,12 @@ spec:
             - name: N8N_SECURE_COOKIE
               value: "false"
             - name: WEBHOOK_URL
-              value: "https://n8n.ysonsuperhomelab.com"
+              value: "https://n8n.ysonsbaolab.dev"
           resources:
             requests:
-              memory: "250Mi"
+              memory: 250Mi
             limits:
-              memory: "500Mi"
+              memory: 1.0Gi
           volumeMounts:
             - name: n8n-pvc-longhorn
               mountPath: /home/node/.n8n

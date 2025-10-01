@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: immich-workers
+  namespace: apps
+  labels:
+    app: immich
+    role: workers
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: immich
+      role: workers
+  template:
+    metadata:
+      labels:
+        app: immich
+        role: workers
+    spec:
+      containers:
+        - name: immich
+          image: ghcr.io/immich-app/immich-server:v1.143.0
+          env:
+            - name: IMMICH_WORKERS_EXCLUDE
+              value: "api"
+            - name: REDIS_HOSTNAME
+              value: immich-redis-master
+            - name: DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: immich-db-url
+                  key: DB_URL
+            - name: DB_HOSTNAME
+              value: "{{ .Release.Name }}-postgresql"
+            - name: DB_USERNAME
+              value: "{{ .Values.postgresql.global.postgresql.auth.username }}"
+            - name: DB_DATABASE_NAME
+              value: "{{ .Values.postgresql.global.postgresql.auth.database }}"
+            - name: DB_PASSWORD
+              value: "{{ .Values.postgresql.global.postgresql.auth.password }}"
+            - name: IMMICH_IGNORE_MOUNT_CHECK_ERRORS
+              value: "true"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 1Gi
+            limits:
+              cpu: 500m
+              memory: 2Gi
+          volumeMounts:
+            - name: library
+              mountPath: /usr/src/app/upload
+      volumes:
+        - name: library
+          persistentVolumeClaim:
+            claimName: immich-pvc-nfs

@@ -17,7 +17,7 @@ spec:
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: 72.6.2
+      version: 77.0.0
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
@@ -44,7 +44,7 @@ spec:
         image:
           registry: quay.io
           repository: prometheus/prometheus
-          tag: v3.4.0
+          tag: v3.5.0
         replicas: 1
         retention: "7d"
 
@@ -69,7 +69,7 @@ spec:
       enabled: true
       image:
         repository: grafana/grafana
-        tag: 12.0.1
+        tag: 12.1.1
       deploymentStrategy:
         type: Recreate
       adminPassword: "admin"

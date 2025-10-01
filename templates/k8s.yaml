@@ -67,7 +67,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`domain_name`) # e.g., app.ysonsuperhomelab.com
+    - match: Host(`domain_name`) # e.g., app.ysonsbaolab.dev
       kind: Rule
       services:
         - name: app_name-service

@@ -1,14 +1,7 @@
 ## Todo List
 
-- [ ] Implement new storage class for nfs.
 - [ ] Move vaultwarden back to longhorn
 - [ ] Implement SQL database for Prometheus and Grafana.
-- [ ] Implement SQL database for Immich.
-
-### n8n
-
-- [x] Add check for breaking change from Renovate
-- [x] Add pipline to check every PR from Renovate to check if update require additional change to yaml
 
 ### CI/CD Automation
 
@@ -17,9 +10,9 @@
 
 ### Prometheus and Grafana: Stuff to add
 
-- [ ] Machine uptime.
-- [ ] CPU usage for each service.
-- [ ] Memory usage for each service.
+- [x] Machine uptime.
+- [x] CPU usage for each service.
+- [x] Memory usage for each service.
 - [ ] Implement alert rules for each service.
 - [ ] Logs integreation with Loki.
 
@@ -29,9 +22,17 @@
 
 ## Completed
 
+- [x] Implement new storage class for nfs.
+- [x] Implement SQL database for Immich.
+
 ### Ansible
 
 - [x] Revisit Ansible playbooks and roles.
 
 - [x] Implement SQL database for Vaultwarden.
 - [x] Implement Renovate for automated dependency updates.
+
+### n8n
+
+- [x] Add check for breaking change from Renovate
+- [x] Add pipline to check every PR from Renovate to check if update require additional change to yaml

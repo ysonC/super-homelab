@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs-client-provisioner
+  labels:
+    app: nfs-client-provisioner
+  namespace: nfs-provisioner
+spec:
+  template:
+    spec:
+      containers:
+        - name: nfs-client-provisioner
+          env:
+            - name: NFS_SERVER
+              value: 10.8.8.3
+            - name: NFS_PATH
+              value: /mnt/main/k8s-pv/nfs-storageclass
+      volumes:
+        - name: nfs-client-root
+          nfs:
+            server: 10.8.8.3
+            path: /mnt/main/k8s-pv/nfs-storageclass

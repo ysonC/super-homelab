@@ -1,0 +1,34 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: rss-db
+  namespace: database
+spec:
+  description: PostgreSQL cluster for RSS news feed
+  imageName: quay.io/enterprisedb/postgresql:16.1
+  instances: 1
+
+  managed:
+    roles:
+      - name: admin
+        superuser: true
+        login: true
+
+  storage:
+    size: 5Gi
+    storageClass: nfs-client
+
+  bootstrap:
+    initdb:
+      database: rss
+      owner: admin # Must match the username in the secret
+      secret:
+        name: rss-db-creds
+
+  resources:
+    requests:
+      memory: 500Mi
+      cpu: 250m
+    limits:
+      memory: 1Gi
+      cpu: 500m

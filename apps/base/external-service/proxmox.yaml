@@ -2,26 +2,26 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: proxmox-ingress-certificate
-  namespace: traefik-system
+  namespace: apps
 spec:
   secretName: proxmox-certificate-secret
   issuerRef:
     name: cloudflare-cluster-issuer
     kind: ClusterIssuer
   dnsNames:
-    - proxmox.ysonsuperhomelab.com
+    - proxmox.ysonsbaolab.dev
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: proxmox-service
-  namespace: traefik-system
+  namespace: apps
 spec:
   type: ExternalName
   ports:
-    - name: proxmox-service
-      port: 8006
+    - name: https
+      port: 8006 # Need to be the same as proxmox port
       targetPort: 8006
   externalName: 10.8.8.2
   selector:
@@ -29,34 +29,29 @@ spec:
     app.kubernetes.io/name: traefik
 
 ---
-# apiVersion: traefik.io/v1alpha1
-# kind: IngressRoute
-# metadata:
-#   name: proxmox-ingress
-#   namespace: traefik-system
-# spec:
-#   entryPoints:
-#     - websecure
-#   routes:
-#     - match: Host(`proxmox.ysonsuperhomelab.com`)
-#       kind: Rule
-#       services:
-#         - name: proxmox-service
-#           port: 8006
-#   tls:
-#     secretName: proxmox-certificate-secret
 apiVersion: traefik.io/v1alpha1
-kind: IngressRouteTCP
+kind: IngressRoute
 metadata:
-  name: proxmox-tcp
-  namespace: traefik-system
+  name: proxmox-ingress
+  namespace: apps
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: HostSNI(`proxmox.ysonsuperhomelab.com`)
+    - match: Host(`proxmox.ysonsbaolab.dev`)
+      kind: Rule
       services:
         - name: proxmox-service
-          port: 8006
+          port: 8006 # need to match the service one
+          serversTransport: proxmox-transport
   tls:
     secretName: proxmox-certificate-secret
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: ServersTransport
+metadata:
+  name: proxmox-transport
+  namespace: apps
+spec:
+  insecureSkipVerify: true

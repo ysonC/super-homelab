@@ -1,22 +1,16 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
 metadata:
   name: grafana-ingress
   namespace: monitoring
-  annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    traefik.ingress.kubernetes.io/router.tls.certresolver: cloudflare
 spec:
-  ingressClassName: traefik
-  rules:
-    - host: grafana.ysonsuperhomelab.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: prometheus-stack-grafana
-                port:
-                  number: 80
-
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`grafana.ysonsbaolab.dev`)
+      kind: Rule
+      services:
+        - name: prometheus-stack-grafana
+          port: 80
+  tls:
+    secretName: grafana-certificate-secret
