@@ -24,7 +24,7 @@ spec:
   values:
     image:
       repository: ghcr.io/immich-app/immich-server
-      tag: v1.143.0
+      tag: v2.0.1
 
     immich:
       persistence:
@@ -41,7 +41,7 @@ spec:
           value: immich-redis-master
       image:
         repository: ghcr.io/immich-app/immich-server
-        tag: v1.143.0
+        tag: v2.0.1
         pullPolicy: IfNotPresent
       resources:
         requests:
