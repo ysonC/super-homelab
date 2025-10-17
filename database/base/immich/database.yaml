@@ -5,11 +5,20 @@ metadata:
   namespace: database
 spec:
   description: PostgreSQL cluster for Immich
-  imageName: quay.io/enterprisedb/postgresql:16.1
+  imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:16.3-v0.2.1
   instances: 2
+  postgresql:
+    shared_preload_libraries:
+      - vectors.so
+
+  managed:
+    roles:
+      - name: admin
+        superuser: true
+        login: true
 
   storage:
-    size: 1Gi
+    size: 4Gi
     storageClass: nfs-client
 
   bootstrap:
@@ -18,6 +27,8 @@ spec:
       owner: admin # Must match the username in the secret
       secret:
         name: immich-db-creds
+      postInitSQL:
+        - CREATE EXTENSION IF NOT EXISTS vectors;
 
   resources:
     requests:

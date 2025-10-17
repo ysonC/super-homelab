@@ -1,0 +1,41 @@
+---
+- name: Cleanup K3s SQLite DB on Control Plane
+  hosts: master
+  become: yes
+  tasks:
+    - name: Stop K3s service
+      ansible.builtin.systemd:
+        name: k3s
+        state: stopped
+
+    - name: Backup the state.db before modification
+      ansible.builtin.copy:
+        src: /var/lib/rancher/k3s/server/db/state.db
+        dest: /var/lib/rancher/k3s/server/db/state.db.bak
+        remote_src: yes
+        backup: yes
+
+    - name: Perform manual compaction (delete old revisions)
+      ansible.builtin.shell: |
+        sqlite3 /var/lib/rancher/k3s/server/db/state.db <<'EOF'
+        DELETE FROM kine
+        WHERE id IN (
+          SELECT id FROM (
+            SELECT id FROM kine
+            WHERE id NOT IN (
+              SELECT MAX(id) FROM kine GROUP BY name
+            )
+          )
+        );
+        EOF
+      args:
+        executable: /bin/bash
+
+    - name: Run VACUUM to reduce file size
+      ansible.builtin.command: >
+        sqlite3 /var/lib/rancher/k3s/server/db/state.db "VACUUM;"
+
+    - name: Start K3s service
+      ansible.builtin.systemd:
+        name: k3s
+        state: started

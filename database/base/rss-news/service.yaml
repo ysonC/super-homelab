@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rss-db-service
+  namespace: database
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: rss-db.ysonsbaolab.dev
+spec:
+  type: NodePort
+  selector:
+    cnpg.io/cluster: rss-db
+    cnpg.io/instanceRole: primary
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: 5432
+      nodePort: 32005

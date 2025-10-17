@@ -4,7 +4,7 @@ metadata:
   name: immich-db-service
   namespace: database
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: immich-db.ysonsuperhomelab.com
+    external-dns.alpha.kubernetes.io/hostname: immich-db.ysonsbaolab.dev
 spec:
   type: NodePort
   selector:

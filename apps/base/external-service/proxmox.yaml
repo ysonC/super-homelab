@@ -9,7 +9,7 @@ spec:
     name: cloudflare-cluster-issuer
     kind: ClusterIssuer
   dnsNames:
-    - proxmox.ysonsuperhomelab.com
+    - proxmox.ysonsbaolab.dev
 
 ---
 apiVersion: v1
@@ -38,7 +38,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`proxmox.ysonsuperhomelab.com`)
+    - match: Host(`proxmox.ysonsbaolab.dev`)
       kind: Rule
       services:
         - name: proxmox-service

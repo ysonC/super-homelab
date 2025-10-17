@@ -9,5 +9,5 @@ spec:
     name: cloudflare-cluster-issuer
     kind: ClusterIssuer
   dnsNames:
-    - vaultwarden.ysonsuperhomelab.com
+    - vaultwarden.ysonsbaolab.dev
 

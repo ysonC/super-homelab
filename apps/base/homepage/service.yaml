@@ -7,6 +7,6 @@ spec:
   selector:
     app: homepage
   ports:
-  - port: 3000         # The port the container is listening on
-    targetPort: 3000   # Maps to container port
-  type: ClusterIP      # Exposes the service on a cluster-internal IP
+    - port: 3000 # The port the pod is listening on
+      targetPort: 3000 # Maps to container port
+  type: ClusterIP # Exposes the service on a cluster-internal IP
