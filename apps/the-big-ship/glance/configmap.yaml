@@ -37,7 +37,7 @@ data:
                 service: pihole-v6
                 allow-insecure: true
                 url: http://10.8.8.8/
-                password: Y6Ajzqez
+                password: 000222nosy
                 token: z/g9Ic3f0cYmOKeYVOq21dw//pI1E5QsVtYGav8ZvWs= 
 
               - type: rss
@@ -67,7 +67,7 @@ data:
 
                   - title: Pihole
                     # need sid auth from pihole v6 doc
-                    check-url: http://10.8.8.8/api/dns/blocking?sid=DiGAh9z1C/r3Jm8wYiDtKQ=
+                    check-url: http://10.8.8.8/api/dns/blocking?sid=xnnGlcYdzy+7PKCjngJiag=
                     url: https://pihole.ysonsbaolab.dev/admin/
                     icon: si:pihole
 
@@ -84,8 +84,13 @@ data:
 
                   - title: TrueNas
                     check-url: http://10.8.8.3
-                    url: https://truenas.ysonsbaolab.dev
+                    url: https://nas.ysonsbaolab.dev
                     icon: si:truenas
+
+                  - title: Grafana
+                    check-url: http://prometheus-stack-grafana.monitoring:80
+                    url: https://grafana.ysonsbaolab.dev
+                    icon: si:grafana
 
               - type: group
                 widgets:

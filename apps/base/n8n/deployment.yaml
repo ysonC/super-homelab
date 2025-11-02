@@ -24,7 +24,7 @@ spec:
               mountPath: /data
       containers:
         - name: n8n
-          image: n8nio/n8n
+          image: n8nio/n8n:1.117.0
           command: ["/bin/sh"]
           args: ["-c", "sleep 5; n8n start"]
           ports:
@@ -46,9 +46,9 @@ spec:
               value: "https://n8n.ysonsbaolab.dev"
           resources:
             requests:
-              memory: "250Mi"
+              memory: 250Mi
             limits:
-              memory: "500Mi"
+              memory: 1.0Gi
           volumeMounts:
             - name: n8n-pvc-longhorn
               mountPath: /home/node/.n8n

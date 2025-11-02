@@ -2,7 +2,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: nas-ingress-certificate
-  namespace: traefik-system
+  namespace: apps
 spec:
   secretName: nas-certificate-secret
   issuerRef:
