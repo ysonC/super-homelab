@@ -8,13 +8,38 @@ This document outlines the network design and DNS resolution flow in a homelab e
 
 ## Infrastructure Summary
 
-### Virtualization Host
+### Virtualization Host: Proxmox VE
 
-- **Hypervisor**: Proxmox VE
-- **Key VMs/LXCs**:
-  - `pfSense`: firewall, DHCP server, DNS resolver (via Unbound)
-  - `Pi-hole`: DNS sinkhole and ad-blocker, running in an LXC container
-  - Other network services and devices
+- **Platform**: Proxmox Virtual Environment (Proxmox VE)
+- **Network Bridges**:
+  - `vmbr0`: Bridge for WAN (internet-facing interface)
+  - `vmbr1`: Bridge for LAN (internal network)
+  - `vmbr2`: Bridge for OPT1 (segregated or isolated network)
+
+### Virtual Machines and Containers
+
+#### pfSense (Virtual Machine)
+
+- **Primary Functions**:
+  - Acts as the network firewall
+  - Provides DHCP services for internal networks
+  - Functions as the local DNS resolver via Unbound
+- **Assigned Interfaces**:
+  - `net0` connected to `vmbr0` (WAN)
+  - `net1` connected to `vmbr1` (LAN)
+  - `net2` connected to `vmbr2` (OPT1)
+
+#### Pi-hole (LXC Container)
+
+- **Primary Functions**:
+  - Network-wide DNS sinkhole for ad and tracker blocking
+  - Forwards DNS requests to pfSense's Unbound resolver (port 53)
+- **Placement**:
+  - Hosted in a lightweight LXC container for efficiency
+
+#### Other Guests
+
+- Additional Proxmox guests for development or utility purposes (e.g., Linux, Rust, test environments)
 
 ---
 
