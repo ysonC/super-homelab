@@ -66,8 +66,6 @@ This document outlines the active firewall rules configured on the pfSense insta
 | \*       | RFC 1918 networks | \*          | \*          | \*               | Block private networks |
 | \*       | Reserved (IANA)   | \*          | \*          | \*               | Block bogon networks   |
 
----
-
 ### LAN Rules
 
 | Protocol | Source      | Source Port | Destination | Destination Port | Gateway | Description                   |
@@ -76,9 +74,7 @@ This document outlines the active firewall rules configured on the pfSense insta
 | IPv4 \*  | LAN subnets | \*          | \*          | \*               | none    | Default allow LAN to any rule |
 | IPv6 \*  | LAN subnets | \*          | \*          | \*               | none    | Default allow LAN IPv6 to any |
 
----
-
-## OPT1 Rules
+### OPT1 Rules
 
 | Protocol     | Source       | Source Port | Destination | Destination Port | Gateway | Description                 |
 | ------------ | ------------ | ----------- | ----------- | ---------------- | ------- | --------------------------- |
@@ -87,51 +83,46 @@ This document outlines the active firewall rules configured on the pfSense insta
 | IPv6 \*      | OPT1 subnets | \*          | \*          | \*               | none    | (rule present but disabled) |
 | IPv4 \*      | OPT1 subnets | \*          | \*          | \*               | none    | (rule present but disabled) |
 
----
-
 **Note:** This setup assumes DNS resolution is handled by the Pi-hole instance at `10.8.8.8`, with additional internet access granted only to external (non-RFC1918) IPs from OPT1. LAN is broadly permitted to communicate internally and externally, and standard WAN protection is in place to block private and bogon networks.
 
 ---
 
-## DNS Resolution Architecture
+## DNS and DHCP Architecture
 
 ### Design Objective
 
-All clients resolve DNS via Pi-hole, which then forwards queries to pfSense for upstream resolution using Unbound.
+All client devices use Pi-hole (`10.8.8.8`) as their sole DNS server. Pi-hole, in turn, forwards DNS queries to pfSense (`10.8.8.1`), which resolves them recursively using Unbound.
 
 ### Resolution Flow
 
-Client → Pi-hole (10.8.8.8) → pfSense (10.8.8.1 Unbound) → Root Servers / Upstream DNS
+Client → Pi-hole (`10.8.8.8`) → pfSense (`10.8.8.1`, Unbound) → Root Servers / Upstream DNS
 
-### DNS Roles
+### DNS Role Breakdown
 
-- **Pi-hole (10.8.8.8)**:
-  - Receives all DNS queries from LAN and OPT1 clients
-  - Performs domain blocking and logging
-  - Forwards all upstream queries to pfSense at `10.8.8.1`
+- **Pi-hole (`10.8.8.8`)**:
+  - Serves as the primary DNS endpoint for all LAN and OPT1 clients.
+  - Filters and blocks ad/tracker domains.
+  - Logs DNS queries per client (when appropriately configured).
+  - Forwards upstream queries to pfSense Unbound (`10.8.8.1#53`).
 
-- **pfSense (10.8.8.1)**:
-  - Runs Unbound DNS Resolver
-  - Performs full recursive DNS resolution
-  - Acts as upstream DNS for Pi-hole
+- **pfSense (`10.8.8.1`)**:
+  - Hosts Unbound DNS Resolver with forwarding disabled.
+  - Performs full recursive DNS resolution.
+  - Provides clean, unfiltered DNS results to Pi-hole.
 
----
+### DHCP Role and DNS Advertisement
 
-## DHCP and DNS Configuration
+- **DHCP Server**: pfSense handles DHCP for both LAN and OPT1 interfaces.
+- **DNS Server Given to Clients**: `10.8.8.8` (Pi-hole).
+- **No DNS fallback**: Clients do not receive alternate DNS servers like pfSense or public resolvers.
 
-### pfSense DHCP Server (LAN and OPT1)
+### Pi-hole Configuration
 
-- **DNS server advertised to clients**: `10.8.8.8` (Pi-hole)
-- Clients are assigned IPs via DHCP from pfSense
-- No DNS fallback to pfSense or external resolvers is provided to clients directly
-
-### Pi-hole DNS Settings
-
-- **Upstream DNS**: `10.8.8.1#53`
-- **Blocking lists**: Custom + default gravity lists
-- **Interface**: Bound to LAN
+- **Upstream DNS Server**: `10.8.8.1#53` (Unbound on pfSense)
+- **Blocking Lists**: Combines default gravity list with user-defined custom lists
+- **Interface Binding**: Limited to LAN interface
 - **Conditional Forwarding**: Disabled
-- **DoH/DoT**: Not used
+- **Encrypted DNS (DoH/DoT)**: Not used
 
 ---
 
