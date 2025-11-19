@@ -6,7 +6,7 @@ resources:
   - repo.yaml
   - pvc.yaml
   - ingress.yaml
-  - server-hpa.yaml
+  # - server-hpa.yaml
   - servers-deployment.yaml
   - workers-deployment.yaml
   - workers-hpa.yaml
