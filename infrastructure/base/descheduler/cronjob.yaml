@@ -13,7 +13,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: descheduler
-              image: registry.k8s.io/descheduler/descheduler:v0.33.0
+              image: registry.k8s.io/descheduler/descheduler:v0.34.0
               args:
                 - "descheduler"
                 - "--policy-config-file=/policy-dir/policy.yaml"
