@@ -40,6 +40,8 @@ spec:
             limits:
               cpu: 500m
               memory: 2Gi
+          ports:
+            - containerPort: 2283
           volumeMounts:
             - name: library
               mountPath: /usr/src/app/upload
