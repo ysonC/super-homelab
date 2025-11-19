@@ -28,24 +28,24 @@ spec:
           existingClaim: immich-pvc-nfs
 
     server:
-      enabled: true
-      replicaCount: 2
-      env:
-        - name: IMMICH_WORKERS_INCLUDE
-          value: "api"
-        - name: REDIS_HOSTNAME
-          value: immich-redis-master
-      image:
-        repository: ghcr.io/immich-app/immich-server
-        tag: v2.1.0
-        pullPolicy: IfNotPresent
-      resources:
-        requests:
-          cpu: 200m
-          memory: 512Mi
-        limits:
-          cpu: 500m
-          memory: 1Gi
+      enabled: false
+      # replicaCount: 2
+      # env:
+      #   - name: IMMICH_WORKERS_INCLUDE
+      #     value: "api"
+      #   - name: REDIS_HOSTNAME
+      #     value: immich-redis-master
+      # image:
+      #   repository: ghcr.io/immich-app/immich-server
+      #   tag: v2.1.0
+      #   pullPolicy: IfNotPresent
+      # resources:
+      #   requests:
+      #     cpu: 200m
+      #     memory: 512Mi
+      #   limits:
+      #     cpu: 500m
+      #     memory: 1Gi
 
     envFrom:
       - secretRef:
