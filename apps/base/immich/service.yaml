@@ -6,7 +6,8 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    app: immich-servers
+    app: immich
+    role: servers
   ports:
     - port: 2283
       targetPort: 2283
