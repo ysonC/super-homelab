@@ -8,7 +8,7 @@ resources:
   - ingress.yaml
   - server-hpa.yaml
   - servers-deployment.yaml
-  # - machine-learning-deployment.yaml
+  - machine-learning-deployment.yaml
   - workers-deployment.yaml
   - workers-hpa.yaml
   - service.yaml
