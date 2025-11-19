@@ -10,7 +10,7 @@ spec:
     - match: Host(`immich.ysonsbaolab.dev`)
       kind: Rule
       services:
-        - name: immich-server
+        - name: immich-service
           port: 2283
   tls:
     secretName: immich-certificate-secret
