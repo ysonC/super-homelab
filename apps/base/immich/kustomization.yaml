@@ -10,3 +10,4 @@ resources:
   - servers-deployment.yaml
   - workers-deployment.yaml
   - workers-hpa.yaml
+  - service.yaml
