@@ -13,3 +13,4 @@ resources:
   - workers-hpa.yaml
   - service.yaml
   - machine-learning-service.yaml
+  - machine-learning-hpa.yaml
