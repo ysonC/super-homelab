@@ -7,5 +7,6 @@ resources:
   - pvc.yaml
   - ingress.yaml
   - server-hpa.yaml
+  - servers-deployment.yaml
   - workers-deployment.yaml
   - workers-hpa.yaml

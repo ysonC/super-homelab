@@ -22,10 +22,6 @@ spec:
         name: immich
         namespace: flux-system
   values:
-    image:
-      repository: ghcr.io/immich-app/immich-server
-      tag: v2.1.0
-
     immich:
       persistence:
         library:
