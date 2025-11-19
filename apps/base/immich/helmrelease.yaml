@@ -58,17 +58,17 @@ spec:
         enabled: false
 
     machine-learning:
-      enabled: true
-      image:
-        repository: ghcr.io/immich-app/immich-machine-learning
-        tag: v2.1.0
-        pullPolicy: IfNotPresent
-      env:
-        TRANSFORMERS_CACHE: /cache
-      resources:
-        requests:
-          cpu: 1.0
-          memory: 1Gi
-        limits:
-          cpu: 2.0
-          memory: 2Gi
+      enabled: false
+      # image:
+      #   repository: ghcr.io/immich-app/immich-machine-learning
+      #   tag: v2.1.0
+      #   pullPolicy: IfNotPresent
+      # env:
+      #   TRANSFORMERS_CACHE: /cache
+      # resources:
+      #   requests:
+      #     cpu: 1.0
+      #     memory: 1Gi
+      #   limits:
+      #     cpu: 2.0
+      #     memory: 2Gi
