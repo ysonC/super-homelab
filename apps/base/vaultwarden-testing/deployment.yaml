@@ -7,6 +7,8 @@ metadata:
     app: vaultwarden-testing
 spec:
   replicas: 1
+  strategy:
+    type: RollingUpdate
   selector:
     matchLabels:
       app: vaultwarden-testing
@@ -28,4 +30,3 @@ spec:
               value: "postgresql://vaultwarden:supersecretpassword@vaultwarden-db-rw.apps.svc.cluster.local:5432/vaultwarden"
           ports:
             - containerPort: 80
-
