@@ -56,7 +56,7 @@ data:
                 title: Services
                 sites:
                   - title: Immich
-                    check-url: http://immich-server.apps:2283
+                    check-url: http://immich-service.apps:2283
                     url: https://immich.ysonsbaolab.dev
                     icon: si:immich
 
@@ -108,11 +108,11 @@ data:
                     feeds:
                       - url: https://feeds.bloomberg.com/markets/news.rss
 
-                  - type: rss
-                    title: Mine
-                    style: vertical-list
-                    feeds:
-                      - url: http://10.8.8.10:8080/rss.xml
+                  # - type: rss
+                  #   title: Mine
+                  #   style: vertical-list
+                  #   feeds:
+                  #     - url: http://10.8.8.10:8080/rss.xml
 
           - size: small
             widgets:
