@@ -1,28 +1,28 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: plex-ingress-certificate
+  name: jellyfin-ingress-certificate
   namespace: apps
 spec:
-  secretName: plex-certificate-secret
+  secretName: jellyfin-certificate-secret
   issuerRef:
     name: cloudflare-cluster-issuer
     kind: ClusterIssuer
   dnsNames:
-    - plex.ysonsbaolab.dev
+    - jellyfin.ysonsbaolab.dev
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: plex-service
+  name: jellyfin-service
   namespace: apps
 spec:
   type: ExternalName
   ports:
     - name: http
-      port: 32400
-      targetPort: 32400
+      port: 30013
+      targetPort: 30013
   externalName: 10.8.8.3
   selector:
     app.kubernetes.io/instance: traefik
@@ -32,16 +32,16 @@ spec:
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: plex-ingress
+  name: jellyfin-ingress
   namespace: apps
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`plex.ysonsbaolab.dev`)
+    - match: Host(`jellyfin.ysonsbaolab.dev`)
       kind: Rule
       services:
-        - name: plex-service
-          port: 32400
+        - name: jellyfin-service
+          port: 30013
   tls:
-    secretName: plex-certificate-secret
+    secretName: jellyfin-certificate-secret
