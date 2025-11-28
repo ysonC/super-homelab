@@ -4,3 +4,4 @@ resources:
   - nas.yaml
   - proxmox.yaml
   - pihole.yaml
+  - uptime-kuma.yaml
