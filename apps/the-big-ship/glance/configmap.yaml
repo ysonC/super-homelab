@@ -65,10 +65,10 @@ data:
                     url: https://vaultwarden.ysonsbaolab.dev
                     icon: si:vaultwarden
 
-                  - title: Plex
-                    check-url: http://10.8.8.3:32400
-                    url: https://plex.ysonsbaolab.dev
-                    icon: si:plex
+                  - title: Jellyfin
+                    check-url: http://10.8.8.3:30013
+                    url: https://jellyfin.ysonsbaolab.dev
+                    icon: si:jellyfin
 
                   - title: Pihole
                     # need sid auth from pihole v6 doc
