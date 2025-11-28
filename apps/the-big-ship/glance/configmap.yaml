@@ -67,7 +67,7 @@ data:
 
                   - title: Pihole
                     # need sid auth from pihole v6 doc
-                    check-url: http://10.8.8.8/api/dns/blocking?sid=s+3fqzyUCi8/SdnmRa5PzA=
+                    check-url: http://10.8.8.8/api/dns/blocking?sid=tKxMSjgRlAHE1UuBFgVIEw=
                     url: https://pihole.ysonsbaolab.dev/admin/
                     icon: si:pihole
 
@@ -91,6 +91,11 @@ data:
                     check-url: http://prometheus-stack-grafana.monitoring:80
                     url: https://grafana.ysonsbaolab.dev
                     icon: si:grafana
+
+                  - title: Uptime-Kuma
+                    check-url: http://10.8.8.12:3001
+                    url: https://uptime-kuma.ysonsbaolab.dev
+                    icon: si:uptimekuma
 
               - type: group
                 widgets:
