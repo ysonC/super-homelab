@@ -65,6 +65,11 @@ data:
                     url: https://vaultwarden.ysonsbaolab.dev
                     icon: si:vaultwarden
 
+                  - title: Plex
+                    check-url: http://10.8.8.3:32400
+                    url: https://plex.ysonsbaolab.dev
+                    icon: si:plex
+
                   - title: Pihole
                     # need sid auth from pihole v6 doc
                     check-url: http://10.8.8.8/api/dns/blocking?sid=tKxMSjgRlAHE1UuBFgVIEw=
