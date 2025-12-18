@@ -1,0 +1,1 @@
+🏠 Production-ready K3s homelab with GitOps (Flux), Ansible provisioning, self-hosted apps, monitoring stack, and distributed storage. A complete cloud-native infrastructure showcase.
