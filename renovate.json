@@ -12,8 +12,8 @@
     "managerFilePatterns": ["/\\.ya?ml$/"]
   },
   "packageRules": [
-    { "matchUpdateTypes": ["patch"], "addLabels": ["patch"] },
-    { "matchUpdateTypes": ["minor"], "addLabels": ["minor"] },
-    { "matchUpdateTypes": ["major"], "addLabels": ["major"] }
+    { "matchUpdateTypes": ["patch"], "addLabels": ["dep-update", "patch"] },
+    { "matchUpdateTypes": ["minor"], "addLabels": ["dep-update", "minor"] },
+    { "matchUpdateTypes": ["major"], "addLabels": ["dep-update", "major"] }
   ]
 }
