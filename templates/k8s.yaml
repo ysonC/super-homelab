@@ -38,9 +38,13 @@ spec:
           ports:
             - containerPort: container_port
           env: [] # insert environment variables if needed
-          volumeMounts: [] # optional for config or persistence
-      volumes: [] # match volumeMounts
-
+          volumeMounts: # optional for config or persistence
+            - name: app-storage
+              mountPath: /data # path in app for where to store
+      volumes: # match volumeMounts
+        - name: app-storage
+          persistentVolumeClaim:
+            claimName: app_name-pvc
 ---
 # Service Template
 apiVersion: v1
