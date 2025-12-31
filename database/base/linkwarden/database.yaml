@@ -1,0 +1,28 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: linkwarden-db
+  namespace: database
+spec:
+  description: PostgreSQL cluster for Vaultwarden
+  imageName: quay.io/enterprisedb/postgresql:16.1
+  instances: 1
+
+  storage:
+    size: 1Gi
+    storageClass: local-path # Use Rancher Local Path Storage
+
+  bootstrap:
+    initdb:
+      database: linkwarden
+      owner: admin
+      secret:
+        name: playground-db-creds
+
+  resources:
+    requests:
+      memory: 500Mi
+      cpu: 250m
+    limits:
+      memory: 1Gi
+      cpu: 500m
