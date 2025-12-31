@@ -17,7 +17,7 @@ spec:
     spec:
       initContainers:
         - name: meilisearch
-          image: getmeili/meilisearch:v1.12.8
+          image: getmeili/meilisearch:v1.31.0
           volumeMounts:
             - name: meilsearch-pvc-longhorn
               mountPath: /data
