@@ -9,3 +9,4 @@ resources:
   - glance-cert.yaml
   - longhorn-cert.yaml
   - grafana-cert.yaml
+  - linkwarden-cert.yaml

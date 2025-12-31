@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/traefik.io/ingressroute_v1alpha1.json
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: linkwarden-ingress
+  namespace: apps
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`linkwarden.ysonsbaolab.dev`)
+      kind: Rule
+      services:
+        - name: linkwarden-service
+          port: 3000
+  tls:
+    secretName: linkwarden-certificate-secret

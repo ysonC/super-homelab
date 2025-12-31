@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: linkwarden-deployment
+  namespace: apps
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: linkwarden
+  template:
+    metadata:
+      labels:
+        app: linkwarden
+    spec:
+      initContainers:
+        - name: meilisearch
+          image: getmeili/meilisearch:v1.12.8
+          volumeMounts:
+            - name: meilsearch-pvc-longhorn
+              mountPath: /data
+      containers:
+        - name: linkwarden
+          image: ghcr.io/linkwarden/linkwarden:v2.13.5
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NEXTAUTH_URL
+              value: "http://localhost:3000/api/v1/auth"
+            - name: NEXTAUTH_SECRET
+              value: "tempsecret"
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: linkwarden-db-url
+                  key: DATABASE_URL
+          resources:
+            requests:
+              memory: 250Mi
+            limits:
+              memory: 512Mi
+          volumeMounts:
+            - name: linkwarden-pvc-longhorn
+              mountPath: /data/data
+      restartPolicy: Always
+      volumes:
+        - name: linkwarden-pvc-longhorn
+          persistentVolumeClaim:
+            claimName: linkwarden-pvc-longhorn
+        - name: meilisearch-pvc-longhorn
+          persistentVolumeClaim:
+            claimName: meilisearch-pvc-lonhorn
