@@ -34,9 +34,11 @@ spec:
                   key: DATABASE_URL
           resources:
             requests:
+              cpu: 100m
               memory: 250Mi
             limits:
-              memory: 512Mi
+              cpu: 1000m
+              memory: 1Gi
           volumeMounts:
             - name: linkwarden-pvc-longhorn
               mountPath: /data/data
