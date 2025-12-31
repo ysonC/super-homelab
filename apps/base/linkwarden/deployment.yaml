@@ -19,7 +19,7 @@ spec:
         - name: meilisearch
           image: getmeili/meilisearch:v1.12.8
           volumeMounts:
-            - name: meilsearch-pvc-longhorn
+            - name: meilisearch-pvc-longhorn
               mountPath: /data
       containers:
         - name: linkwarden
