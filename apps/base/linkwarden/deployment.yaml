@@ -49,7 +49,7 @@ spec:
             - name: MEILI_ENV
               value: "production"
             - name: MEILI_MASTER_KEY
-              value: "amasterkey"
+              value: "asupersecretmasterkey"
           volumeMounts:
             - name: meilisearch-pvc-longhorn
               mountPath: /meili_data
