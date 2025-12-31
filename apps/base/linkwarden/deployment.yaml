@@ -15,12 +15,6 @@ spec:
       labels:
         app: linkwarden
     spec:
-      initContainers:
-        - name: meilisearch
-          image: getmeili/meilisearch:v1.12.8
-          volumeMounts:
-            - name: meilisearch-pvc-longhorn
-              mountPath: /data
       containers:
         - name: linkwarden
           image: ghcr.io/linkwarden/linkwarden:v2.13.5
