@@ -21,6 +21,8 @@ spec:
           ports:
             - containerPort: 3000
           env:
+            - name: MEILI_HOST
+              value: "http://localhost:7700"
             - name: NEXTAUTH_URL
               value: "http://localhost:3000/api/v1/auth"
             - name: NEXTAUTH_SECRET
@@ -38,6 +40,19 @@ spec:
           volumeMounts:
             - name: linkwarden-pvc-longhorn
               mountPath: /data/data
+        - name: meilisearch
+          image: getmeili/meilisearch:v1.12.8
+          ports:
+            - name: http
+              containerPort: 7700
+          env:
+            - name: MEILI_ENV
+              value: "production"
+            - name: MEILI_MASTER_KEY
+              value: "amasterkey"
+          volumeMounts:
+            - name: meilisearch-pvc-longhorn
+              mountPath: /meili_data
       restartPolicy: Always
       volumes:
         - name: linkwarden-pvc-longhorn
