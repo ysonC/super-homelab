@@ -51,4 +51,4 @@ spec:
             claimName: linkwarden-pvc-longhorn
         - name: meilisearch-pvc-longhorn
           persistentVolumeClaim:
-            claimName: meilisearch-pvc-lonhorn
+            claimName: meilisearch-pvc-longhorn
