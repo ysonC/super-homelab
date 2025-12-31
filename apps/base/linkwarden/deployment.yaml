@@ -38,7 +38,7 @@ spec:
               memory: 250Mi
             limits:
               cpu: 1000m
-              memory: 1Gi
+              memory: 1.5Gi
           volumeMounts:
             - name: linkwarden-pvc-longhorn
               mountPath: /data/data
