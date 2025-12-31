@@ -4,7 +4,7 @@ metadata:
   name: descheduler
   namespace: kube-system
 spec:
-  schedule: "0 * * * *" # Run every hour
+  schedule: "*/30 * * * *" # Run every 30 minutes
   jobTemplate:
     spec:
       template:
