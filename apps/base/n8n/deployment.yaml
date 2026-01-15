@@ -48,9 +48,9 @@ spec:
               value: "none"
           resources:
             requests:
-              memory: 250Mi
+              memory: 500Mi
             limits:
-              memory: 1.0Gi
+              memory: 2.0Gi
           volumeMounts:
             - name: n8n-pvc-longhorn
               mountPath: /home/node/.n8n
