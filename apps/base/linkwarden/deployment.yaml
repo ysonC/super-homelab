@@ -52,6 +52,13 @@ spec:
               value: "production"
             - name: MEILI_MASTER_KEY
               value: "asupersecretmasterkey"
+          resources:
+            requests:
+              cpu: 200m
+              memory: 512Mi
+            limits:
+              cpu: 1000m
+              memory: 2Gi
           volumeMounts:
             - name: meilisearch-pvc-longhorn
               mountPath: /meili_data

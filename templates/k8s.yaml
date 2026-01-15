@@ -38,6 +38,13 @@ spec:
           ports:
             - containerPort: container_port
           env: [] # insert environment variables if needed
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 512Mi
           volumeMounts: # optional for config or persistence
             - name: app-storage
               mountPath: /data # path in app for where to store

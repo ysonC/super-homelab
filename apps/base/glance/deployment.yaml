@@ -22,6 +22,13 @@ spec:
           image: glanceapp/glance:v0.8.4
           ports:
             - containerPort: 8080
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi
           volumeMounts:
             - name: glance-config
               mountPath: /app/config/glance.yml

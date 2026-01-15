@@ -25,6 +25,13 @@ spec:
               value: homepage.ysonsbaolab.dev
           ports:
             - containerPort: 3000
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi
           volumeMounts:
             - mountPath: /app/config/services.yaml
               subPath: services.yaml

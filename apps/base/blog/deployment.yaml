@@ -22,3 +22,10 @@ spec:
           image: wyson002/my-hugo-blog:v0.0.6 # {"$imagepolicy": "flux-system:hugo-policy"}
           ports:
             - containerPort: 80
+          resources:
+            requests:
+              cpu: 25m
+              memory: 64Mi
+            limits:
+              cpu: 150m
+              memory: 256Mi

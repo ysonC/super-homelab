@@ -48,8 +48,10 @@ spec:
               value: "none"
           resources:
             requests:
+              cpu: 200m
               memory: 500Mi
             limits:
+              cpu: 1000m
               memory: 2.0Gi
           volumeMounts:
             - name: n8n-pvc-longhorn

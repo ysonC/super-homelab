@@ -15,6 +15,13 @@ spec:
               value: 10.8.8.3
             - name: NFS_PATH
               value: /mnt/main/k8s-pv/nfs-storageclass
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
       volumes:
         - name: nfs-client-root
           nfs:
