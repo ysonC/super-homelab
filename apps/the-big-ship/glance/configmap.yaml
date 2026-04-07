@@ -40,14 +40,14 @@ data:
                 password: 000222nosy
                 token: z/g9Ic3f0cYmOKeYVOq21dw//pI1E5QsVtYGav8ZvWs= 
 
-              - type: rss
-                limit: 10
-                collapse-after: 3
-                cache: 12h
-                feeds:
-                  - url: https://selfh.st/rss/
-                    title: selfh.st
-                    limit: 4
+              # - type: rss
+              #   limit: 10
+              #   collapse-after: 3
+              #   cache: 12h
+              #   feeds:
+              #     - url: https://selfh.st/rss/
+              #       title: selfh.st
+              #       limit: 4
 
           - size: full
             widgets:
@@ -102,22 +102,22 @@ data:
                     url: https://uptime-kuma.ysonsbaolab.dev
                     icon: si:uptimekuma
 
-              - type: group
-                widgets:
-                  # - type: hacker-news
-                  # - type: lobsters
-                  - type: rss
-                    title: Market Watch
-                    style: detail-list
-                    feeds:
-                      - url: https://feeds.content.dowjones.io/public/rss/mw_topstories
-
-                  - type: rss
-                    title: Bloomberg
-                    style: detailed-list
-                    feeds:
-                      - url: https://feeds.bloomberg.com/markets/news.rss
-
+              # - type: group
+              #   widgets:
+              #     # - type: hacker-news
+              #     # - type: lobsters
+              #     - type: rss
+              #       title: Market Watch
+              #       style: detail-list
+              #       feeds:
+              #         - url: https://feeds.content.dowjones.io/public/rss/mw_topstories
+              #
+              #     - type: rss
+              #       title: Bloomberg
+              #       style: detailed-list
+              #       feeds:
+              #         - url: https://feeds.bloomberg.com/markets/news.rss
+              #
                   # - type: rss
                   #   title: Mine
                   #   style: vertical-list
