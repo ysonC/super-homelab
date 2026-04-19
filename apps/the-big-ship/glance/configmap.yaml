@@ -72,7 +72,7 @@ data:
 
                   - title: Pihole
                     # need sid auth from pihole v6 doc
-                    check-url: http://10.8.8.8/api/dns/blocking?sid=84IXGOkY2RzqKA02XeHq0Q=
+                    check-url: http://10.8.8.8/api/dns/blocking?sid=/4POG864oIJuOsXNITE1pg=
                     url: https://pihole.ysonsbaolab.dev/admin/
                     icon: si:pihole
 
@@ -101,6 +101,11 @@ data:
                     check-url: http://10.8.8.12:3001
                     url: https://uptime-kuma.ysonsbaolab.dev
                     icon: si:uptimekuma
+
+                  - title: Openclaw
+                    check-url: http://10.8.8.100
+                    url: https://openclaw.ysonsbaolab.dev
+                    icon: sh:openclaw
 
               - type: group
                 widgets:
