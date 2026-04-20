@@ -103,7 +103,6 @@ data:
                     icon: si:uptimekuma
 
                   - title: Openclaw
-                    check-url: https://openclaw.ysonsbaolab.dev
                     url: https://openclaw.ysonsbaolab.dev
                     icon: sh:openclaw
 
