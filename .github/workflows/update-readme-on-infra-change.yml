@@ -1,0 +1,83 @@
+name: Update README on Infrastructure Change
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "infrastructure/**"
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Update infrastructure section in README
+        run: |
+          python3 - <<'PYEOF'
+          import re, os
+
+          with open("README.md", "r") as f:
+              content = f.read()
+
+          # Detect components from filesystem
+          base_dir = "infrastructure/base"
+          ship_dir = "infrastructure/the-big-ship"
+
+          base_components = sorted(
+              d for d in os.listdir(base_dir)
+              if os.path.isdir(os.path.join(base_dir, d))
+          ) if os.path.isdir(base_dir) else []
+
+          ship_components = sorted(
+              d for d in os.listdir(ship_dir)
+              if os.path.isdir(os.path.join(ship_dir, d))
+          ) if os.path.isdir(ship_dir) else []
+
+          base_list = "\n".join(f"  - **{c}**" for c in base_components)
+          ship_list = "\n".join(f"  - **{c}**" for c in ship_components)
+
+          new_section = (
+              "### infrastructure\n\n"
+              "- **base/**  \n"
+              "  HelmRelease definitions for core services, such as:\n"
+              + base_list + "\n"
+              "- **the-big-ship/**  \n"
+              "  Kustomize overlays that adapt the base HelmRelease definitions to the environment (e.g., production vs. staging).\n"
+              + ship_list
+          )
+
+          # Replace the infrastructure section (from ### infrastructure to the next --- or ##)
+          pattern = r"(### infrastructure\n).*?(\n---|\n## )"
+          replacement = new_section + r"\2"
+          updated = re.sub(pattern, replacement, content, flags=re.DOTALL)
+
+          if updated == content:
+              print("No changes detected in README infrastructure section.")
+          else:
+              with open("README.md", "w") as f:
+                  f.write(updated)
+              print("README.md infrastructure section updated.")
+          PYEOF
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "docs: update README infrastructure section"
+          branch: docs/auto-update-readme-infra
+          delete-branch: true
+          title: "docs: update README infrastructure section"
+          body: |
+            ## Automated README Update
+
+            This PR was automatically generated because changes were detected in the `infrastructure/` directory.
+
+            The **infrastructure** section of `README.md` has been refreshed to reflect the current components in `infrastructure/base/` and `infrastructure/the-big-ship/`.
+          labels: documentation,automated
