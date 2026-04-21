@@ -13,6 +13,7 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
    - [clusters](#clusters)
    - [database](#database)
    - [infrastructure](#infrastructure)
+   - [networking](#networking)
 3. [Key Technologies](#key-technologies)
 4. [Getting Started](#getting-started)
    - [Prerequisites](#prerequisites)
@@ -27,7 +28,7 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
 
 1. **Provisioning with Ansible**
 
-   - Ansible playbooks in [ansible-k8s/](ansible-k8s/) bootstrap the underlying servers, install K3s, and set up Tailscale networking.
+   - Ansible playbooks in [ansible-k8s/playbook/](ansible-k8s/playbook/) bootstrap the underlying servers, install K3s, and set up Tailscale networking.
    - Additional roles configure each node for Longhorn and other core capabilities.
 
 2. **K3s as Lightweight Kubernetes**
@@ -43,20 +44,29 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
 4. **Storage & Persistent Volumes**
 
    - [Longhorn](https://longhorn.io/) provides highly available storage within the cluster.
-   - Some resources also demonstrate usage of NFS-based PVs.
+   - An NFS StorageClass is also available for NFS-backed persistent volumes.
 
-5. **Applications & Services**
+5. **Home Network**
+
+   - A Proxmox-hosted **pfSense** VM acts as firewall and DHCP/DNS server.
+   - **Pi-hole** (LXC container) provides network-wide ad/tracker blocking and forwards DNS to pfSense Unbound.
+   - **Tailscale** is used for secure remote access and subnet routing.
+   - See [networking/README.md](networking/README.md) for full architecture details.
+
+6. **Applications & Services**
    - **Blog** (Hugo-based container)
+   - **Glance** (self-hosted dashboard / start page)
    - **Homepage** (a dynamic dashboard)
    - **Vaultwarden** (Bitwarden alternative)
    - **Immich** (photo management)
-   - **n8n** (automation workflow)
+   - **Linkwarden** (bookmark manager)
+   - **n8n** (automation workflow, including Renovate PR checks)
    - **PostgreSQL** clusters with [CloudNativePG](https://cloudnative-pg.io/)
    - **Monitoring** via Prometheus & Grafana
    - **Traefik** as the Ingress Controller
    - **External Secrets** for managing sensitive data
    - **Cert-Manager** for TLS certificates
-   - **Descheduler** for rescheduler pods for balance
+   - **Descheduler** for rebalancing pods across nodes
 
 ---
 
@@ -69,9 +79,8 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
 │   ├── master/      # Master node role (installs K3s server, Tailscale, etc.)
 │   ├── worker/      # Worker nodes role (K3s agents)
 │   ├── longhorn/    # Role configuring node prerequisites for Longhorn
-│   ├── inventory.ini # Ansible inventory
-│   ├── setup_k3s_cluster.yaml  # Main playbook to set up K3s cluster
-│   └── setup-longhorn.yaml     # Playbook to configure Longhorn cluster-wide
+│   ├── playbook/    # All Ansible playbooks (K3s setup, Longhorn, maintenance, etc.)
+│   └── inventory.ini # Ansible inventory
 ├── apps
 │   ├── base/        # Base definitions for each application (Deployment, Service, Ingress)
 │   └── the-big-ship/ # Environment-specific Kustomize overlays
@@ -80,9 +89,11 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
 ├── database
 │   ├── base/        # Base definitions for CloudNativePG clusters
 │   └── the-big-ship/ # Overlays to deploy database instances for various apps
-└── infrastructure
-    ├── base/        # HelmRelease definitions (cert-manager, traefik, longhorn, etc.)
-    └── the-big-ship/ # Overlays for production / main cluster environment
+├── infrastructure
+│   ├── base/        # HelmRelease definitions (cert-manager, traefik, longhorn, etc.)
+│   └── the-big-ship/ # Overlays for production / main cluster environment
+└── networking
+    └── README.md    # Home network architecture (pfSense, Pi-hole, Proxmox, Tailscale)
 ```
 
 ### ansible-k8s
@@ -95,17 +106,20 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
   Joins worker nodes to the K3s cluster.
 - **longhorn/**  
   Ensures kernel modules/services required by Longhorn are in place on each node.
-- **playbook/**
-  Stores all the playbooks for provisioning and configuring the cluster.
+- **playbook/**  
+  Stores all the playbooks for provisioning and configuring the cluster, including:
+  - `setup_k3s_cluster.yaml` — installs K3s on master and workers
+  - `setup_longhorn.yaml` — configures Longhorn prerequisites cluster-wide
+  - `get_kubeconfig.yaml`, `restart_k3s.yaml`, `shutdown_cluster.yaml`, `update_machines.yaml`, `prune-images.yaml`, `cleanup-k3s-sqlite.yaml` — maintenance playbooks
 - **inventory.ini**  
   Specifies Ansible host groups for `master` and `workers`.
 
 ### apps
 
 - **base/**  
-  Kustomize bases for each application (e.g., Blog, Homepage, Vaultwarden, etc.).
+  Kustomize bases for each application: Blog, External-Service, Glance, Homepage, Immich, Linkwarden, n8n, Vaultwarden.
 - **the-big-ship/**  
-  Overlays referencing `base` folders, often patching or adding configs (e.g., `homepage/configmap.yaml`) for production or a specific environment.
+  Overlays referencing `base` folders, often patching or adding configs (e.g., `homepage/configmap.yaml`) for the production environment.
 
 ### clusters
 
@@ -120,12 +134,13 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
 
 - **base/**  
   Base configs for CloudNativePG clusters, including:
-  - **playground/**  
-    Example PostgreSQL cluster for testing purposes.
-  - **vaultwarden-db/**  
-    PostgreSQL cluster for Vaultwarden.
+  - **immich/** — PostgreSQL cluster for Immich
+  - **linkwarden/** — PostgreSQL cluster for Linkwarden
+  - **vaultwarden/** — PostgreSQL cluster for Vaultwarden
+  - **rss-news/** — PostgreSQL cluster for an RSS news service
+  - **playground/** — Example PostgreSQL cluster for testing purposes
 - **the-big-ship/**  
-  Environment overlays for each database cluster (patching or customizing base resources).
+  Environment overlays for each database cluster.
 
 ### infrastructure
 
@@ -135,11 +150,17 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
   - **cloudnative-pg**
   - **longhorn**
   - **monitoring** (Prometheus & Grafana)
+  - **nfs-storageclass**
   - **traefik**
   - **external-secrets**
   - **descheduler**
 - **the-big-ship/**  
-  Kustomize overlays that adapt the base HelmRelease definitions to the environment (e.g., production vs. staging).
+  Kustomize overlays that adapt the base HelmRelease definitions to the environment, including a `certificate/` overlay for cluster-wide TLS certificates.
+
+### networking
+
+- **README.md**  
+  Documents the home network architecture: Proxmox bridge setup, pfSense firewall and Unbound DNS, Pi-hole ad blocking, VLAN/subnet layout, firewall rules, and Tailscale integration. See [networking/README.md](networking/README.md).
 
 ---
 
@@ -149,11 +170,15 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
 - **Ansible** (Provisioning and Configuration Management)
 - **Flux** (GitOps Continuous Delivery)
 - **Kustomize** (Kubernetes Native Configuration Management)
+- **Renovate** (Automated dependency update PRs)
 - **Longhorn** (Container-Native Distributed Storage)
+- **NFS StorageClass** (NFS-backed persistent volumes)
 - **CloudNativePG** (PostgreSQL Operator for Kubernetes)
 - **Traefik** (Ingress Controller)
 - **Prometheus & Grafana** (Monitoring Stack)
 - **External Secrets** (K8s Operator for managing secrets)
+- **pfSense + Pi-hole** (Home network firewall and DNS/ad-blocking)
+- **Tailscale** (Secure overlay network for remote access)
 
 ---
 
@@ -187,17 +212,17 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
 
 3. **Configure Secrets**
 
-   - Ansible vault is used in `ansible-k8s/secrets.yaml`. Provide or update your own secrets (tailscale auth key, etc.).
+   - Ansible vault is used in `ansible-k8s/secrets.yaml`. Provide or update your own secrets (Tailscale auth key, etc.).
 
 4. **Run Ansible Playbooks**
 
    - **Install K3s**:
      ```bash
-     ansible-playbook ansible-k8s/setup_k3s_cluster.yaml -i ansible-k8s/inventory.ini
+     ansible-playbook ansible-k8s/playbook/setup_k3s_cluster.yaml -i ansible-k8s/inventory.ini
      ```
    - **Setup Longhorn** (once cluster is running):
      ```bash
-     ansible-playbook ansible-k8s/setup-longhorn.yaml -i ansible-k8s/inventory.ini
+     ansible-playbook ansible-k8s/playbook/setup_longhorn.yaml -i ansible-k8s/inventory.ini
      ```
 
 5. **Bootstrap Flux**
@@ -226,15 +251,21 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
 - [x] **Flux** GitOps pipeline set up
 - [x] **Traefik Ingress** with TLS certificates from cert-manager (using Cloudflare DNS challenge)
 - [x] **Longhorn** storage
-- [x] **Monitoring stack** (Prometheus, Grafana)
+- [x] **NFS StorageClass** for NFS-backed persistent volumes
+- [x] **Monitoring stack** (Prometheus, Grafana) with CPU, memory, and uptime dashboards
+- [x] **CloudNativePG** databases for Immich, Vaultwarden, Linkwarden, and RSS news
+- [x] **Renovate** for automated dependency update PRs
+- [x] **n8n automation** pipeline to check Renovate PRs for breaking changes
+- [x] **Home network documentation** (pfSense, Pi-hole, Tailscale)
 
 ### Next Steps
 
-- [ ] Improve the CI/CD pipeline (GitHub Actions or GitLab CI for automated testing).
-- [ ] Add more advanced HelmRelease custom values for each application.
-- [ ] Integrate advanced security scanning (e.g., [Trivy](https://github.com/aquasecurity/trivy)).
-- [ ] Expand monitoring alerts and dashboards.
-- [ ] Add e2e tests for major services.
+- [ ] Move Vaultwarden back to Longhorn storage.
+- [ ] Implement SQL database for Prometheus and Grafana.
+- [ ] Implement GitHub Actions for linting, validation, and automated health checks.
+- [ ] Implement alert rules for each monitored service.
+- [ ] Integrate log aggregation with Loki.
+- [ ] Implement backup and disaster recovery for each service.
 
 ---
 
