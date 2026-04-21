@@ -40,7 +40,6 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
 
    - Flux watches this Git repository and automatically applies changes to the cluster.
    - Kustomize overlays handle environment-specific configurations in [apps/the-big-ship/](apps/the-big-ship/), [database/the-big-ship/](database/the-big-ship/), and [infrastructure/the-big-ship/](infrastructure/the-big-ship/).
-   - **Flux Image Automation** keeps the Hugo blog container up to date by automatically committing new image tags to the repository.
 
 4. **Storage & Persistent Volumes**
 
@@ -55,7 +54,7 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
    - See [networking/README.md](networking/README.md) for full architecture details.
 
 6. **Applications & Services**
-   - **Blog** (Hugo-based container with automatic image updates)
+   - **Blog** (Hugo-based container)
    - **Glance** (self-hosted dashboard / start page)
    - **Homepage** (a dynamic dashboard)
    - **Vaultwarden** (Bitwarden alternative)
@@ -86,7 +85,7 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
 │   ├── base/        # Base definitions for each application (Deployment, Service, Ingress)
 │   └── the-big-ship/ # Environment-specific Kustomize overlays
 ├── clusters
-│   └── the-big-ship/ # Flux Kustomizations for apps, databases, infrastructure, and image automation
+│   └── the-big-ship/ # Flux Kustomizations for apps, databases, and infrastructure
 ├── database
 │   ├── base/        # Base definitions for CloudNativePG clusters
 │   └── the-big-ship/ # Overlays to deploy database instances for various apps
@@ -118,7 +117,7 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
 ### apps
 
 - **base/**  
-  Kustomize bases for each application: Blog, External-Service, Glance, Homepage, Immich, Linkwarden, n8n, Vaultwarden, Vaultwarden-Testing.
+  Kustomize bases for each application: Blog, External-Service, Glance, Homepage, Immich, Linkwarden, n8n, Vaultwarden.
 - **the-big-ship/**  
   Overlays referencing `base` folders, often patching or adding configs (e.g., `homepage/configmap.yaml`) for the production environment.
 
@@ -130,8 +129,6 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
     Kustomizations to deploy apps and databases.
   - **infrastructure-kus.yaml**  
     Kustomization to deploy cluster infrastructure (cert-manager, traefik, etc.).
-  - **hugo-image.yaml**, **hugo-policy.yaml**, **hugo-auto-update.yaml**  
-    Flux Image Reflector/Automation resources that automatically update the Hugo blog image tag in Git.
 
 ### database
 
@@ -171,7 +168,7 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
 
 - **K3s (Lightweight Kubernetes)**
 - **Ansible** (Provisioning and Configuration Management)
-- **Flux** (GitOps Continuous Delivery, including Image Automation)
+- **Flux** (GitOps Continuous Delivery)
 - **Kustomize** (Kubernetes Native Configuration Management)
 - **Renovate** (Automated dependency update PRs)
 - **Longhorn** (Container-Native Distributed Storage)
@@ -259,7 +256,6 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
 - [x] **CloudNativePG** databases for Immich, Vaultwarden, Linkwarden, and RSS news
 - [x] **Renovate** for automated dependency update PRs
 - [x] **n8n automation** pipeline to check Renovate PRs for breaking changes
-- [x] **Flux Image Automation** for Hugo blog container updates
 - [x] **Home network documentation** (pfSense, Pi-hole, Tailscale)
 
 ### Next Steps
