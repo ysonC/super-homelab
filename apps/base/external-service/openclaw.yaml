@@ -20,10 +20,10 @@ metadata:
 spec:
   type: ExternalName
   ports:
-    - name: http
-      port: 18789
-      targetPort: 18789
-  externalName: 10.8.8.100
+    - name: https
+      port: 443
+      targetPort: 443
+  externalName: openclaw.tail30687d.ts.net
   selector:
     app.kubernetes.io/instance: traefik
     app.kubernetes.io/name: traefik
@@ -42,6 +42,7 @@ spec:
       kind: Rule
       services:
         - name: openclaw-service
-          port: 18789
+          port: 443
+          scheme: https
   tls:
     secretName: openclaw-certificate-secret
