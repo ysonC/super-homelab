@@ -29,7 +29,6 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
 
 ![Homelab Architecture Diagram](https://github.com/user-attachments/assets/acfd7ea4-0e29-4214-9965-78da89e783d5)
 
-This diagram shows the Proxmox edge services (pfSense, Pi-hole, monitoring) feeding a 3-node K3s cluster that runs workloads via Flux and Traefik with cert-manager TLS. Storage is backed by TrueNAS/NFS and Longhorn, while remote access flows through Cloudflare DNS to the Tailscale overlay network.
 
 1. **Provisioning with Ansible**
 
