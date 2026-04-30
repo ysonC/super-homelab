@@ -1,5 +1,8 @@
 # Homelab Documentation
 
+This directory holds the concise architecture and operations writeups for the repo.
+For the deeper pfSense / Pi-hole / Proxmox network walkthrough, also see [`../networking/README.md`](../networking/README.md).
+
 ## Documents
 - [Overall Architecture](architecture-overview.md) — high-level system design and key layers.
 - [Cluster Architecture](cluster-architecture.md) — K3s topology and management model.

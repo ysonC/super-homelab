@@ -9,10 +9,22 @@ These are the confirmed platform services running in K3s:
 - **cert-manager** (public TLS automation)
 - **FluxCD** (GitOps reconciliation)
 - **Longhorn** (persistent storage)
+- **CloudNativePG** (PostgreSQL operator)
+- **external-secrets** (secret sync)
 - **Prometheus** (metrics collection)
 - **Grafana** (dashboards and visualization)
+- **descheduler** (periodic workload rebalancing)
 
-K3s hosts most application workloads, but the full in-cluster app list is intentionally not over-specified here.
+## In-cluster application workloads
+The repo currently contains application manifests or overlays for:
+- **Blog**
+- **Glance**
+- **Homepage**
+- **Immich**
+- **Linkwarden**
+- **n8n**
+- **Vaultwarden**
+- **external-service** routes for selected services that live outside Kubernetes
 
 ## Services outside Kubernetes
 These services run outside the cluster for operational or architectural reasons:

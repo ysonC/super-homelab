@@ -1,4 +1,4 @@
-# Homelab (Under Heavy Construction 🚧)
+# Homelab
 
 This repository contains my personal _in-progress_ homelab setup, intended to showcase my **DevOps** and **Cloud Native** learning journey. The setup uses **Ansible** to provision a lightweight Kubernetes cluster (via K3s) and **Flux** (with Kustomize) to manage application and infrastructure deployments in a GitOps manner.
 
@@ -12,15 +12,16 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
    - [apps](#apps)
    - [clusters](#clusters)
    - [database](#database)
+   - [docs](#docs)
    - [infrastructure](#infrastructure)
    - [networking](#networking)
+   - [templates](#templates)
 3. [Key Technologies](#key-technologies)
 4. [Getting Started](#getting-started)
    - [Prerequisites](#prerequisites)
    - [Installation & Usage](#installation--usage)
 5. [Current Status & Roadmap](#current-status--roadmap)
-6. [License](#license)
-7. [Contact](#contact)
+6. [Contact](#contact)
 
 ---
 
@@ -89,11 +90,16 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
 ├── database
 │   ├── base/        # Base definitions for CloudNativePG clusters
 │   └── the-big-ship/ # Overlays to deploy database instances for various apps
+├── docs
+│   ├── README.md    # Index for architecture, networking, storage, and ops docs
+│   └── *.md         # Focused homelab design and operations writeups
 ├── infrastructure
 │   ├── base/        # HelmRelease definitions (cert-manager, traefik, longhorn, etc.)
 │   └── the-big-ship/ # Overlays for production / main cluster environment
-└── networking
-    └── README.md    # Home network architecture (pfSense, Pi-hole, Proxmox, Tailscale)
+├── networking
+│   └── README.md    # Detailed home network architecture (pfSense, Pi-hole, Proxmox, Tailscale)
+└── templates
+    └── k8s.yaml     # Starter template for new Kubernetes app manifests
 ```
 
 ### ansible-k8s
@@ -117,18 +123,20 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
 ### apps
 
 - **base/**  
-  Kustomize bases for each application: Blog, External-Service, Glance, Homepage, Immich, Linkwarden, n8n, Vaultwarden.
+  Kustomize bases for each application and externally fronted service: Blog, External-Service, Glance, Homepage, Immich, Linkwarden, n8n, and Vaultwarden.
 - **the-big-ship/**  
-  Overlays referencing `base` folders, often patching or adding configs (e.g., `homepage/configmap.yaml`) for the production environment.
+  Environment-specific overlays referencing those bases, often patching or adding configs (e.g., `homepage/configmap.yaml` and `glance/configmap.yaml`) for the main cluster environment.
 
 ### clusters
 
 - **the-big-ship/**  
   Flux Kustomization manifests that watch and apply changes from `apps/the-big-ship`, `database/the-big-ship`, and `infrastructure/the-big-ship`. Includes:
   - **apps-kus.yaml** & **database-kus.yaml**  
-    Kustomizations to deploy apps and databases.
+    Flux Kustomizations to deploy apps and databases.
   - **infrastructure-kus.yaml**  
-    Kustomization to deploy cluster infrastructure (cert-manager, traefik, etc.).
+    Flux Kustomization to deploy cluster infrastructure (cert-manager, traefik, etc.).
+  - **flux-system/**  
+    Flux bootstrap manifests (`gotk-components.yaml`, `gotk-sync.yaml`, and `kustomization.yaml`).
 
 ### database
 
@@ -141,6 +149,13 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
   - **playground/** — Example PostgreSQL cluster for testing purposes
 - **the-big-ship/**  
   Environment overlays for each database cluster.
+
+### docs
+
+- **README.md**  
+  Entry point for the repo’s architecture, networking, storage, services, ingress, and operations documentation.
+- **`*.md`**  
+  Focused design notes that complement the top-level README with shorter, task-specific explanations.
 
 ### infrastructure
 
@@ -155,12 +170,17 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
   - **external-secrets**
   - **descheduler**
 - **the-big-ship/**  
-  Kustomize overlays that adapt the base HelmRelease definitions to the environment, including a `certificate/` overlay for cluster-wide TLS certificates.
+  Kustomize overlays that adapt the base HelmRelease definitions to the environment, including a `certificate/` overlay for service TLS certificates.
 
 ### networking
 
 - **README.md**  
   Documents the home network architecture: Proxmox bridge setup, pfSense firewall and Unbound DNS, Pi-hole ad blocking, VLAN/subnet layout, firewall rules, and Tailscale integration. See [networking/README.md](networking/README.md).
+
+### templates
+
+- **k8s.yaml**  
+  A starter manifest template for adding new Kubernetes applications or services to the repo.
 
 ---
 
@@ -266,12 +286,6 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
 - [ ] Implement alert rules for each monitored service.
 - [ ] Integrate log aggregation with Loki.
 - [ ] Implement backup and disaster recovery for each service.
-
----
-
-## License
-
-[MIT License](LICENSE) © 2025 [Wyson Cheng]
 
 ---
 
