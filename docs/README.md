@@ -1,8 +1,5 @@
 # Homelab Documentation
 
-## Purpose
-This index provides a structured entry point to the homelab documentation set.
-
 ## Documents
 - [Overall Architecture](architecture-overview.md) — high-level system design and key layers.
 - [Cluster Architecture](cluster-architecture.md) — K3s topology and management model.
