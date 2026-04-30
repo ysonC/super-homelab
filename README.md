@@ -27,6 +27,9 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
 
 ## Architecture Overview
 
+![Homelab Architecture Diagram](https://github.com/user-attachments/assets/acfd7ea4-0e29-4214-9965-78da89e783d5)
+
+
 1. **Provisioning with Ansible**
 
    - Ansible playbooks in [ansible-k8s/playbook/](ansible-k8s/playbook/) bootstrap the underlying servers, install K3s, and set up Tailscale networking.
