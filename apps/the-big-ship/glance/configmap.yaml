@@ -103,6 +103,7 @@ data:
                     icon: si:uptimekuma
 
                   - title: Openclaw
+                    check-url: http://10.8.8.100:8088/readyz
                     url: https://openclaw.ysonsbaolab.dev
                     icon: sh:openclaw
 
