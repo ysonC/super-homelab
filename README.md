@@ -1,4 +1,4 @@
-# Homelab (Under Heavy Construction 🚧)
+# Homelab
 
 This repository contains my personal _in-progress_ homelab setup, intended to showcase my **DevOps** and **Cloud Native** learning journey. The setup uses **Ansible** to provision a lightweight Kubernetes cluster (via K3s) and **Flux** (with Kustomize) to manage application and infrastructure deployments in a GitOps manner.
 
@@ -123,7 +123,7 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
 ### apps
 
 - **base/**  
-  Kustomize bases for each application and externally fronted service: Blog, External-Service, Glance, Homepage, Immich, Linkwarden, n8n, test manifests, Vaultwarden, and Vaultwarden testing.
+  Kustomize bases for each application and externally fronted service: Blog, External-Service, Glance, Homepage, Immich, Linkwarden, n8n, and Vaultwarden.
 - **the-big-ship/**  
   Environment-specific overlays referencing those bases, often patching or adding configs (e.g., `homepage/configmap.yaml` and `glance/configmap.yaml`) for the main cluster environment.
 
@@ -137,8 +137,6 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
     Flux Kustomization to deploy cluster infrastructure (cert-manager, traefik, etc.).
   - **flux-system/**  
     Flux bootstrap manifests (`gotk-components.yaml`, `gotk-sync.yaml`, and `kustomization.yaml`).
-  - **hugo-image.yaml**, **hugo-policy.yaml**, **hugo-auto-update.yaml**  
-    Flux image automation resources for the blog image.
 
 ### database
 
