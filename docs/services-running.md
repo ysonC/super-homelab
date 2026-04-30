@@ -24,12 +24,10 @@ The repo currently contains application manifests or overlays for:
 - **Linkwarden**
 - **n8n**
 - **Vaultwarden**
-- **Vaultwarden testing**
-- **test** manifests
 - **external-service** routes for selected services that live outside Kubernetes
 
 ## Services outside Kubernetes
-These services run outside the cluster for operational or architectural reasons and are represented in the repo where ingress or documentation is needed:
+These services run outside the cluster for operational or architectural reasons:
 - **pfSense** on Proxmox (network edge)
 - **Pi-hole** in Proxmox LXC (DNS)
 - **Uptime Kuma** in Proxmox LXC (service monitoring)
