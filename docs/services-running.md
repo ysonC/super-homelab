@@ -1,0 +1,31 @@
+# Services Running
+
+## Purpose
+This document summarizes known services and explains why some live inside Kubernetes while others remain outside.
+
+## In-cluster infrastructure services
+These are the confirmed platform services running in K3s:
+- **Traefik** (ingress controller)
+- **cert-manager** (public TLS automation)
+- **FluxCD** (GitOps reconciliation)
+- **Longhorn** (persistent storage)
+- **Prometheus** (metrics collection)
+- **Grafana** (dashboards and visualization)
+
+K3s hosts most application workloads, but the full in-cluster app list is intentionally not over-specified here.
+
+## Services outside Kubernetes
+These services run outside the cluster for operational or architectural reasons:
+- **pfSense** on Proxmox (network edge)
+- **Pi-hole** in Proxmox LXC (DNS)
+- **Uptime Kuma** in Proxmox LXC (service monitoring)
+- **OpenClaw** in Proxmox LXC
+- **TrueNAS** on the ZimaBlade (NAS platform)
+- **Jellyfin** via TrueNAS Docker (media)
+- **Proxmox** on the N150 host (virtualization layer)
+
+## Placement rationale
+- Core network services stay outside Kubernetes to avoid circular dependencies.
+- Appliance-like services are kept on Proxmox or TrueNAS when that is a better operational fit.
+
+For networking and access details, see [Networking](networking.md) and [Ingress and Routing](ingress-routing.md).
