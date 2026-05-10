@@ -35,8 +35,6 @@ spec:
           port: 80
         websecure:
           port: 443
-    dashboard:
-      enabled: true
     ingressRoute:
       dashboard:
         enabled: true
