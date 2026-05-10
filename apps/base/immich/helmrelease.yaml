@@ -51,11 +51,8 @@ spec:
       - secretRef:
           name: immich-db-url
 
-    redis:
+    valkey:
       enabled: true
-      architecture: standalone
-      auth:
-        enabled: false
 
     machine-learning:
       enabled: false
