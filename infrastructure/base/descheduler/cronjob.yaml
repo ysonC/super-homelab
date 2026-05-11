@@ -5,9 +5,9 @@ metadata:
   namespace: kube-system
 spec:
   schedule: "*/30 * * * *" # Run every 30 minutes
+  concurrencyPolicy: Forbid
   jobTemplate:
     spec:
-      concurrencyPolicy: Forbid
       template:
         spec:
           serviceAccountName: descheduler-sa
