@@ -7,11 +7,11 @@ spec:
   schedule: "*/30 * * * *" # Run every 30 minutes
   jobTemplate:
     spec:
+      concurrencyPolicy: Forbid
       template:
         spec:
           serviceAccountName: descheduler-sa
           restartPolicy: OnFailure
-          concurrencyPolicy: Forbid
           containers:
             - name: descheduler
               image: registry.k8s.io/descheduler/descheduler:v0.35.1
