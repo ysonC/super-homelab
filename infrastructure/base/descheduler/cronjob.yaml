@@ -6,7 +6,7 @@ metadata:
 spec:
   schedule: "*/30 * * * *" # Run every 30 minutes
   concurrencyPolicy: Forbid
-  jobTemplate:
+  jobTemplate: # "how each Job should look"
     spec:
       template:
         spec:
