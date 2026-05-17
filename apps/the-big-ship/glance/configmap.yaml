@@ -103,7 +103,7 @@ data:
                     icon: si:uptimekuma
 
                   - title: Openclaw
-                    check-url: http://10.8.8.100:8088/readyz
+                    check-url: http://10.8.8.14:8088/readyz
                     url: https://openclaw.tail30687d.ts.net/
                     icon: sh:openclaw
 
