@@ -42,8 +42,8 @@ spec:
         entryPoints:
           - "websecure"
           - "web"
-      tls:
-        secretName: traefik-certificate-secret
+        tls:
+          secretName: traefik-certificate-secret
     additionalArguments:
       - "--certificatesresolvers.cloudflare.acme.email=wyson002@gmail.com"
       - "--certificatesresolvers.cloudflare.acme.storage=/data/acme.json"
