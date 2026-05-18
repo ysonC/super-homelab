@@ -123,7 +123,7 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
 ### apps
 
 - **base/**  
-  Kustomize bases for each application and externally fronted service: Blog, External-Service, Glance, Homepage, Immich, Linkwarden, n8n, and Vaultwarden.
+  Kustomize bases for each application and externally fronted service: Blog, External-Service, Glance, Homepage, Immich, Linkwarden, n8n, and Vaultwarden (Longhorn-backed persistence).
 - **the-big-ship/**  
   Environment-specific overlays referencing those bases, often patching or adding configs (e.g., `homepage/configmap.yaml` and `glance/configmap.yaml`) for the main cluster environment.
 
@@ -144,7 +144,6 @@ This repository contains my personal _in-progress_ homelab setup, intended to sh
   Base configs for CloudNativePG clusters, including:
   - **immich/** — PostgreSQL cluster for Immich
   - **linkwarden/** — PostgreSQL cluster for Linkwarden
-  - **vaultwarden/** — PostgreSQL cluster for Vaultwarden
   - **rss-news/** — PostgreSQL cluster for an RSS news service
   - **playground/** — Example PostgreSQL cluster for testing purposes
 - **the-big-ship/**  

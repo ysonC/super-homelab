@@ -26,8 +26,6 @@ spec:
                 secretKeyRef:
                   name: vaultwarden-secret
                   key: ADMIN_TOKEN
-            - name: DATABASE_URL
-              value: "postgresql://vaultwarden:supersecretpassword@vaultwarden-db-rw.apps.svc.cluster.local:5432/vaultwarden"
           ports:
             - containerPort: 80
           resources:
@@ -37,3 +35,10 @@ spec:
             limits:
               cpu: 300m
               memory: 512Mi
+          volumeMounts:
+            - name: vaultwarden-testing-pvc-longhorn
+              mountPath: /data
+      volumes:
+        - name: vaultwarden-testing-pvc-longhorn
+          persistentVolumeClaim:
+            claimName: vaultwarden-testing-pvc-longhorn

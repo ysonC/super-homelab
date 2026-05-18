@@ -1,6 +1,6 @@
 ## Todo List
 
-- [ ] Move vaultwarden back to longhorn
+- [x] Move vaultwarden back to longhorn
 - [ ] Implement SQL database for Prometheus and Grafana.
 
 ### CI/CD Automation
