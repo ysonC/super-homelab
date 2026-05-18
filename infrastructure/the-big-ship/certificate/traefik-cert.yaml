@@ -2,7 +2,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: traefik-ingress-certificate
-  namespace: apps
+  namespace: traefik-system
 spec:
   secretName: traefik-certificate-secret
   issuerRef:
