@@ -110,7 +110,7 @@ data:
                   - title: Hermes
                     check-url: http://10.8.8.15:8787
                     url: http://10.8.8.15:8787
-                    icon: sh:hermes
+                    icon: sh:hermes-agent
 
               - type: group
                 widgets:
