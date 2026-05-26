@@ -107,6 +107,11 @@ data:
                     url: https://openclaw.tail30687d.ts.net/
                     icon: sh:openclaw
 
+                  - title: Hermes
+                    check-url: http://10.8.8.15:8787
+                    url:http://10.8.8.15:8787
+                    icon: sh:hermes
+
               - type: group
                 widgets:
                   # - type: hacker-news
