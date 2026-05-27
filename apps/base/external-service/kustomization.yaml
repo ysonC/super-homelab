@@ -6,4 +6,5 @@ resources:
   - pihole.yaml
   - uptime-kuma.yaml
   - jellyfin.yaml
+  - hermes.yaml
   # - openclaw.yaml
