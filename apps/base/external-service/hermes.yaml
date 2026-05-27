@@ -19,10 +19,6 @@ metadata:
   namespace: apps
 spec:
   type: ExternalName
-  ports:
-    - name: http
-      port: 8787
-      targetPort: 8787
   externalName: 10.8.8.15
 
 ---
