@@ -39,7 +39,6 @@ spec:
       kind: Rule
       services:
         - name: hermes-service
-          port: 443
-          scheme: https
+          port: 8787
   tls:
     secretName: hermes-certificate-secret
