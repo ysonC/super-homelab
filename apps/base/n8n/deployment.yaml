@@ -44,8 +44,6 @@ spec:
               value: "false"
             - name: WEBHOOK_URL
               value: "https://n8n.ysonsbaolab.dev"
-            - name: N8N_EMAIL_MODE
-              value: "none"
           resources:
             requests:
               cpu: 200m
