@@ -1,0 +1,53 @@
+---
+- name: Scale Down Apps Before Stopping K3s
+  hosts: master
+  become: yes
+  vars:
+    k3s_scale_down_timeout: 5m
+    k3s_system_namespaces:
+      - kube-system
+      - flux-system
+      - longhorn-system
+      - cattle-system
+  tasks:
+    - name: Find application workloads
+      shell: >-
+        k3s kubectl get deploy,statefulset --all-namespaces
+        -o jsonpath='{range .items[?(@.spec.replicas>0)]}{.kind}{" "}{.metadata.namespace}{" "}{.metadata.name}{"\n"}{end}'
+        | awk '$2 !~ /^({{ k3s_system_namespaces | join("|") }})$/'
+      register: k3s_app_workloads
+      changed_when: false
+
+    - name: Scale down application workloads
+      command: >-
+        k3s kubectl scale {{ item.split()[0] | lower }}/{{ item.split()[2] }}
+        --namespace {{ item.split()[1] }}
+        --replicas 0
+      loop: "{{ k3s_app_workloads.stdout_lines }}"
+      when: k3s_app_workloads.stdout_lines | length > 0
+
+    - name: Wait for application pods to stop
+      command: >-
+        k3s kubectl rollout status {{ item.split()[0] | lower }}/{{ item.split()[2] }}
+        --namespace {{ item.split()[1] }}
+        --timeout={{ k3s_scale_down_timeout }}
+      loop: "{{ k3s_app_workloads.stdout_lines }}"
+      when: k3s_app_workloads.stdout_lines | length > 0
+
+- name: Stop K3s Worker Nodes
+  hosts: workers
+  become: yes
+  tasks:
+    - name: Stop K3s agent
+      systemd:
+        name: k3s-agent
+        state: stopped
+
+- name: Stop K3s Master Node
+  hosts: master
+  become: yes
+  tasks:
+    - name: Stop K3s server
+      systemd:
+        name: k3s
+        state: stopped
