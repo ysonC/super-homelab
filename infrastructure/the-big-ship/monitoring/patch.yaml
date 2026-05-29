@@ -8,7 +8,7 @@ spec:
   interval: 5m
   values:
     prometheus:
-      enabled: true 
+      enabled: true
       prometheusSpec:
         retention: 7d
         resources:
@@ -18,7 +18,7 @@ spec:
           requests:
             cpu: 200m
             memory: 1Gi
-        persistentVolumeClaimRetentionPolicy: 
+        persistentVolumeClaimRetentionPolicy:
           whenDeleted: Retain
         storageSpec:
           volumeClaimTemplate:
@@ -33,13 +33,13 @@ spec:
     alertmanger:
       alertmanagerSpec:
         retention: 7d
-        persistentVolumeClaimRetentionPolicy:   
+        persistentVolumeClaimRetentionPolicy:
           whenDeleted: Retain
         storage:
           volumeClaimTemplate:
             spec:
               storageClassName: longhorn
-              accessModes: 
+              accessModes:
                 - ReadWriteOnce
               resources:
                 requests:
@@ -47,9 +47,12 @@ spec:
 
     grafana:
       adminPassword: "admin"
-      persistentVolumeClaimRetentionPolicy: 
+      persistentVolumeClaimRetentionPolicy:
         whenDeleted: Retain
       persistence:
         enabled: true
+        type: pvc
         storageClassName: longhorn
+        accessModes:
+          - ReadWriteOnce
         size: 500Mi
