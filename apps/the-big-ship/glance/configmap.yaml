@@ -40,15 +40,6 @@ data:
                 password: 000222nosy
                 token: z/g9Ic3f0cYmOKeYVOq21dw//pI1E5QsVtYGav8ZvWs= 
 
-              - type: rss
-                limit: 10
-                collapse-after: 3
-                cache: 12h
-                feeds:
-                  - url: https://selfh.st/rss/
-                    title: selfh.st
-                    limit: 4
-
           - size: full
             widgets:
               - type: monitor
@@ -105,8 +96,7 @@ data:
                   - title: Dozzle
                     check-url: http://dozzle-service.monitoring:8080
                     url: https://dozzle.ysonsbaolab.dev
-                    icon: https://cdn.jsdelivr.net/gh/selfhst/icons@main/png/dozzle.svg
-
+                    icon: https://cdn.jsdelivr.net/gh/selfhst/icons@main/png/dozzle.png
 
                   - title: Openclaw
                     check-url: http://10.8.8.14:8088/readyz
