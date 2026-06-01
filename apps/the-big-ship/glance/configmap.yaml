@@ -103,9 +103,10 @@ data:
                     icon: si:uptimekuma
 
                   - title: Dozzle
-                    check-url: http://dozzle.monitoring:8080
+                    check-url: http://dozzle-service.monitoring:8080
                     url: https://dozzle.ysonsbaolab.dev
-                    icon: sh:dozzle
+                    icon: https://cdn.jsdelivr.net/gh/selfhst/icons@main/png/dozzle.svg
+
 
                   - title: Openclaw
                     check-url: http://10.8.8.14:8088/readyz
