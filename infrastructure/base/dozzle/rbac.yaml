@@ -1,35 +1,53 @@
-# rbac.yaml
+# ServiceAccount used by the application (e.g. Grafana, custom dashboard)
+# to authenticate with the Kubernetes API.
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: pod-viewer
   namespace: monitoring
+
 ---
-# clusterrole.yaml
+# ClusterRole grants read-only access across the entire cluster.
+# ClusterRole is cluster-scoped, so it MUST NOT have a namespace.
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: pod-viewer-role
-  namespace: monitoring
 rules:
+  # Allow viewing pods, pod logs, and nodes
   - apiGroups: [""]
-    resources: ["pods", "pods/log", "nodes"]
-    verbs: ["get", "list", "watch"]
+    resources:
+      - pods
+      - pods/log
+      - nodes
+    verbs:
+      - get
+      - list
+      - watch
+
+  # Allow reading pod metrics from metrics-server
   - apiGroups: ["metrics.k8s.io"]
-    resources: ["pods"]
-    verbs: ["get", "list"]
+    resources:
+      - pods
+    verbs:
+      - get
+      - list
+
 ---
-# clusterrolebinding.yaml
+# Bind the ServiceAccount to the ClusterRole.
+# This gives the ServiceAccount the permissions defined above.
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: pod-viewer-binding
-  namespace: monitoring
 subjects:
+  # ServiceAccount that will receive the permissions
   - kind: ServiceAccount
     name: pod-viewer
-    namespace: default
+    namespace: monitoring
+
 roleRef:
+  # Reference to the ClusterRole being granted
   kind: ClusterRole
   name: pod-viewer-role
   apiGroup: rbac.authorization.k8s.io
