@@ -11,3 +11,4 @@ resources:
   - grafana-cert.yaml
   - linkwarden-cert.yaml
   - traefik-cert.yaml
+  - dozzle-cert.yaml
