@@ -102,6 +102,11 @@ data:
                     url: https://uptime-kuma.ysonsbaolab.dev
                     icon: si:uptimekuma
 
+                  - title: Dozzle
+                    check-url: http://dozzle.monitoring:8080
+                    url: https://dozzle.ysonsbaolab.dev
+                    icon: sh:dozzle
+
                   - title: Openclaw
                     check-url: http://10.8.8.14:8088/readyz
                     url: https://openclaw.tail30687d.ts.net/
