@@ -33,12 +33,28 @@ data:
         columns:
           - size: small
             widgets:
-              - type: dns-stats
-                service: pihole-v6
-                allow-insecure: true
-                url: http://10.8.8.8/
-                password: 000222nosy
-                token: z/g9Ic3f0cYmOKeYVOq21dw//pI1E5QsVtYGav8ZvWs= 
+              - type: weather
+                location: Taipei, Taiwan
+                units: metric # alternatively "imperial"
+                hour-format: 12h # alternatively "24h"
+                # hide-location: true
+
+              - type: markets
+                markets:
+                  - symbol: SPY
+                    name: S&P 500
+                  - symbol: PANW
+                    name: Palo Alto
+                  - symbol: NVDA
+                    name: NVIDIA
+                  - symbol: AAPL
+                    name: Apple
+                  - symbol: MSFT
+                    name: Microsoft
+                  - symbol: COST
+                    name: Costco
+                  - symbol: PLTR
+                    name: Palantir
 
           - size: full
             widgets:
@@ -132,28 +148,12 @@ data:
 
           - size: small
             widgets:
-              - type: weather
-                location: Edinburgh, United Kingdom
-                units: metric # alternatively "imperial"
-                hour-format: 12h # alternatively "24h"
-                # hide-location: true
-
-              - type: markets
-                markets:
-                  - symbol: SPY
-                    name: S&P 500
-                  - symbol: PANW
-                    name: Palo Alto
-                  - symbol: NVDA
-                    name: NVIDIA
-                  - symbol: AAPL
-                    name: Apple
-                  - symbol: MSFT
-                    name: Microsoft
-                  - symbol: COST
-                    name: Costco
-                  - symbol: PLTR
-                    name: Palantir
+              - type: dns-stats
+                service: pihole-v6
+                allow-insecure: true
+                url: http://10.8.8.8/
+                password: 000222nosy
+                token: z/g9Ic3f0cYmOKeYVOq21dw//pI1E5QsVtYGav8ZvWs= 
 
               - type: releases
                 cache: 1d
