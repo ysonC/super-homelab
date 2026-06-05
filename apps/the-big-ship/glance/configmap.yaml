@@ -31,6 +31,14 @@ data:
       - name: Home
         hide-desktop-navigation: false
         columns:
+          - size: small
+            widgets:
+              - server-stats
+              servers
+                - type: remote
+                  name: 1pi5
+                  url: http://10.8.8.51:27973
+                  token: AfzoNal2R7BINwfci8kFA5ACDgCz3tz2
           - size: full
             widgets:
               - type: monitor
