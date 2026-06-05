@@ -31,15 +31,6 @@ data:
       - name: Home
         hide-desktop-navigation: false
         columns:
-          - size: small
-            widgets:
-              - type: weather
-                location: Taipei, Taiwan
-                units: metric # alternatively "imperial"
-                hour-format: 12h # alternatively "24h"
-                # hide-location: true
-
-
           - size: full
             widgets:
               - type: monitor
