@@ -1,0 +1,127 @@
+---
+- name: Update first K3s control-plane node
+  hosts: master
+  become: yes
+  vars:
+    k3s_first_server_exec: "server --disable traefik --cluster-init --node-name {{ inventory_hostname }}"
+  tasks:
+    - name: Check existing SQLite datastore
+      ansible.builtin.stat:
+        path: /var/lib/rancher/k3s/server/db/state.db
+      register: k3s_sqlite_db
+      when: inventory_hostname == groups['master'][0]
+
+    - name: Check existing etcd datastore
+      ansible.builtin.stat:
+        path: /var/lib/rancher/k3s/server/db/etcd
+      register: k3s_etcd_db
+      when: inventory_hostname == groups['master'][0]
+
+    - name: Refuse if first master has neither SQLite nor etcd data
+      ansible.builtin.fail:
+        msg: "First master has no SQLite or etcd datastore. This does not look like the current source-of-truth K3s server."
+      when:
+        - inventory_hostname == groups['master'][0]
+        - not k3s_sqlite_db.stat.exists
+        - not k3s_etcd_db.stat.exists
+
+    - name: Check for existing K3s agent service
+      ansible.builtin.stat:
+        path: /etc/systemd/system/k3s-agent.service
+      register: k3s_agent_service
+      when: inventory_hostname == groups['master'][0]
+
+    - name: Stop K3s agent before promoting first node to server
+      ansible.builtin.systemd:
+        name: k3s-agent
+        enabled: no
+        state: stopped
+      when:
+        - inventory_hostname == groups['master'][0]
+        - k3s_agent_service.stat.exists
+
+    - name: Install or update first K3s server with embedded etcd
+      ansible.builtin.shell: |
+        curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION={{ k3s_version }} INSTALL_K3S_EXEC="{{ k3s_first_server_exec }}" sh -
+      args:
+        executable: /bin/bash
+      when: inventory_hostname == groups['master'][0]
+
+    - name: Ensure first K3s server is enabled and running
+      ansible.builtin.systemd:
+        name: k3s
+        enabled: yes
+        state: started
+        daemon_reload: yes
+      when: inventory_hostname == groups['master'][0]
+
+    - name: Wait for first K3s server API
+      ansible.builtin.command: k3s kubectl get nodes
+      register: k3s_first_nodes
+      changed_when: false
+      retries: 30
+      delay: 10
+      until: k3s_first_nodes.rc == 0
+      when: inventory_hostname == groups['master'][0]
+
+    - name: Retrieve K3s token from first server
+      ansible.builtin.shell: cat /var/lib/rancher/k3s/server/node-token
+      register: k3s_token
+      changed_when: false
+      when: inventory_hostname == groups['master'][0]
+
+- name: Update or promote remaining K3s control-plane nodes
+  hosts: master
+  become: yes
+  serial: 1
+  vars:
+    k3s_join_server_exec: "server --disable traefik --node-name {{ inventory_hostname }}"
+  tasks:
+    - name: Check for existing K3s agent service
+      ansible.builtin.stat:
+        path: /etc/systemd/system/k3s-agent.service
+      register: k3s_agent_service
+      when: inventory_hostname != groups['master'][0]
+
+    - name: Stop K3s agent before promoting node to server
+      ansible.builtin.systemd:
+        name: k3s-agent
+        enabled: no
+        state: stopped
+      when:
+        - inventory_hostname != groups['master'][0]
+        - k3s_agent_service.stat.exists
+
+    - name: Install or update K3s server joined to embedded-etcd cluster
+      ansible.builtin.shell: |
+        curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION={{ k3s_version }} K3S_URL=https://{{ hostvars[groups['master'][0]]['ansible_host'] }}:6443 K3S_TOKEN={{ hostvars[groups['master'][0]].k3s_token.stdout }} INSTALL_K3S_EXEC="{{ k3s_join_server_exec }}" sh -
+      args:
+        executable: /bin/bash
+      when: inventory_hostname != groups['master'][0]
+
+    - name: Ensure K3s server is enabled and running
+      ansible.builtin.systemd:
+        name: k3s
+        enabled: yes
+        state: started
+        daemon_reload: yes
+      when: inventory_hostname != groups['master'][0]
+
+    - name: Wait for K3s server to report node access
+      ansible.builtin.command: k3s kubectl get nodes
+      register: k3s_joined_nodes
+      changed_when: false
+      retries: 30
+      delay: 10
+      until: k3s_joined_nodes.rc == 0
+      when: inventory_hostname != groups['master'][0]
+
+- name: Verify K3s control plane
+  hosts: master
+  become: yes
+  tasks:
+    - name: Confirm all K3s nodes are visible
+      ansible.builtin.command: k3s kubectl get nodes -o wide
+      register: k3s_nodes
+      changed_when: false
+      when: inventory_hostname == groups['master'][0]

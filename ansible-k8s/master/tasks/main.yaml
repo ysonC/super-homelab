@@ -1,13 +1,34 @@
 ---
-- name: Install K3s on master (if not already installed)
+- name: Check for existing K3s agent service
+  ansible.builtin.stat:
+    path: /etc/systemd/system/k3s-agent.service
+  register: k3s_agent_service
+
+- name: Stop K3s agent before promoting node to server
+  ansible.builtin.systemd:
+    name: k3s-agent
+    enabled: no
+    state: stopped
+  when: k3s_agent_service.stat.exists
+
+- name: Install first K3s server with embedded etcd
   shell: |
-    curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION={{ k3s_version }} INSTALL_K3S_EXEC="{{ INSTALL_K3S_EXEC }}" sh -
+    curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION={{ k3s_version }} INSTALL_K3S_EXEC="{{ INSTALL_K3S_EXEC }} --node-name {{ inventory_hostname }}" sh -
   args:
     executable: /bin/bash
+  when: inventory_hostname == groups['master'][0]
 
-- name: Retrieve K3s Token
+- name: Retrieve K3s token from first server
   shell: cat /var/lib/rancher/k3s/server/node-token
   register: k3s_token
+  when: inventory_hostname == groups['master'][0]
+
+- name: Join additional K3s servers to embedded etcd cluster
+  shell: |
+    curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION={{ k3s_version }} K3S_URL=https://{{ hostvars[groups['master'][0]]['ansible_host'] }}:6443 K3S_TOKEN={{ hostvars[groups['master'][0]].k3s_token.stdout }} INSTALL_K3S_EXEC="server --disable traefik --node-name {{ inventory_hostname }}" sh -
+  args:
+    executable: /bin/bash
+  when: inventory_hostname != groups['master'][0]
 
 - name: Fetch kubeconfig from master
   become: yes
@@ -15,6 +36,7 @@
     src: /etc/rancher/k3s/k3s.yaml
     dest: "/tmp/k3s_{{ inventory_hostname }}.yaml"
     flat: yes
+  when: inventory_hostname == groups['master'][0]
 
 - name: Update kubeconfig server address with master IP
   delegate_to: localhost
@@ -23,6 +45,7 @@
     path: "/tmp/k3s_{{ inventory_hostname }}.yaml"
     regexp: '(^\s*server:\s*https://).*(:6443)'
     line: "    server: https://{{ hostvars[inventory_hostname]['ansible_host'] }}:6443"
+  when: inventory_hostname == groups['master'][0]
 
 - name: Copy updated kubeconfig to user's home
   delegate_to: localhost
@@ -31,3 +54,4 @@
     src: "/tmp/k3s_{{ inventory_hostname }}.yaml"
     dest: "{{ lookup('env','HOME') }}/.kube/config"
     mode: "0600"
+  when: inventory_hostname == groups['master'][0]

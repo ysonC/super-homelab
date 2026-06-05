@@ -1,5 +1,5 @@
 ---
-- name: Shutdown K3s Master Node
+- name: Shutdown K3s control-plane nodes
   hosts: master
   become: yes
   tasks:
@@ -9,23 +9,7 @@
         state: stopped
         enabled: no
 
-    - name: Power off the master node
-      command: shutdown -h now
-      async: 1
-      poll: 0
-      ignore_errors: yes
-
-- name: Shutdown K3s Worker Nodes
-  hosts: workers
-  become: yes
-  tasks:
-    - name: Stop K3s agent
-      systemd:
-        name: k3s-agent
-        state: stopped
-        enabled: no
-
-    - name: Power off the worker node
+    - name: Power off the control-plane node
       command: shutdown -h now
       async: 1
       poll: 0

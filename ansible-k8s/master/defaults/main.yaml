@@ -1,2 +1,2 @@
 ---
-INSTALL_K3S_EXEC: "server --disable traefik"
+INSTALL_K3S_EXEC: "server --disable traefik --cluster-init"

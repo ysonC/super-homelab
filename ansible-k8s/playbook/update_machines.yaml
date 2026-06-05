@@ -1,6 +1,6 @@
 ---
 - name: Update and upgrade machines
-  hosts: all
+  hosts: master
   become: yes
   tasks:
     - name: Update apt cache
@@ -22,4 +22,3 @@
       reboot:
       when: reboot_required.stat.exists
       tags: reboot
-

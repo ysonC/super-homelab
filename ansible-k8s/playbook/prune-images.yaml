@@ -1,5 +1,5 @@
-- name: Prune unused container images on all K3s nodes
-  hosts: all
+- name: Prune unused container images on K3s control-plane nodes
+  hosts: master
   become: true
   gather_facts: false
   tasks:

@@ -7,6 +7,7 @@
       ansible.builtin.systemd:
         name: k3s
         state: stopped
+      when: inventory_hostname == groups['master'][0]
 
     - name: Backup the state.db before modification
       ansible.builtin.copy:
@@ -14,6 +15,7 @@
         dest: /var/lib/rancher/k3s/server/db/state.db.bak
         remote_src: yes
         backup: yes
+      when: inventory_hostname == groups['master'][0]
 
     - name: Perform manual compaction (delete old revisions)
       ansible.builtin.shell: |
@@ -30,12 +32,15 @@
         EOF
       args:
         executable: /bin/bash
+      when: inventory_hostname == groups['master'][0]
 
     - name: Run VACUUM to reduce file size
       ansible.builtin.command: >
         sqlite3 /var/lib/rancher/k3s/server/db/state.db "VACUUM;"
+      when: inventory_hostname == groups['master'][0]
 
     - name: Start K3s service
       ansible.builtin.systemd:
         name: k3s
         state: started
+      when: inventory_hostname == groups['master'][0]

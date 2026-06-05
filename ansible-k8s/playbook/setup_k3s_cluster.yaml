@@ -7,12 +7,3 @@
   roles:
     - common
     - master
-
-- name: Setup K3s Worker Nodes
-  hosts: workers
-  become: yes
-  vars_files:
-    - secrets.yaml
-  roles:
-    - common
-    - worker

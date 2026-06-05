@@ -1,8 +1,7 @@
 ---
-- name: Setup Longhorn on All Nodes
-  hosts: all
+- name: Setup Longhorn on control-plane nodes
+  hosts: master
   become: yes
 
   roles:
     - longhorn
-
