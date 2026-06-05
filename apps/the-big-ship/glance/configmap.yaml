@@ -39,14 +39,17 @@ data:
                   name: 1pi5
                   url: http://10.8.8.51:27973
                   token: AfzoNal2R7BINwfci8kFA5ACDgCz3tz2
+                servers:
                 - type: remote
                   name: 2pi5
                   url: http://10.8.8.52:27973
                   token: 7Ctv74AhgvbOso4w1rwgNydMTkHpSddy
+                servers:
                 - type: remote
                   name: 3pi5
                   url: http://10.8.8.53:27973
                   token: ABKQK2RKcgWjm9smrnqqWxf9X5fZ9FBI
+                servers:
                 -type: remote
                   name: TrueNas
                   url: http://10.8.8.3:27973
