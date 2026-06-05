@@ -40,17 +40,17 @@ data:
                   url: http://10.8.8.51:27973
                   token: AfzoNal2R7BINwfci8kFA5ACDgCz3tz2
                 - type: remote
-                    name: 2pi5
-                    url: http://10.8.8.52:27973
-                    token: 7Ctv74AhgvbOso4w1rwgNydMTkHpSddy
+                  name: 2pi5
+                  url: http://10.8.8.52:27973
+                  token: 7Ctv74AhgvbOso4w1rwgNydMTkHpSddy
                 - type: remote
-                    name: 3pi5
-                    url: http://10.8.8.53:27973
-                    token: ABKQK2RKcgWjm9smrnqqWxf9X5fZ9FBI
+                  name: 3pi5
+                  url: http://10.8.8.53:27973
+                  token: ABKQK2RKcgWjm9smrnqqWxf9X5fZ9FBI
                 -type: remote
-                    name: TrueNas
-                    url: http://10.8.8.3:27973
-                    token: Vn8QxL2RHpT7mKsdYc4aWgF1ZjNb6uXE
+                  name: TrueNas
+                  url: http://10.8.8.3:27973
+                  token: Vn8QxL2RHpT7mKsdYc4aWgF1ZjNb6uXE
           - size: full
             widgets:
               - type: monitor
