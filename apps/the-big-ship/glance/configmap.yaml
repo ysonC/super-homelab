@@ -54,6 +54,12 @@ data:
                   name: TrueNas
                   url: http://10.8.8.3:27973
                   token: Vn8QxL2RHpT7mKsdYc4aWgF1ZjNb6uXE
+
+                - type: remote
+                  name: Proxmox
+                  url: http://10.8.8.2:27973
+                  token: ldpWPCBb2Qz2V54VusZRRgVTmcY32mKg
+
           - size: full
             widgets:
               - type: monitor
