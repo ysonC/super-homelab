@@ -124,28 +124,6 @@ data:
                     url: http://10.8.8.15:8787
                     icon: https://cdn.jsdelivr.net/gh/selfhst/icons@main/png/hermes-agent.png
 
-              - type: group
-                widgets:
-                  # - type: hacker-news
-                  # - type: lobsters
-                  - type: rss
-                    title: Market Watch
-                    style: detail-list
-                    feeds:
-                      - url: https://feeds.content.dowjones.io/public/rss/mw_topstories
-
-                  - type: rss
-                    title: Bloomberg
-                    style: detailed-list
-                    feeds:
-                      - url: https://feeds.bloomberg.com/markets/news.rss
-
-                  # - type: rss
-                  #   title: Mine
-                  #   style: vertical-list
-                  #   feeds:
-                  #     - url: http://10.8.8.10:8080/rss.xml
-
           - size: small
             widgets:
               - type: dns-stats
@@ -153,21 +131,4 @@ data:
                 allow-insecure: true
                 url: http://10.8.8.8/
                 password: 000222nosy
-                token: z/g9Ic3f0cYmOKeYVOq21dw//pI1E5QsVtYGav8ZvWs= 
-
-              - type: releases
-                cache: 1d
-                # Without authentication the Github API allows for up to 60 requests per hour. You can create a
-                # read-only token from your Github account settings and use it here to increase the limit.
-                # token: ...
-                repositories:
-                  - glanceapp/glance
-                  - immich-app/immich
-                  - syncthing/syncthing
-                  - dani-garcia/vaultwarden
-                  - n8n-io/n8n
-                  - pi-hole/pi-hole
-                  - longhorn/longhorn
-                  - cert-manager/cert-manager
-                  - traefik/traefik
-                  - fluxcd/flux2
+                token: z/g9Ic3f0cYmOKeYVOq21dw//pI1E5QsVtYGav8ZvWs=
