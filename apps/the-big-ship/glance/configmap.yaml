@@ -89,11 +89,6 @@ data:
                     url: https://dozzle.ysonsbaolab.dev
                     icon: https://cdn.jsdelivr.net/gh/selfhst/icons@main/png/dozzle.png
 
-                  - title: Openclaw
-                    check-url: http://10.8.8.14:8088/readyz
-                    url: https://openclaw.tail30687d.ts.net/
-                    icon: sh:openclaw
-
                   - title: Hermes
                     check-url: http://10.8.8.15:8787
                     url: http://10.8.8.15:8787
