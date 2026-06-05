@@ -39,22 +39,6 @@ data:
                 hour-format: 12h # alternatively "24h"
                 # hide-location: true
 
-              - type: markets
-                markets:
-                  - symbol: SPY
-                    name: S&P 500
-                  - symbol: PANW
-                    name: Palo Alto
-                  - symbol: NVDA
-                    name: NVIDIA
-                  - symbol: AAPL
-                    name: Apple
-                  - symbol: MSFT
-                    name: Microsoft
-                  - symbol: COST
-                    name: Costco
-                  - symbol: PLTR
-                    name: Palantir
 
           - size: full
             widgets:
