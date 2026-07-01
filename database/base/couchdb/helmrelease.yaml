@@ -37,15 +37,18 @@ spec:
     clusterSize: 1
     createAdminSecret: false
     allowAdminParty: false
+
     persistentVolume:
       enabled: true
       storageClass: longhorn
       size: 10Gi
+
     service:
       enabled: true
       type: ClusterIP
       externalPort: 5984
       targetPort: 5984
+
     couchdbConfig:
       couchdb:
         uuid: REPLACE_WITH_UUID
