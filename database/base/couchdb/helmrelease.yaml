@@ -51,7 +51,7 @@ spec:
 
     couchdbConfig:
       couchdb:
-        uuid: REPLACE_WITH_UUID
+        uuid: edca1c319a9d418baa8d10cdaea7119b
       chttpd:
         require_valid_user: true
       httpd:
