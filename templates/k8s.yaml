@@ -1,43 +1,91 @@
 # Kustomization Template
-# This file references all the components needed to deploy an app
+# Purpose:
+# - This file tells Kustomize which Kubernetes manifests belong to this app.
+# - Flux will usually apply this folder through a Kustomization resource.
+# - The namespace here is applied to resources that do not explicitly set one.
+
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+
+# Default namespace for all resources in this app folder.
 namespace: apps
+
+# List all manifests that should be deployed for this app.
 resources:
-  - deployment.yaml # Core deployment definition
-  - service.yaml # Internal ClusterIP service
-  - ingress.yaml # IngressRoute for Traefik routing (TLS + domain)
-  - storage.yaml # Optional: storage, if persistent data is needed
-  - configmap.yaml # Optional: config settings
-  - secret.yaml # Optional: secret references (for passwords/env)
+  - deployment.yaml # Main workload definition
+  - service.yaml # Internal ClusterIP service for pod access
+  - ingress.yaml # Traefik IngressRoute for external HTTPS access
+  - certificate.yaml # TLS certificate issued by cert-manager
+  - external-service.yaml # Optional: route to a service outside the cluster
+  - storage.yaml # Optional: PVC for persistent data
+  - configmap.yaml # Optional: non-sensitive app configuration
+  - secret.yaml # Optional: ExternalSecret or secret references
 
 ---
 # Deployment Template
+# Purpose:
+# - Defines the application workload.
+# - Controls the container image, replicas, ports, env vars, resources, and volumes.
+
 apiVersion: apps/v1
 kind: Deployment
+
 metadata:
-  name: app_name # e.g., blog, homepage
+  # Name of the Deployment object.
+  name: app-name
+
+  # Namespace where the Deployment will be created.
   namespace: apps
+
   labels:
-    app: app_name
+    # Label used to identify this app.
+    app: app-name
+
 spec:
-  replicas: replica_count # adjust as needed (1, 2, 3...)
+  # Number of pod replicas to run.
+  replicas: 1
+
+  # RollingUpdate updates pods gradually with minimal downtime.
+  # Recreate stops old pods first, then starts new ones.
   strategy:
-    type: RollingUpdate # Can be Recreate or RollingUpdate
+    type: RollingUpdate
+
+  # Selector tells the Deployment which pods it manages.
   selector:
     matchLabels:
-      app: app_name
+      app: app-name
+
   template:
     metadata:
+      # Pod labels must match spec.selector.matchLabels.
       labels:
-        app: app_name
+        app: app-name
+
     spec:
       containers:
-        - name: app_name
-          image: image_repo # insert full image path here
+        - name: app-name
+
+          # Full container image path.
+          # Example: ghcr.io/user/app:latest
+          image: image-repo:tag
+
+          # Container port exposed by the application.
           ports:
-            - containerPort: container_port
-          env: [] # insert environment variables if needed
+            - containerPort: 8080
+
+          # Environment variables.
+          # Use value for plain values, or secretKeyRef/configMapKeyRef for external values.
+          env:
+            # Example using a Kubernetes Secret created by ExternalSecret:
+            # - name: DATABASE_URL
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: k8s-secret-name
+            #       key: DATABASE_URL
+            []
+
+          # Resource requests are guaranteed minimums.
+          # Resource limits are maximum allowed usage.
           resources:
             requests:
               cpu: 50m
@@ -45,89 +93,283 @@ spec:
             limits:
               cpu: 250m
               memory: 512Mi
-          volumeMounts: # optional for config or persistence
+
+          # Optional: mount config or persistent storage into the container.
+          volumeMounts:
             - name: app-storage
-              mountPath: /data # path in app for where to store
-      volumes: # match volumeMounts
+              mountPath: /data
+
+      # Volumes available to the pod.
+      # Each volumeMount above must reference a volume here.
+      volumes:
         - name: app-storage
           persistentVolumeClaim:
-            claimName: app_name-pvc
+            claimName: app-name-pvc
+
 ---
 # Service Template
+# Purpose:
+# - Creates a stable internal network endpoint for the app pods.
+# - Other pods and IngressRoute should connect to this Service, not directly to pods.
+
 apiVersion: v1
 kind: Service
+
 metadata:
-  name: app_name-service
+  # Name of the Service.
+  name: app-name-service
   namespace: apps
+
 spec:
+  # ClusterIP exposes the app only inside the cluster.
   type: ClusterIP
+
+  # Selects pods with this label.
   selector:
-    app: app_name
+    app: app-name
+
   ports:
-    - port: service_port # exposed port
-      targetPort: container_port # maps to container's port
+    - # Port exposed by the Service inside the cluster.
+      port: 80
+
+      # Port on the container/pod.
+      targetPort: 8080
 
 ---
-# IngressRoute Template (Traefik)
+# IngressRoute Template - Traefik
+# Purpose:
+# - Routes external HTTPS traffic to the internal Kubernetes Service.
+# - Requires Traefik CRDs and a valid TLS certificate Secret.
+
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
+
 metadata:
-  name: app_name-ingress
+  # Name of the IngressRoute.
+  name: app-name-ingress
   namespace: apps
+
 spec:
+  # Traefik entryPoint.
+  # Usually websecure = HTTPS.
   entryPoints:
     - websecure
+
   routes:
-    - match: Host(`domain_name`) # e.g., app.ysonsbaolab.dev
+    - # Domain rule for this app.
+      # Example: Host(`app.ysonsbaolab.dev`)
+      match: Host(`domain-name`)
+
       kind: Rule
+
       services:
-        - name: app_name-service
-          port: service_port
+        - # Name of the Kubernetes Service to route traffic to.
+          name: app-name-service
+
+          # Service port, not container port.
+          port: 80
+
   tls:
-    secretName: cert_secret # Certificate secret
+    # Kubernetes TLS Secret used by Traefik.
+    secretName: cert-secret
 
 ---
-# PVC Template (Longhorn or NFS)
+# PVC Template - Longhorn or NFS
+# Purpose:
+# - Creates persistent storage for the app.
+# - Use this when the app needs data to survive pod restarts.
+
 apiVersion: v1
 kind: PersistentVolumeClaim
+
 metadata:
-  name: app_name-pvc
+  # Name of the PVC.
+  name: app-name-pvc
   namespace: apps
+
 spec:
+  # Access mode controls how the volume can be mounted.
+  #
+  # Common options:
+  # - ReadWriteOnce: mounted as read/write by one node
+  # - ReadWriteMany: mounted as read/write by multiple nodes
+  #
+  # Longhorn usually uses ReadWriteOnce.
+  # NFS usually supports ReadWriteMany.
   accessModes:
-    - ReadWritemode # One or Many
-  storageClassName: storage_class # e.g., longhorn or nfs
+    - ReadWriteOnce
+
+  # StorageClass used to provision the volume.
+  # Example: longhorn, nfs-client, local-path
+  storageClassName: storage-class-name
+
   resources:
     requests:
-      storage: storage_size # e.g., 500Mi, 1Gi
+      # Requested storage size.
+      # Example: 500Mi, 1Gi, 10Gi
+      storage: 1Gi
 
 ---
 # ConfigMap Template
+# Purpose:
+# - Stores non-sensitive configuration.
+# - Do not put passwords, tokens, API keys, or private credentials here.
+
 apiVersion: v1
 kind: ConfigMap
+
 metadata:
-  name: app_name-config
+  # Name of the ConfigMap.
+  name: app-name-config
   namespace: apps
+
 data:
-  config_key: |
-    # Add your config YAML here
+  # Example config key.
+  # This can be mounted as a file or used as an environment variable.
+  config-key: |
+    # Add non-sensitive config here
 
 ---
-# ExternalSecret Template (for external secrets manager)
+# ExternalSecret Template
+# Purpose:
+# - ExternalSecret tells External Secrets Operator how to fetch values
+#   from an external secret manager, such as Azure Key Vault.
+# - It creates/updates a normal Kubernetes Secret for your app or Helm chart to use.
+
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
+
 metadata:
-  name: app_name-secret
+  # Name of the ExternalSecret object itself.
+  # This is NOT necessarily the name of the generated Kubernetes Secret.
+  name: app-name-secret
+
+  # Namespace where the ExternalSecret exists.
+  # The generated Kubernetes Secret is usually created in the same namespace.
   namespace: apps
+
 spec:
+  # How often External Secrets Operator checks the external secret manager
+  # and syncs changes into Kubernetes.
   refreshInterval: "1h"
+
+  # Which external secret backend to use.
   secretStoreRef:
-    name: store_name # e.g., azure-kv-store
+    # Example: azure-kv-store
+    name: store-name
+
+    # ClusterSecretStore means the store can be referenced from multiple namespaces.
+    # SecretStore means it is namespace-scoped.
     kind: ClusterSecretStore
+
   target:
-    name: k8s_secret_name
+    # Name of the Kubernetes Secret that will be created/managed.
+    # This is the Secret your Deployment/Helm chart should reference.
+    name: k8s-secret-name
+
+    # Owner means this ExternalSecret owns the generated Secret.
+    # If the ExternalSecret is deleted, the generated Secret may also be deleted.
     creationPolicy: Owner
+
   data:
-    - secretKey: env_var_name # used in container
+    # Creates one key inside the Kubernetes Secret.
+    # This key is what your container, env var, or Helm chart references.
+    - secretKey: env-var-or-secret-key-name
+
       remoteRef:
-        key: vault_key_name # in the external secret manager
+        # Name of the secret in the external secret manager.
+        key: vault-key-name
+
+        # Optional:
+        # Use this when the external secret value is JSON and you only want
+        # one property from it.
+        #
+        # Example external value:
+        # {
+        #   "adminUsername": "admin",
+        #   "adminPassword": "password"
+        # }
+        #
+        # property: adminPassword
+        #
+        # Result:
+        # Kubernetes Secret key "env-var-or-secret-key-name"
+        # contains only the adminPassword value.
+        # property: json-property-name
+
+---
+# Certificate Template - cert-manager
+# Purpose:
+# - Requests a TLS certificate from cert-manager.
+# - The generated Secret is referenced by the Traefik IngressRoute tls.secretName.
+
+apiVersion: cert-manager.io/v1
+kind: Certificate
+
+metadata:
+  # Name of the Certificate object.
+  name: app-name-ingress-certificate
+  namespace: apps
+
+spec:
+  # Kubernetes TLS Secret cert-manager will create or update.
+  secretName: app-name-certificate-secret
+
+  # Issuer used to request the certificate.
+  issuerRef:
+    name: cloudflare-cluster-issuer
+    kind: ClusterIssuer
+
+  # DNS names covered by this certificate.
+  dnsNames:
+    - app.ysonsbaolab.dev
+
+---
+# ExternalName Service Template
+# Purpose:
+# - Creates a Kubernetes Service that points at something outside the cluster.
+# - Use this for NAS, Proxmox, Pi-hole, Jellyfin, or other existing services.
+# - Pair it with an IngressRoute when Traefik should expose it over your domain.
+
+apiVersion: v1
+kind: Service
+
+metadata:
+  # Name used by IngressRoute services[].name.
+  name: external-app-service
+  namespace: apps
+
+spec:
+  # ExternalName maps the Service DNS name to an external DNS name or address.
+  type: ExternalName
+
+  # External target. In this homelab this is often a LAN or Tailscale address.
+  externalName: 10.8.8.2
+
+---
+# ExternalName IngressRoute Template - Traefik
+# Purpose:
+# - Routes external HTTPS traffic to an ExternalName Service.
+# - Use scheme: https when the upstream service expects HTTPS.
+
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+
+metadata:
+  name: external-app-ingress
+  namespace: apps
+
+spec:
+  entryPoints:
+    - websecure
+
+  routes:
+    - match: Host(`external-app.ysonsbaolab.dev`)
+      kind: Rule
+      services:
+        - name: external-app-service
+          port: 443
+          scheme: https
+
+  tls:
+    secretName: external-app-certificate-secret
