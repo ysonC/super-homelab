@@ -7,4 +7,3 @@ resources:
   - uptime-kuma.yaml
   - jellyfin.yaml
   - hermes.yaml
-  - couchdb.yaml
