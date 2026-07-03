@@ -5,12 +5,12 @@ metadata:
   namespace: database
 spec:
   description: PostgreSQL cluster for Immich
-  # imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:16.3-v0.2.1
-  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16.14
+  imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:16.3-v0.2.1
+  # imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16.14
   instances: 1
   postgresql:
     shared_preload_libraries:
-      - vchord.so
+      # - vchord.so
       - vectors.so
 
   managed:
