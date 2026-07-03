@@ -27,8 +27,9 @@ spec:
       owner: admin # Must match the username in the secret
       secret:
         name: immich-db-creds
-      # postInitSQL:
-      #   - CREATE EXTENSION IF NOT EXISTS vectors;
+      postInitSQL:
+        - CREATE EXTENSION IF NOT EXISTS vector;
+        - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
 
   resources:
     requests:
