@@ -10,6 +10,7 @@ spec:
   instances: 2
   postgresql:
     shared_preload_libraries:
+      - vectors.so
       - vchord.so
 
   managed:
