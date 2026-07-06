@@ -6,3 +6,4 @@ resources:
   - ingress.yaml
   - storage-lh.yaml
   - secret.yaml
+  - admin-secret.yaml
