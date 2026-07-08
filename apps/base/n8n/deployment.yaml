@@ -44,6 +44,8 @@ spec:
               value: "false"
             - name: WEBHOOK_URL
               value: "https://n8n.ysonsbaolab.dev"
+            - name: N8N_DEFAULT_BINARY_DATA_MODE
+              value: filesystem
           resources:
             requests:
               cpu: 200m
