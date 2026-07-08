@@ -18,10 +18,12 @@ spec:
       initContainers:
         - name: volume-permissions
           image: busybox:1.38
-          command: ["sh", "-c", "chown -R 1000:1000 /data"]
+          command: ["sh", "-c", "chown -R 1000:1000 /data /binary-data"]
           volumeMounts:
             - name: n8n-pvc-longhorn
               mountPath: /data
+            - name: n8n-binary-data
+              mountPath: /binary-data
       containers:
         - name: n8n
           image: n8nio/n8n:2.30.0
@@ -46,6 +48,8 @@ spec:
               value: "https://n8n.ysonsbaolab.dev"
             - name: N8N_DEFAULT_BINARY_DATA_MODE
               value: filesystem
+            - name: N8N_BINARY_DATA_STORAGE_PATH
+              value: /home/node/.n8n/binaryData
           resources:
             requests:
               cpu: 200m
@@ -56,8 +60,13 @@ spec:
           volumeMounts:
             - name: n8n-pvc-longhorn
               mountPath: /home/node/.n8n
+            - name: n8n-binary-data
+              mountPath: /home/node/.n8n/binaryData
       restartPolicy: Always
       volumes:
         - name: n8n-pvc-longhorn
           persistentVolumeClaim:
             claimName: n8n-pvc-longhorn-bk
+        - name: n8n-binary-data
+          emptyDir:
+            sizeLimit: 5Gi
