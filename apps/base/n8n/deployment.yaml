@@ -26,7 +26,7 @@ spec:
               mountPath: /binary-data
       containers:
         - name: n8n
-          image: n8nio/n8n:2.30.2
+          image: n8nio/n8n:2.30.3
           command: ["/bin/sh"]
           args: ["-c", "sleep 5; n8n start"]
           ports:
