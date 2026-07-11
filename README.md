@@ -35,7 +35,7 @@ This repository contains the infrastructure-as-code and GitOps configuration for
 - **Traefik** handles Kubernetes ingress and routes selected external services.
 - **cert-manager** provisions TLS certificates using the Cloudflare DNS challenge.
 - **Cloudflare Tunnel** and **Tailscale** provide controlled public and private access paths.
-- See [`networking/README.md`](networking/README.md) for the detailed network design.
+- See [`docs/home-network.md`](docs/home-network.md) for the detailed network design.
 
 ## Repository Structure
 
@@ -56,14 +56,12 @@ This repository contains the infrastructure-as-code and GitOps configuration for
 ├── database/
 │   ├── base/                    # Database and data-service manifests
 │   └── the-big-ship/            # Main environment database packages
-├── docs/                        # Architecture and operations documentation
+├── docs/                        # All supporting architecture and operations documentation
 ├── infrastructure/
 │   ├── base/                    # Reusable platform manifests and HelmReleases
 │   └── the-big-ship/            # Main environment infrastructure packages
-├── networking/                  # Detailed home-network documentation
 ├── templates/                   # Starter Kubernetes manifest template
-├── renovate.json                # Automated dependency update configuration
-└── Todo.md                      # Detailed backlog
+└── renovate.json                # Automated dependency update configuration
 ```
 
 ## Workloads and Platform Services
@@ -137,7 +135,8 @@ For a placement-oriented overview, see [`docs/services-running.md`](docs/service
 - [Ingress and routing](docs/ingress-routing.md)
 - [Storage solution](docs/storage-solution.md)
 - [Services running](docs/services-running.md)
-- [Detailed home-network architecture](networking/README.md)
+- [Detailed home-network architecture](docs/home-network.md)
+- [Roadmap and backlog](docs/roadmap.md)
 
 ## Current Status and Roadmap
 
@@ -163,7 +162,7 @@ For a placement-oriented overview, see [`docs/services-running.md`](docs/service
 - [ ] Integrate Loki for log aggregation
 - [ ] Define and test backup and disaster-recovery procedures for each stateful service
 
-See [`Todo.md`](Todo.md) for the detailed backlog.
+See [`docs/roadmap.md`](docs/roadmap.md) for the detailed backlog.
 
 ## Contact
 
