@@ -73,7 +73,6 @@ This repository contains the infrastructure-as-code and GitOps configuration for
 - **AI Agent View**
 - **Blog** — Hugo-based site
 - **Glance** — dashboard and start page
-- **Homepage** — service dashboard
 - **Immich** — photo management
 - **n8n** — workflow automation, including Renovate PR checks
 - **Vaultwarden** — Bitwarden-compatible password manager

@@ -19,7 +19,6 @@ These are the confirmed platform services running in K3s:
 The repo currently contains application manifests or overlays for:
 - **Blog**
 - **Glance**
-- **Homepage**
 - **Immich**
 - **Linkwarden**
 - **n8n**
