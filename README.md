@@ -1,300 +1,173 @@
 # Homelab
 
-This repository contains my personal _in-progress_ homelab setup, intended to showcase my **DevOps** and **Cloud Native** learning journey. The setup uses **Ansible** to provision a lightweight Kubernetes cluster (via K3s) and **Flux** (with Kustomize) to manage application and infrastructure deployments in a GitOps manner.
+This repository contains the infrastructure-as-code and GitOps configuration for my personal homelab. **Ansible** provisions a highly available K3s cluster, while **FluxCD**, **Kustomize**, and **HelmRelease** resources continuously reconcile applications, databases, and platform services from Git.
 
----
-
-## Table of Contents
-
-1. [Architecture Overview](#architecture-overview)
-2. [Folder Structure](#folder-structure)
-   - [ansible-k8s](#ansible-k8s)
-   - [apps](#apps)
-   - [clusters](#clusters)
-   - [database](#database)
-   - [docs](#docs)
-   - [infrastructure](#infrastructure)
-   - [networking](#networking)
-   - [templates](#templates)
-3. [Key Technologies](#key-technologies)
-4. [Getting Started](#getting-started)
-   - [Prerequisites](#prerequisites)
-   - [Installation & Usage](#installation--usage)
-5. [Current Status & Roadmap](#current-status--roadmap)
-6. [Contact](#contact)
-
----
+> This is a personal environment rather than a turnkey distribution. The manifests document the design and may require changes to hostnames, addresses, storage, domains, and secrets before reuse.
 
 ## Architecture Overview
 
 ![Homelab Architecture Diagram](https://github.com/user-attachments/assets/acfd7ea4-0e29-4214-9965-78da89e783d5)
 
+### Compute and control plane
 
-1. **Provisioning with Ansible**
+- K3s runs on three Raspberry Pi 5 nodes: `ahoy1`, `ahoy2`, and `ahoy3`.
+- All three nodes are K3s server/control-plane nodes and form a highly available **embedded-etcd** cluster.
+- Every Pi boots and runs its workloads from SSD storage rather than microSD.
+- Ansible installs K3s, initializes embedded etcd on the first server, and joins the remaining servers to the control plane.
 
-   - Ansible playbooks in [ansible-k8s/playbook/](ansible-k8s/playbook/) bootstrap the underlying servers, install K3s, and set up Tailscale networking.
-   - Additional roles configure each node for Longhorn and other core capabilities.
+### GitOps
 
-2. **K3s as Lightweight Kubernetes**
+- Flux watches the `main` branch of this repository.
+- The cluster entry point is [`clusters/the-big-ship/`](clusters/the-big-ship/).
+- Flux reconciles infrastructure first; application and database Kustomizations depend on it.
+- Each immediate child under `apps/the-big-ship`, `database/the-big-ship`, and `infrastructure/the-big-ship` is a standalone Kustomize package. The environment roots do not contain aggregate `kustomization.yaml` files.
 
-   - K3s is installed on a single master node (`captain`) and multiple worker nodes (`ahoy1`, `ahoy2`).
-   - A secure overlay network (Tailscale) is used for remote access and cluster management.
+### Storage
 
-3. **GitOps with Flux & Kustomize**
+- [Longhorn](https://longhorn.io/) provides distributed, cluster-native persistent volumes across the SSD-backed nodes.
+- An NFS StorageClass provides NAS-backed shared storage from TrueNAS.
+- CloudNativePG manages PostgreSQL workloads and their persistent storage.
 
-   - Flux watches this Git repository and automatically applies changes to the cluster.
-   - Kustomize overlays handle environment-specific configurations in [apps/the-big-ship/](apps/the-big-ship/), [database/the-big-ship/](database/the-big-ship/), and [infrastructure/the-big-ship/](infrastructure/the-big-ship/).
+### Network and service exposure
 
-4. **Storage & Persistent Volumes**
+- A Proxmox-hosted **pfSense** VM provides firewall, routing, DHCP, and Unbound DNS.
+- **Pi-hole** runs in an LXC container and provides network-wide DNS filtering.
+- **Traefik** handles Kubernetes ingress and routes selected external services.
+- **cert-manager** provisions TLS certificates using the Cloudflare DNS challenge.
+- **Cloudflare Tunnel** and **Tailscale** provide controlled public and private access paths.
+- See [`networking/README.md`](networking/README.md) for the detailed network design.
 
-   - [Longhorn](https://longhorn.io/) provides highly available storage within the cluster.
-   - An NFS StorageClass is also available for NFS-backed persistent volumes.
+## Repository Structure
 
-5. **Home Network**
-
-   - A Proxmox-hosted **pfSense** VM acts as firewall and DHCP/DNS server.
-   - **Pi-hole** (LXC container) provides network-wide ad/tracker blocking and forwards DNS to pfSense Unbound.
-   - **Tailscale** is used for secure remote access and subnet routing.
-   - See [networking/README.md](networking/README.md) for full architecture details.
-
-6. **Applications & Services**
-   - **Blog** (Hugo-based container)
-   - **Glance** (self-hosted dashboard / start page)
-   - **Homepage** (a dynamic dashboard)
-   - **Vaultwarden** (Bitwarden alternative)
-   - **Immich** (photo management)
-   - **Linkwarden** (bookmark manager)
-   - **n8n** (automation workflow, including Renovate PR checks)
-   - **PostgreSQL** clusters with [CloudNativePG](https://cloudnative-pg.io/)
-   - **Monitoring** via Prometheus & Grafana
-   - **Traefik** as the Ingress Controller
-   - **External Secrets** for managing sensitive data
-   - **Cert-Manager** for TLS certificates
-   - **Descheduler** for rebalancing pods across nodes
-
----
-
-## Folder Structure
-
-```plaintext
+```text
 .
-├── ansible-k8s
-│   ├── common/      # Common role tasks for all servers (installing curl, etc.)
-│   ├── master/      # Master node role (installs K3s server, Tailscale, etc.)
-│   ├── worker/      # Worker nodes role (K3s agents)
-│   ├── longhorn/    # Role configuring node prerequisites for Longhorn
-│   ├── playbook/    # All Ansible playbooks (K3s setup, Longhorn, maintenance, etc.)
-│   └── inventory.ini # Ansible inventory
-├── apps
-│   ├── base/        # Base definitions for each application (Deployment, Service, Ingress)
-│   └── the-big-ship/ # Environment-specific Kustomize overlays
-├── clusters
-│   └── the-big-ship/ # Flux Kustomizations for apps, databases, and infrastructure
-├── database
-│   ├── base/        # Base definitions for CloudNativePG clusters
-│   └── the-big-ship/ # Overlays to deploy database instances for various apps
-├── docs
-│   ├── README.md    # Index for architecture, networking, storage, and ops docs
-│   └── *.md         # Focused homelab design and operations writeups
-├── infrastructure
-│   ├── base/        # HelmRelease definitions (cert-manager, traefik, longhorn, etc.)
-│   └── the-big-ship/ # Overlays for production / main cluster environment
-├── networking
-│   └── README.md    # Detailed home network architecture (pfSense, Pi-hole, Proxmox, Tailscale)
-└── templates
-    └── k8s.yaml     # Starter template for new Kubernetes app manifests
+├── ansible-k8s/                 # K3s provisioning and node maintenance
+│   ├── common/                  # Tasks shared by all cluster nodes
+│   ├── master/                  # K3s server and embedded-etcd setup
+│   ├── longhorn/                # Longhorn host prerequisites
+│   ├── playbook/                # Provisioning and operational playbooks
+│   ├── group_vars/              # Shared Ansible variables
+│   └── inventory.ini            # Control-plane inventory
+├── apps/
+│   ├── base/                    # Reusable application manifests
+│   └── the-big-ship/            # Main environment application packages
+├── clusters/
+│   └── the-big-ship/            # Flux bootstrap and reconciliation graph
+├── database/
+│   ├── base/                    # Database and data-service manifests
+│   └── the-big-ship/            # Main environment database packages
+├── docs/                        # Architecture and operations documentation
+├── infrastructure/
+│   ├── base/                    # Reusable platform manifests and HelmReleases
+│   └── the-big-ship/            # Main environment infrastructure packages
+├── networking/                  # Detailed home-network documentation
+├── templates/                   # Starter Kubernetes manifest template
+├── renovate.json                # Automated dependency update configuration
+└── Todo.md                      # Detailed backlog
 ```
 
-### ansible-k8s
+## Workloads and Platform Services
 
-- **common/**  
-  Contains tasks shared by all hosts (e.g., installing `curl`).
-- **master/**  
-  Installs and configures the K3s server on the master node along with Tailscale.
-- **worker/**  
-  Joins worker nodes to the K3s cluster.
-- **longhorn/**  
-  Ensures kernel modules/services required by Longhorn are in place on each node.
-- **playbook/**  
-  Stores all the playbooks for provisioning and configuring the cluster, including:
-  - `setup_k3s_cluster.yaml` — installs K3s on master and workers
-  - `setup_longhorn.yaml` — configures Longhorn prerequisites cluster-wide
-  - `get_kubeconfig.yaml`, `restart_k3s.yaml`, `shutdown_cluster.yaml`, `update_machines.yaml`, `prune-images.yaml`, `cleanup-k3s-sqlite.yaml` — maintenance playbooks
-- **inventory.ini**  
-  Specifies Ansible host groups for `master` and `workers`.
+### In-cluster applications
 
-### apps
+- **AI Agent View**
+- **Blog** — Hugo-based site
+- **Glance** — dashboard and start page
+- **Homepage** — service dashboard
+- **Immich** — photo management
+- **n8n** — workflow automation, including Renovate PR checks
+- **Vaultwarden** — Bitwarden-compatible password manager
 
-- **base/**  
-  Kustomize bases for each application and externally fronted service: Blog, External-Service, Glance, Homepage, Immich, Linkwarden, n8n, and Vaultwarden.
-- **the-big-ship/**  
-  Environment-specific overlays referencing those bases, often patching or adding configs (e.g., `homepage/configmap.yaml` and `glance/configmap.yaml`) for the main cluster environment.
+The repository also contains test packages for generic workloads and Vaultwarden. These are kept separate from the main application list because their presence in Git does not necessarily mean they are production services.
 
-### clusters
+### External-service routes
 
-- **the-big-ship/**  
-  Flux Kustomization manifests that watch and apply changes from `apps/the-big-ship`, `database/the-big-ship`, and `infrastructure/the-big-ship`. Includes:
-  - **apps-kus.yaml** & **database-kus.yaml**  
-    Flux Kustomizations to deploy apps and databases.
-  - **infrastructure-kus.yaml**  
-    Flux Kustomization to deploy cluster infrastructure (cert-manager, traefik, etc.).
-  - **flux-system/**  
-    Flux bootstrap manifests (`gotk-components.yaml`, `gotk-sync.yaml`, and `kustomization.yaml`).
+Traefik routing manifests expose selected services that run outside Kubernetes, including:
 
-### database
+- Hermes
+- Jellyfin
+- NAS / TrueNAS
+- OpenClaw
+- Pi-hole
+- Proxmox
+- Uptime Kuma
 
-- **base/**  
-  Base configs for CloudNativePG clusters, including:
-  - **immich/** — PostgreSQL cluster for Immich
-  - **linkwarden/** — PostgreSQL cluster for Linkwarden
-  - **vaultwarden/** — PostgreSQL cluster for Vaultwarden
-  - **rss-news/** — PostgreSQL cluster for an RSS news service
-  - **playground/** — Example PostgreSQL cluster for testing purposes
-- **the-big-ship/**  
-  Environment overlays for each database cluster.
+### Databases and data services
 
-### docs
+- **CouchDB**
+- **CloudNativePG PostgreSQL clusters** for Immich, Linkwarden, and RSS news
+- **Playground PostgreSQL cluster** for testing
 
-- **README.md**  
-  Entry point for the repo’s architecture, networking, storage, services, ingress, and operations documentation.
-- **`*.md`**  
-  Focused design notes that complement the top-level README with shorter, task-specific explanations.
+### Cluster infrastructure
 
-### infrastructure
+- **cert-manager** and service certificates
+- **Cloudflare Tunnel** (`cloudflared`)
+- **CloudNativePG operator**
+- **Descheduler**
+- **Dozzle**
+- **External Secrets Operator**
+- **Longhorn**
+- **NFS StorageClass**
+- **Prometheus and Grafana**
+- **Traefik**
 
-- **base/**  
-  HelmRelease definitions for core services, such as:
-  - **cert-manager**
-  - **cloudnative-pg**
-  - **longhorn**
-  - **monitoring** (Prometheus & Grafana)
-  - **nfs-storageclass**
-  - **traefik**
-  - **external-secrets**
-  - **descheduler**
-- **the-big-ship/**  
-  Kustomize overlays that adapt the base HelmRelease definitions to the environment, including a `certificate/` overlay for service TLS certificates.
-
-### networking
-
-- **README.md**  
-  Documents the home network architecture: Proxmox bridge setup, pfSense firewall and Unbound DNS, Pi-hole ad blocking, VLAN/subnet layout, firewall rules, and Tailscale integration. See [networking/README.md](networking/README.md).
-
-### templates
-
-- **k8s.yaml**  
-  A starter manifest template for adding new Kubernetes applications or services to the repo.
-
----
+For a placement-oriented overview, see [`docs/services-running.md`](docs/services-running.md).
 
 ## Key Technologies
 
-- **K3s (Lightweight Kubernetes)**
-- **Ansible** (Provisioning and Configuration Management)
-- **Flux** (GitOps Continuous Delivery)
-- **Kustomize** (Kubernetes Native Configuration Management)
-- **Renovate** (Automated dependency update PRs)
-- **Longhorn** (Container-Native Distributed Storage)
-- **NFS StorageClass** (NFS-backed persistent volumes)
-- **CloudNativePG** (PostgreSQL Operator for Kubernetes)
-- **Traefik** (Ingress Controller)
-- **Prometheus & Grafana** (Monitoring Stack)
-- **External Secrets** (K8s Operator for managing secrets)
-- **pfSense + Pi-hole** (Home network firewall and DNS/ad-blocking)
-- **Tailscale** (Secure overlay network for remote access)
+- **K3s** with embedded etcd
+- **Ansible**
+- **FluxCD**
+- **Kustomize**
+- **Helm / HelmRelease**
+- **Renovate**
+- **Longhorn** and NFS
+- **CloudNativePG**
+- **Traefik** and Cloudflare Tunnel
+- **cert-manager**
+- **External Secrets Operator**
+- **Prometheus and Grafana**
+- **Proxmox, pfSense, Pi-hole, TrueNAS, and Tailscale**
 
----
+## Documentation
 
-## Getting Started
+- [Documentation index](docs/README.md)
+- [Overall architecture](docs/architecture-overview.md)
+- [Cluster architecture](docs/cluster-architecture.md)
+- [Deployment and operations](docs/deployment-operations.md)
+- [Ingress and routing](docs/ingress-routing.md)
+- [Storage solution](docs/storage-solution.md)
+- [Services running](docs/services-running.md)
+- [Detailed home-network architecture](networking/README.md)
 
-### Prerequisites
+## Current Status and Roadmap
 
-1. **Ansible Installed**
-   - For provisioning local or remote VMs/servers.
-2. **SSH Access**
-   - Ensure you have passwordless SSH to your hosts or set up the necessary credentials in `inventory.ini`.
-3. **K3s Requirements**
-   - A clean Linux OS on each target node (Ubuntu, Debian, etc.).
-4. **Flux CLI (Optional)**
-   - Useful if you want to set up or modify GitOps workflows manually.
-5. **Tailscale (Optional)**
-   - This repository is configured to use Tailscale for secure network overlay between cluster nodes.
+### Implemented
 
-### Installation & Usage
+- [x] Three-node K3s control plane with embedded etcd
+- [x] SSD-backed storage on every Raspberry Pi node
+- [x] Ansible-based K3s provisioning and maintenance
+- [x] Flux GitOps reconciliation
+- [x] Traefik ingress and cert-manager TLS using Cloudflare DNS challenge
+- [x] Cloudflare Tunnel and Tailscale access paths
+- [x] Longhorn and NFS storage classes
+- [x] Vaultwarden on Longhorn storage
+- [x] Prometheus and Grafana monitoring
+- [x] CloudNativePG-managed PostgreSQL workloads
+- [x] Renovate dependency updates
+- [x] n8n automation for reviewing Renovate changes
 
-1. **Clone the Repository**
+### Next steps
 
-   ```bash
-   git clone https://github.com/ysonC/super-homelab.git
-   cd super-homelab
-   ```
+- [ ] Add GitHub Actions for linting, manifest validation, and basic health checks
+- [ ] Add service-specific alert rules
+- [ ] Integrate Loki for log aggregation
+- [ ] Define and test backup and disaster-recovery procedures for each stateful service
 
-2. **Update Inventory**
-
-   - In `ansible-k8s/inventory.ini`, set the IP addresses and SSH credentials for your master and worker nodes.
-
-3. **Configure Secrets**
-
-   - Ansible vault is used in `ansible-k8s/secrets.yaml`. Provide or update your own secrets (Tailscale auth key, etc.).
-
-4. **Run Ansible Playbooks**
-
-   - **Install K3s**:
-     ```bash
-     ansible-playbook ansible-k8s/playbook/setup_k3s_cluster.yaml -i ansible-k8s/inventory.ini
-     ```
-   - **Setup Longhorn** (once cluster is running):
-     ```bash
-     ansible-playbook ansible-k8s/playbook/setup_longhorn.yaml -i ansible-k8s/inventory.ini
-     ```
-
-5. **Bootstrap Flux**
-
-   - If Flux is not already installed, install it and point it to this repo. For example:
-
-     ```bash
-     flux install
-     flux create source git flux-system \
-       --url=https://github.com/ysonC/super-homelab.git \
-       --branch=main \
-       --interval=1m \
-       --export > flux-system/gotk-sync.yaml
-
-     # Then commit and push changes so that Flux can reconcile
-     git add -A && git commit -m "Bootstrap Flux" && git push
-     ```
-
-   - Flux will apply the Kustomizations found under `clusters/the-big-ship`, deploying infrastructure, apps, and databases accordingly.
-
----
-
-## Current Status & Roadmap
-
-- [x] **Basic K3s provisioning** using Ansible
-- [x] **Flux** GitOps pipeline set up
-- [x] **Traefik Ingress** with TLS certificates from cert-manager (using Cloudflare DNS challenge)
-- [x] **Longhorn** storage
-- [x] **NFS StorageClass** for NFS-backed persistent volumes
-- [x] **Monitoring stack** (Prometheus, Grafana) with CPU, memory, and uptime dashboards
-- [x] **CloudNativePG** databases for Immich, Vaultwarden, Linkwarden, and RSS news
-- [x] **Renovate** for automated dependency update PRs
-- [x] **n8n automation** pipeline to check Renovate PRs for breaking changes
-- [x] **Home network documentation** (pfSense, Pi-hole, Tailscale)
-
-### Next Steps
-
-- [ ] Move Vaultwarden back to Longhorn storage.
-- [ ] Implement SQL database for Prometheus and Grafana.
-- [ ] Implement GitHub Actions for linting, validation, and automated health checks.
-- [ ] Implement alert rules for each monitored service.
-- [ ] Integrate log aggregation with Loki.
-- [ ] Implement backup and disaster recovery for each service.
-
----
+See [`Todo.md`](Todo.md) for the detailed backlog.
 
 ## Contact
 
-**Maintainer**: [@ysonC](https://github.com/ysonC)  
-If you have suggestions or questions, feel free to open an issue or submit a PR.
+**Maintainer:** [@ysonC](https://github.com/ysonC)
 
-_Thank you for checking out my homelab setup!_
+Suggestions and pull requests are welcome.
