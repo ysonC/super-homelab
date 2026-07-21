@@ -69,7 +69,7 @@ spec:
       enabled: true
       image:
         repository: grafana/grafana
-        tag: 13.0.2
+        tag: 13.1.1
       deploymentStrategy:
         type: Recreate
       adminPassword: "admin"
