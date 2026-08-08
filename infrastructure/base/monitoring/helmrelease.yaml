@@ -28,6 +28,8 @@ spec:
     ## ----------------------------------------------------
     crds:
       enabled: true
+      upgradeJob:
+        enabled: true
 
     prometheusOperator:
       enabled: true
