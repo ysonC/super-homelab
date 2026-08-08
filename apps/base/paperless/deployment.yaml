@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: paperless
+  namespace: apps
+  labels:
+    app: paperless
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: paperless
+  template:
+    metadata:
+      labels:
+        app: paperless
+    spec:
+      initContainers:
+        - name: volume-permissions
+          image: busybox:1.38
+          command: ["sh", "-c", "mkdir -p /paperless/data /paperless/media /paperless/export /paperless/consume && chown -R 1000:1000 /paperless"]
+          volumeMounts:
+            - name: paperless-data
+              mountPath: /paperless
+      containers:
+        - name: paperless
+          image: ghcr.io/paperless-ngx/paperless-ngx:2.20.15
+          ports:
+            - containerPort: 8000
+          env:
+            - name: PAPERLESS_URL
+              value: "https://paperless.ysonsbaolab.dev"
+            - name: PAPERLESS_TIME_ZONE
+              value: "Asia/Taipei"
+            - name: PAPERLESS_OCR_LANGUAGE
+              value: "eng+chi_tra"
+            - name: PAPERLESS_REDIS
+              value: "redis://paperless-redis-service.apps.svc.cluster.local:6379"
+            - name: PAPERLESS_DBHOST
+              value: "paperless-postgres-service.apps.svc.cluster.local"
+            - name: PAPERLESS_DBPORT
+              value: "5432"
+            - name: PAPERLESS_DBNAME
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-secret
+                  key: POSTGRES_DB
+            - name: PAPERLESS_DBUSER
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-secret
+                  key: PAPERLESS_DBUSER
+            - name: PAPERLESS_DBPASS
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-secret
+                  key: PAPERLESS_DBPASS
+            - name: PAPERLESS_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-secret
+                  key: PAPERLESS_SECRET_KEY
+            - name: PAPERLESS_ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-secret
+                  key: PAPERLESS_ADMIN_USER
+            - name: PAPERLESS_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-secret
+                  key: PAPERLESS_ADMIN_PASSWORD
+          volumeMounts:
+            - name: paperless-data
+              mountPath: /usr/src/paperless/data
+              subPath: data
+            - name: paperless-data
+              mountPath: /usr/src/paperless/media
+              subPath: media
+            - name: paperless-data
+              mountPath: /usr/src/paperless/export
+              subPath: export
+            - name: paperless-data
+              mountPath: /usr/src/paperless/consume
+              subPath: consume
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: 1500m
+              memory: 2Gi
+      volumes:
+        - name: paperless-data
+          persistentVolumeClaim:
+            claimName: paperless-data-pvc-longhorn

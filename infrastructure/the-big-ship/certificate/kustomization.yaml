@@ -4,6 +4,7 @@ resources:
   - blog-cert.yaml
   - vaultwarden-cert.yaml
   - n8n-cert.yaml
+  - paperless-cert.yaml
   - immich-cert.yaml
   - glance-cert.yaml
   - longhorn-cert.yaml
