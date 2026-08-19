@@ -120,7 +120,7 @@ data:
 
                   - title: Hermes
                     check-url: http://10.8.8.15:8787
-                    url: http://10.8.8.15:8787
+                    url: https://hermes.ysonsbaolab.dev
                     icon: https://cdn.jsdelivr.net/gh/selfhst/icons@main/png/hermes-agent.png
 
           - size: small
