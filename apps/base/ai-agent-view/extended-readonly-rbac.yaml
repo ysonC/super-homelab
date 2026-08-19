@@ -1,0 +1,126 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: ai-agent-extended-readonly
+rules:
+  # Metrics API for kubectl top and capacity/usage checks.
+  - apiGroups: ["metrics.k8s.io"]
+    resources:
+      - nodes
+      - pods
+    verbs:
+      - get
+      - list
+      - watch
+
+  # StorageClass visibility only. Secret access remains intentionally excluded.
+  - apiGroups: ["storage.k8s.io"]
+    resources:
+      - storageclasses
+    verbs:
+      - get
+      - list
+      - watch
+
+  # Longhorn health, robustness, actual size, and node/disk visibility.
+  - apiGroups: ["longhorn.io"]
+    resources:
+      - volumes
+      - nodes
+      - engines
+      - replicas
+      - settings
+      - backingimages
+      - recurringjobs
+    verbs:
+      - get
+      - list
+      - watch
+
+  # External Secrets status only. This does not grant generated Secret reads.
+  - apiGroups: ["external-secrets.io"]
+    resources:
+      - externalsecrets
+      - secretstores
+      - clustersecretstores
+      - clusterexternalsecrets
+    verbs:
+      - get
+      - list
+      - watch
+
+  # CloudNativePG operator and backup status.
+  - apiGroups: ["postgresql.cnpg.io"]
+    resources:
+      - clusters
+      - backups
+      - scheduledbackups
+      - poolers
+    verbs:
+      - get
+      - list
+      - watch
+
+  # Additional Flux source artifacts used during health checks.
+  - apiGroups: ["source.toolkit.fluxcd.io"]
+    resources:
+      - helmcharts
+      - ocirepositories
+    verbs:
+      - get
+      - list
+      - watch
+
+  # Additional Traefik CRDs for route, TLS, and backend troubleshooting.
+  - apiGroups: ["traefik.io"]
+    resources:
+      - ingressroutetcps
+      - ingressrouteudps
+      - middlewaretcps
+      - tlsoptions
+      - tlsstores
+      - serverstransports
+      - serverstransporttcps
+      - traefikservices
+    verbs:
+      - get
+      - list
+      - watch
+
+  # APIService availability checks.
+  - apiGroups: ["apiregistration.k8s.io"]
+    resources:
+      - apiservices
+    verbs:
+      - get
+      - list
+      - watch
+
+  # Gateway API visibility if Gateway resources are introduced later.
+  - apiGroups: ["gateway.networking.k8s.io"]
+    resources:
+      - gatewayclasses
+      - gateways
+      - httproutes
+      - tlsroutes
+      - tcproutes
+      - udproutes
+      - grpcroutes
+      - referencegrants
+    verbs:
+      - get
+      - list
+      - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: ai-agent-extended-readonly
+subjects:
+  - kind: ServiceAccount
+    name: ai-agent
+    namespace: ai-agent
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: ai-agent-extended-readonly
