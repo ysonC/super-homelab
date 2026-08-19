@@ -117,11 +117,120 @@ rules:
       - list
       - watch
 
-  # Prometheus Operator
+  # Prometheus Operator: ServiceMonitor and PrometheusRule visibility.
   - apiGroups: ["monitoring.coreos.com"]
     resources:
       - servicemonitors
       - prometheusrules
+    verbs:
+      - get
+      - list
+      - watch
+
+  # Metrics API: enables kubectl top and basic pod/node usage checks.
+  - apiGroups: ["metrics.k8s.io"]
+    resources:
+      - nodes
+      - pods
+    verbs:
+      - get
+      - list
+      - watch
+
+  # Storage API: allows viewing StorageClass definitions only.
+  - apiGroups: ["storage.k8s.io"]
+    resources:
+      - storageclasses
+    verbs:
+      - get
+      - list
+      - watch
+
+  # Longhorn API: volume robustness, actual size, replica, engine, and node visibility.
+  - apiGroups: ["longhorn.io"]
+    resources:
+      - volumes
+      - nodes
+      - engines
+      - replicas
+      - settings
+      - backingimages
+      - recurringjobs
+    verbs:
+      - get
+      - list
+      - watch
+
+  # External Secrets API: status and provider-store visibility only; generated Secrets remain excluded.
+  - apiGroups: ["external-secrets.io"]
+    resources:
+      - externalsecrets
+      - secretstores
+      - clustersecretstores
+      - clusterexternalsecrets
+    verbs:
+      - get
+      - list
+      - watch
+
+  # CloudNativePG API: database cluster, backup, scheduled backup, and pooler status.
+  - apiGroups: ["postgresql.cnpg.io"]
+    resources:
+      - clusters
+      - backups
+      - scheduledbackups
+      - poolers
+    verbs:
+      - get
+      - list
+      - watch
+
+  # Flux Source API: additional source artifact visibility for HelmChart and OCIRepository health.
+  - apiGroups: ["source.toolkit.fluxcd.io"]
+    resources:
+      - helmcharts
+      - ocirepositories
+    verbs:
+      - get
+      - list
+      - watch
+
+  # Traefik API: additional route, middleware, TLS, transport, and TraefikService visibility.
+  - apiGroups: ["traefik.io"]
+    resources:
+      - ingressroutetcps
+      - ingressrouteudps
+      - middlewaretcps
+      - tlsoptions
+      - tlsstores
+      - serverstransports
+      - serverstransporttcps
+      - traefikservices
+    verbs:
+      - get
+      - list
+      - watch
+
+  # API registration API: APIService availability checks.
+  - apiGroups: ["apiregistration.k8s.io"]
+    resources:
+      - apiservices
+    verbs:
+      - get
+      - list
+      - watch
+
+  # Gateway API: read-only visibility if Gateway resources are introduced later.
+  - apiGroups: ["gateway.networking.k8s.io"]
+    resources:
+      - gatewayclasses
+      - gateways
+      - httproutes
+      - tlsroutes
+      - tcproutes
+      - udproutes
+      - grpcroutes
+      - referencegrants
     verbs:
       - get
       - list
