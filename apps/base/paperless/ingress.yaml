@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/traefik.io/ingressroute_v1alpha1.json
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: paperless-ingress
+  namespace: apps
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`paperless.ysonsbaolab.dev`)
+      kind: Rule
+      services:
+        - name: paperless-service
+          port: 8000
+  tls:
+    secretName: paperless-certificate-secret
