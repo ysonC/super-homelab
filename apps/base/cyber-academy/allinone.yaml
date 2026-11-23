@@ -1,13 +1,8 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: cyber-academy
----
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: cyber-academy-db
-  namespace: cyber-academy
+  namespace: apps
 spec:
   instances: 1
   bootstrap:
@@ -15,7 +10,14 @@ spec:
       database: academy
       owner: academy_owner
       postInitApplicationSQL:
-        - "CREATE ROLE academy_runtime LOGIN PASSWORD 'academy-runtime-local-test';"
+        - CREATE ROLE academy_runtime NOLOGIN;
+  managed:
+    roles:
+      - name: academy_runtime
+        ensure: present
+        login: true
+        passwordSecret:
+          name: cyber-academy-db-runtime
   storage:
     storageClass: longhorn
     size: 10Gi
@@ -24,7 +26,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cyber-academy
-  namespace: cyber-academy
+  namespace: apps
   labels:
     app.kubernetes.io/name: cyber-academy
 spec:
@@ -73,9 +75,12 @@ spec:
               containerPort: 4321
           env:
             - name: DATABASE_URL
-              value: "postgresql://academy_runtime:academy-runtime-local-test@cyber-academy-db-rw:5432/academy"
+              valueFrom:
+                secretKeyRef:
+                  name: cyber-academy-db-runtime
+                  key: uri
             - name: APP_ORIGIN
-              value: "https://academy.example.com"
+              value: "https://academy.ysonsbaolab.dev"
             - name: CF_ACCESS_ISSUER
               value: "https://your-team.cloudflareaccess.com"
             - name: CF_ACCESS_AUD
@@ -131,7 +136,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: cyber-academy
-  namespace: cyber-academy
+  namespace: apps
   labels:
     app.kubernetes.io/name: cyber-academy
 spec:
