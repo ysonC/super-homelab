@@ -10,7 +10,7 @@ spec:
       database: academy
       owner: academy_owner
       postInitApplicationSQL:
-        - CREATE ROLE academy_runtime LOGIN PASSWORD 'academy-runtime-local-test';
+        - "CREATE ROLE academy_runtime LOGIN PASSWORD 'academy-runtime-local-test';"
   managed:
     roles:
       - name: academy_runtime
