@@ -82,11 +82,11 @@ spec:
             - name: APP_ORIGIN
               value: "https://academy.ysonsbaolab.dev"
             - name: CF_ACCESS_ISSUER
-              value: "https://your-team.cloudflareaccess.com"
+              value: "https://ysonsbaolab.cloudflareaccess.com"
             - name: CF_ACCESS_AUD
-              value: "replace-with-access-audience"
+              value: "ca24d2cd6d827405d37f90acf6ab2ea0863bd8846be0b28d071c4869c755e979"
             - name: TUTOR_EMAIL
-              value: "tutor@example.com"
+              value: "wyson002@gmail.com"
             - name: HOST
               value: "0.0.0.0"
             - name: PORT
