@@ -23,7 +23,7 @@ spec:
     - match: Host(`academy.ysonsbaolab.dev`)
       kind: Rule
       services:
-        - name: cyber-academy
+        - name: cyber-academy-service
           port: 4321
   tls:
     secretName: cyber-academy-certificate-secret

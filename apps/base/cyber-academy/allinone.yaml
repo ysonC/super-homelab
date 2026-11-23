@@ -135,7 +135,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: cyber-academy
+  name: cyber-academy-service
   namespace: apps
   labels:
     app.kubernetes.io/name: cyber-academy
