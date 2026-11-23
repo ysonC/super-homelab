@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
   - allinone.yaml
   - runtime-secret.yaml
-  - ingress.yaml
+  # - ingress.yaml
