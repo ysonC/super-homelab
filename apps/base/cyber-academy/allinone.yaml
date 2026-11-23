@@ -80,7 +80,7 @@ spec:
                   name: cyber-academy-db-runtime
                   key: uri
             - name: APP_ORIGIN
-              value: "https://academy.ysonsbaolab.dev"
+              value: "https://academy-ex.ysonsbaolab.dev"
             - name: CF_ACCESS_ISSUER
               value: "https://ysonsbaolab.cloudflareaccess.com"
             - name: CF_ACCESS_AUD
